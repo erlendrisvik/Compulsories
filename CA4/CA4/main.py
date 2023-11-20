@@ -49,8 +49,47 @@ initial_state = ss.init_state({
     "selected_num":-1,
     "data": {
         "fish": _get_df(table_name = 'fish_data_full'),
-        "lice": _get_df(table_name = 'lice_data_full'),
-    }
+        "lice": _get_df(table_name = 'lice_data_full')
+    },
+    "button_management":{
+        "show_fish_years":False,
+        "show_lice_years":False
+    },
+    "selected_year": None,
 })
 
 initial_state.import_stylesheet("theme", "/static/cursor.css")
+
+def list_fish_years(state):
+    """Function to list all years in fish data"""
+
+    years = state['data']['fish']['year'].unique()
+    state['fish_years'] = {str(i): int(years[i]) for i in range(len(years))}
+    
+    state['button_management']['show_fish_years'] = not state['button_management']['show_fish_years']
+
+def list_lice_years_and_locality(state):
+    """Function to list all years and localities in lice data"""
+
+    year_locality_dict = {str(i): {'year': int(state['data']['lice'][['year', 'localityno']].drop_duplicates().values.tolist()[i][0]),
+                                 'localityno': int(state['data']['lice'][['year', 'localityno']].drop_duplicates().values.tolist()[i][1])}
+                        for i in range(len(state['data']['lice'][['year', 'localityno']].drop_duplicates().values.tolist()))}
+    
+    state['lice_years_and_locality'] = year_locality_dict
+    state['button_management']['show_lice_years'] = not state['button_management']['show_lice_years']
+
+def store_selected_fish_year(state, payload):
+    """Function to store selected fish year"""
+
+    state['selected_year'] = payload
+
+def write_fish_data(state):
+    """Function to write fish data to state"""
+    
+    if not state['selected_year']:
+        state['raiseEmpty'] = True
+        return
+    
+    state['raiseEmpty'] = False
+
+    

@@ -264,16 +264,16 @@
         "e1lj2pj1v8ojk6f0": {
             "id": "e1lj2pj1v8ojk6f0",
             "type": "text",
-            "parentId": "qdt2osq4a109pr8c",
             "content": {
                 "text": "# Add data to DB",
                 "useMarkdown": "yes",
                 "cssClasses": "cursor"
             },
+            "parentId": "qdt2osq4a109pr8c",
+            "position": 3,
             "handlers": {
                 "ss-click": "$goToPage_add_to_db"
             },
-            "position": 3,
             "visible": true
         },
         "pn3rth0b540uxvu7": {
@@ -382,27 +382,27 @@
         "eyrfh7ah4jpe32kf": {
             "id": "eyrfh7ah4jpe32kf",
             "type": "text",
-            "parentId": "6f0lnofkm2ozva3e",
             "content": {
                 "text": "# Add data to DB",
                 "useMarkdown": "yes",
                 "cssClasses": "cursor"
             },
+            "parentId": "6f0lnofkm2ozva3e",
+            "position": 3,
             "handlers": {
                 "ss-click": "$goToPage_add_to_db"
             },
-            "position": 3,
             "visible": true
         },
         "8jj8dznv8ofi5e2q": {
             "id": "8jj8dznv8ofi5e2q",
             "type": "page",
-            "parentId": "root",
             "content": {
                 "key": "add_to_db"
             },
-            "handlers": {},
+            "parentId": "root",
             "position": 3,
+            "handlers": {},
             "visible": true
         },
         "zdufudxnw3pnw7up": {
@@ -511,16 +511,16 @@
         "eflsy0vkj1du7dg7": {
             "id": "eflsy0vkj1du7dg7",
             "type": "text",
-            "parentId": "siah7nyrpfapg202",
             "content": {
                 "text": "# Add data to DB",
                 "useMarkdown": "yes",
                 "cssClasses": "cursor"
             },
+            "parentId": "siah7nyrpfapg202",
+            "position": 3,
             "handlers": {
                 "ss-click": "$goToPage_add_to_db"
             },
-            "position": 3,
             "visible": true
         },
         "uq2e84jkhgrmva1s": {
@@ -629,16 +629,16 @@
         "5aej7i4k6isrf0yj": {
             "id": "5aej7i4k6isrf0yj",
             "type": "text",
-            "parentId": "96oqmpjoyw9nycjr",
             "content": {
                 "text": "# Add data to DB",
                 "useMarkdown": "yes",
                 "cssClasses": "cursor"
             },
+            "parentId": "96oqmpjoyw9nycjr",
+            "position": 3,
             "handlers": {
                 "ss-click": "$goToPage_add_to_db"
             },
-            "position": 3,
             "visible": true
         },
         "2dz4t0cdz0p6t78v": {
@@ -668,7 +668,7 @@
             "id": "5ufmm1k35l4h9bf3",
             "type": "section",
             "content": {
-                "title": "Data",
+                "title": "Data info",
                 "snapMode": "no"
             },
             "parentId": "8jj8dznv8ofi5e2q",
@@ -710,64 +710,282 @@
         "awh6w5jrcsi307nr": {
             "id": "awh6w5jrcsi307nr",
             "type": "columns",
-            "parentId": "i2nhz6z5pgjigtdj",
             "content": {},
-            "handlers": {},
+            "parentId": "i2nhz6z5pgjigtdj",
             "position": 0,
-            "visible": true
-        },
-        "xnjd6v9igl5c0627": {
-            "id": "xnjd6v9igl5c0627",
-            "type": "column",
-            "parentId": "awh6w5jrcsi307nr",
-            "content": {
-                "width": "1"
-            },
             "handlers": {},
-            "position": 1,
-            "visible": true
-        },
-        "12nx71yopwnqtfsq": {
-            "id": "12nx71yopwnqtfsq",
-            "type": "button",
-            "parentId": "xnjd6v9igl5c0627",
-            "content": {
-                "text": "Button Text"
-            },
-            "handlers": {},
-            "position": 0,
             "visible": true
         },
         "dz8smcyzj94x7yau": {
             "id": "dz8smcyzj94x7yau",
             "type": "column",
-            "parentId": "awh6w5jrcsi307nr",
             "content": {
                 "width": "1"
             },
-            "handlers": {},
+            "parentId": "awh6w5jrcsi307nr",
             "position": 0,
+            "handlers": {},
             "visible": true
         },
         "ndaup38np8fur8sa": {
             "id": "ndaup38np8fur8sa",
             "type": "button",
-            "parentId": "dz8smcyzj94x7yau",
             "content": {
-                "text": "Button text"
+                "text": "List all years",
+                "icon": "file-list"
             },
-            "handlers": {},
+            "parentId": "dz8smcyzj94x7yau",
             "position": 0,
+            "handlers": {
+                "ss-click": "list_fish_years"
+            },
             "visible": true
         },
         "6hzwjwl225mj70iv": {
             "id": "6hzwjwl225mj70iv",
             "type": "separator",
-            "parentId": "i2nhz6z5pgjigtdj",
             "content": {},
-            "handlers": {},
+            "parentId": "i2nhz6z5pgjigtdj",
             "position": 1,
+            "handlers": {},
             "visible": true
+        },
+        "7297gktb7v7t4mtd": {
+            "id": "7297gktb7v7t4mtd",
+            "type": "section",
+            "content": {
+                "title": "Fish data currently stored for the years:",
+                "snapMode": "no"
+            },
+            "parentId": "dz8smcyzj94x7yau",
+            "position": 1,
+            "handlers": {},
+            "visible": "button_management.show_fish_years"
+        },
+        "hgnfga09xyhcof9n": {
+            "id": "hgnfga09xyhcof9n",
+            "type": "repeater",
+            "content": {
+                "repeaterObject": "@{fish_years}",
+                "keyVariable": "itemId",
+                "valueVariable": "item"
+            },
+            "parentId": "7297gktb7v7t4mtd",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "11fz3hqv816oqdui": {
+            "id": "11fz3hqv816oqdui",
+            "type": "text",
+            "content": {
+                "text": "* @{item}",
+                "useMarkdown": "yes"
+            },
+            "parentId": "hgnfga09xyhcof9n",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "bke379pbuj6lvh1v": {
+            "id": "bke379pbuj6lvh1v",
+            "type": "columns",
+            "content": {},
+            "parentId": "8506jwsk2iistbyd",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "3qn1q2bds2qsbdin": {
+            "id": "3qn1q2bds2qsbdin",
+            "type": "column",
+            "content": {
+                "width": "1"
+            },
+            "parentId": "bke379pbuj6lvh1v",
+            "position": 1,
+            "handlers": {},
+            "visible": true
+        },
+        "ff4d8e9cfhjfc6mm": {
+            "id": "ff4d8e9cfhjfc6mm",
+            "type": "button",
+            "content": {
+                "text": "List all localities"
+            },
+            "parentId": "3qn1q2bds2qsbdin",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "qxgiv0abda1tkhn4": {
+            "id": "qxgiv0abda1tkhn4",
+            "type": "column",
+            "content": {
+                "width": "1"
+            },
+            "parentId": "bke379pbuj6lvh1v",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "0kqdrqe6x7blbqao": {
+            "id": "0kqdrqe6x7blbqao",
+            "type": "button",
+            "content": {
+                "text": "List all years",
+                "icon": "file-list"
+            },
+            "parentId": "qxgiv0abda1tkhn4",
+            "position": 0,
+            "handlers": {
+                "ss-click": "list_lice_years_and_locality"
+            },
+            "visible": true
+        },
+        "cx0xt6ow3lauhy3e": {
+            "id": "cx0xt6ow3lauhy3e",
+            "type": "section",
+            "content": {
+                "title": "Lice data currently stored for the years and localities:",
+                "snapMode": "no"
+            },
+            "parentId": "qxgiv0abda1tkhn4",
+            "position": 1,
+            "handlers": {},
+            "visible": "button_management.show_lice_years"
+        },
+        "clke9tdyjhitgbcg": {
+            "id": "clke9tdyjhitgbcg",
+            "type": "repeater",
+            "content": {
+                "repeaterObject": "@{lice_years_and_locality}",
+                "keyVariable": "itemId",
+                "valueVariable": "item"
+            },
+            "parentId": "cx0xt6ow3lauhy3e",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "sjdt8qeinaxcl4cv": {
+            "id": "sjdt8qeinaxcl4cv",
+            "type": "text",
+            "content": {
+                "text": "* Year @{item.year} and locality @{item.localityno}",
+                "useMarkdown": "yes"
+            },
+            "parentId": "clke9tdyjhitgbcg",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "ox536sib175rwxng": {
+            "id": "ox536sib175rwxng",
+            "type": "section",
+            "content": {
+                "title": "Data info",
+                "snapMode": "no"
+            },
+            "parentId": "8jj8dznv8ofi5e2q",
+            "position": 2,
+            "handlers": {},
+            "visible": true
+        },
+        "mb2hp9ey195uf4g1": {
+            "id": "mb2hp9ey195uf4g1",
+            "type": "tabs",
+            "content": {},
+            "parentId": "ox536sib175rwxng",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "8exqcbanhtz2ugxg": {
+            "id": "8exqcbanhtz2ugxg",
+            "type": "tab",
+            "content": {
+                "name": "Fish data"
+            },
+            "parentId": "mb2hp9ey195uf4g1",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "hu6lx5w9rzvmv8ox": {
+            "id": "hu6lx5w9rzvmv8ox",
+            "type": "tab",
+            "content": {
+                "name": "Lice data"
+            },
+            "parentId": "mb2hp9ey195uf4g1",
+            "position": 1,
+            "handlers": {},
+            "visible": true
+        },
+        "0kfej58tem3hlnb9": {
+            "id": "0kfej58tem3hlnb9",
+            "type": "numberinput",
+            "content": {
+                "label": "Year:",
+                "placeholder": "e.g. 2015"
+            },
+            "parentId": "8exqcbanhtz2ugxg",
+            "position": 0,
+            "handlers": {
+                "ss-number-change-finish": "store_selected_fish_year"
+            },
+            "visible": true
+        },
+        "l3c0x3r191cdi39t": {
+            "id": "l3c0x3r191cdi39t",
+            "type": "numberinput",
+            "content": {
+                "label": "Year:",
+                "placeholder": "e.g. 2015"
+            },
+            "parentId": "hu6lx5w9rzvmv8ox",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "kjfx59w9oof98fp0": {
+            "id": "kjfx59w9oof98fp0",
+            "type": "numberinput",
+            "content": {
+                "label": "Locality:",
+                "placeholder": "e.g. 15456"
+            },
+            "parentId": "hu6lx5w9rzvmv8ox",
+            "position": 1,
+            "handlers": {},
+            "visible": true
+        },
+        "acytiorrmz9dav6m": {
+            "id": "acytiorrmz9dav6m",
+            "type": "button",
+            "content": {
+                "text": "Download",
+                "buttonColor": "#37ff00",
+                "icon": "check"
+            },
+            "parentId": "8exqcbanhtz2ugxg",
+            "position": 1,
+            "handlers": {
+                "ss-click": "write_fish_data"
+            },
+            "visible": true
+        },
+        "hr249ikk0opeynnb": {
+            "id": "hr249ikk0opeynnb",
+            "type": "message",
+            "content": {
+                "message": "- You have to specify a year."
+            },
+            "parentId": "8exqcbanhtz2ugxg",
+            "position": 2,
+            "handlers": {},
+            "visible": "raiseEmpty"
         }
     }
 }
