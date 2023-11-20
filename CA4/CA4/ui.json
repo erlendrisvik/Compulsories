@@ -1,0 +1,448 @@
+{
+    "metadata": {
+        "streamsync_version": "0.2.8"
+    },
+    "components": {
+        "root": {
+            "id": "root",
+            "type": "root",
+            "content": {
+                "appName": "My App"
+            },
+            "parentId": null,
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "bc7iqe7rp9f2tsfk": {
+            "id": "bc7iqe7rp9f2tsfk",
+            "type": "page",
+            "content": {
+                "key": "fish_graphs"
+            },
+            "parentId": "root",
+            "position": 0,
+            "visible": true
+        },
+        "qo9wj54zk2c21c85": {
+            "id": "qo9wj54zk2c21c85",
+            "type": "page",
+            "content": {
+                "key": "lice_graphs"
+            },
+            "parentId": "root",
+            "position": 1,
+            "handlers": {},
+            "visible": true
+        },
+        "926hhfmdxsy36uq3": {
+            "id": "926hhfmdxsy36uq3",
+            "type": "page",
+            "content": {
+                "key": "data_info"
+            },
+            "parentId": "root",
+            "position": 2,
+            "handlers": {},
+            "visible": true
+        },
+        "obhny2rtnv902tmk": {
+            "id": "obhny2rtnv902tmk",
+            "type": "section",
+            "content": {
+                "title": "Section Title",
+                "snapMode": "no"
+            },
+            "parentId": "926hhfmdxsy36uq3",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "ovr45uof3glm62io": {
+            "id": "ovr45uof3glm62io",
+            "type": "header",
+            "content": {
+                "text": "Data Info"
+            },
+            "parentId": "obhny2rtnv902tmk",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "05yoi0vadeva4bbf": {
+            "id": "05yoi0vadeva4bbf",
+            "type": "section",
+            "content": {
+                "title": "Data",
+                "snapMode": "no"
+            },
+            "parentId": "926hhfmdxsy36uq3",
+            "position": 1,
+            "handlers": {},
+            "visible": true
+        },
+        "hnzirpgl1oyu64uz": {
+            "id": "hnzirpgl1oyu64uz",
+            "type": "tabs",
+            "content": {},
+            "parentId": "05yoi0vadeva4bbf",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "c1fg2je5lpmsdi3j": {
+            "id": "c1fg2je5lpmsdi3j",
+            "type": "tab",
+            "content": {
+                "name": "Fish data"
+            },
+            "parentId": "hnzirpgl1oyu64uz",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "y6d206v1s4vkdaox": {
+            "id": "y6d206v1s4vkdaox",
+            "type": "dataframe",
+            "content": {
+                "dataframe": "@{data.fish}"
+            },
+            "parentId": "c1fg2je5lpmsdi3j",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "oswja471gcube7rm": {
+            "id": "oswja471gcube7rm",
+            "type": "tab",
+            "content": {
+                "name": "Lice data"
+            },
+            "parentId": "hnzirpgl1oyu64uz",
+            "position": 1,
+            "handlers": {},
+            "visible": true
+        },
+        "cf58pwfgxk8liirs": {
+            "id": "cf58pwfgxk8liirs",
+            "type": "dataframe",
+            "content": {
+                "dataframe": "@{data.lice}"
+            },
+            "parentId": "oswja471gcube7rm",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "u0tkbdopgbrm0pms": {
+            "id": "u0tkbdopgbrm0pms",
+            "type": "section",
+            "content": {
+                "title": "Graphs",
+                "snapMode": "no"
+            },
+            "parentId": "qo9wj54zk2c21c85",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "x6c48yhpp81bc1ue": {
+            "id": "x6c48yhpp81bc1ue",
+            "type": "sidebar",
+            "content": {
+                "sidebarBackgroundColor": "#cfcfcf"
+            },
+            "parentId": "bc7iqe7rp9f2tsfk",
+            "position": -2,
+            "handlers": {},
+            "visible": true
+        },
+        "gbsbt0dh0nne71dc": {
+            "id": "gbsbt0dh0nne71dc",
+            "type": "header",
+            "content": {
+                "text": "Navigation Menu",
+                "accentColor": "#000000"
+            },
+            "parentId": "x6c48yhpp81bc1ue",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "t71ll53d2ps5p4r4": {
+            "id": "t71ll53d2ps5p4r4",
+            "type": "separator",
+            "content": {},
+            "parentId": "x6c48yhpp81bc1ue",
+            "position": 1,
+            "handlers": {},
+            "visible": true
+        },
+        "y12fuhjbnn9nkjcu": {
+            "id": "y12fuhjbnn9nkjcu",
+            "type": "columns",
+            "content": {},
+            "parentId": "x6c48yhpp81bc1ue",
+            "position": 2,
+            "handlers": {},
+            "visible": true
+        },
+        "qdt2osq4a109pr8c": {
+            "id": "qdt2osq4a109pr8c",
+            "type": "column",
+            "content": {
+                "title": "",
+                "width": "2",
+                "isSticky": "no"
+            },
+            "parentId": "y12fuhjbnn9nkjcu",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "2htyitwjyqau0wld": {
+            "id": "2htyitwjyqau0wld",
+            "type": "text",
+            "content": {
+                "text": "# Lice graphs",
+                "useMarkdown": "yes"
+            },
+            "parentId": "qdt2osq4a109pr8c",
+            "position": 1,
+            "handlers": {
+                "ss-click": "$goToPage_lice_graphs"
+            },
+            "visible": true
+        },
+        "utyrta2rpcvjmpu6": {
+            "id": "utyrta2rpcvjmpu6",
+            "type": "text",
+            "content": {
+                "text": "# Fish graphs",
+                "useMarkdown": "yes",
+                "cssClasses": ""
+            },
+            "parentId": "qdt2osq4a109pr8c",
+            "position": 0,
+            "handlers": {
+                "ss-click": "$goToPage_fish_graphs"
+            }
+        },
+        "zzo27pimgx5cd09a": {
+            "id": "zzo27pimgx5cd09a",
+            "type": "text",
+            "content": {
+                "text": "# Data Info",
+                "useMarkdown": "yes"
+            },
+            "parentId": "qdt2osq4a109pr8c",
+            "position": 2,
+            "handlers": {
+                "ss-click": "$goToPage_data_info"
+            },
+            "visible": true
+        },
+        "2wzqzsheybyzb00z": {
+            "id": "2wzqzsheybyzb00z",
+            "type": "sidebar",
+            "content": {
+                "sidebarBackgroundColor": "#cfcfcf"
+            },
+            "parentId": "qo9wj54zk2c21c85",
+            "position": -2,
+            "handlers": {},
+            "visible": true
+        },
+        "vaylo5unkc7rx74j": {
+            "id": "vaylo5unkc7rx74j",
+            "type": "header",
+            "content": {
+                "text": "Navigation Menu",
+                "accentColor": "#000000"
+            },
+            "parentId": "2wzqzsheybyzb00z",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "rdstx9i3l619ml2r": {
+            "id": "rdstx9i3l619ml2r",
+            "type": "separator",
+            "content": {},
+            "parentId": "2wzqzsheybyzb00z",
+            "position": 1,
+            "handlers": {},
+            "visible": true
+        },
+        "wqkt3cjl7wl1y2te": {
+            "id": "wqkt3cjl7wl1y2te",
+            "type": "columns",
+            "content": {},
+            "parentId": "2wzqzsheybyzb00z",
+            "position": 2,
+            "handlers": {},
+            "visible": true
+        },
+        "wk43jlnh9sf5xq83": {
+            "id": "wk43jlnh9sf5xq83",
+            "type": "column",
+            "content": {
+                "title": "",
+                "width": "2"
+            },
+            "parentId": "wqkt3cjl7wl1y2te",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "keir5dju5b174ea7": {
+            "id": "keir5dju5b174ea7",
+            "type": "text",
+            "content": {
+                "text": "# Lice graphs",
+                "useMarkdown": "yes"
+            },
+            "parentId": "wk43jlnh9sf5xq83",
+            "position": 1,
+            "handlers": {
+                "ss-click": "$goToPage_lice_graphs"
+            },
+            "visible": true
+        },
+        "m7vapt3dsf9mqmpl": {
+            "id": "m7vapt3dsf9mqmpl",
+            "type": "text",
+            "content": {
+                "text": "# Fish graphs",
+                "useMarkdown": "yes"
+            },
+            "parentId": "wk43jlnh9sf5xq83",
+            "position": 0,
+            "handlers": {
+                "ss-click": "$goToPage_fish_graphs"
+            },
+            "visible": true
+        },
+        "1tocpgb5qgshjjji": {
+            "id": "1tocpgb5qgshjjji",
+            "type": "text",
+            "content": {
+                "text": "# Data Info",
+                "useMarkdown": "yes"
+            },
+            "parentId": "wk43jlnh9sf5xq83",
+            "position": 2,
+            "handlers": {
+                "ss-click": "$goToPage_data_info"
+            },
+            "visible": true
+        },
+        "me79pd5gc5om9unc": {
+            "id": "me79pd5gc5om9unc",
+            "type": "sidebar",
+            "content": {
+                "sidebarBackgroundColor": "#cfcfcf"
+            },
+            "parentId": "926hhfmdxsy36uq3",
+            "position": -2,
+            "handlers": {},
+            "visible": true
+        },
+        "ago9p0v71rponoff": {
+            "id": "ago9p0v71rponoff",
+            "type": "header",
+            "content": {
+                "text": "Navigation Menu",
+                "accentColor": "#000000"
+            },
+            "parentId": "me79pd5gc5om9unc",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "gp7whl9m7piy1qcu": {
+            "id": "gp7whl9m7piy1qcu",
+            "type": "separator",
+            "content": {},
+            "parentId": "me79pd5gc5om9unc",
+            "position": 1,
+            "handlers": {},
+            "visible": true
+        },
+        "7e0ut39h9m9a2asr": {
+            "id": "7e0ut39h9m9a2asr",
+            "type": "columns",
+            "content": {},
+            "parentId": "me79pd5gc5om9unc",
+            "position": 2,
+            "handlers": {},
+            "visible": true
+        },
+        "itl97l6zxabyv9kw": {
+            "id": "itl97l6zxabyv9kw",
+            "type": "column",
+            "content": {
+                "title": "",
+                "width": "2"
+            },
+            "parentId": "7e0ut39h9m9a2asr",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "oysp0ks2bidm0ld3": {
+            "id": "oysp0ks2bidm0ld3",
+            "type": "text",
+            "content": {
+                "text": "# Lice graphs",
+                "useMarkdown": "yes"
+            },
+            "parentId": "itl97l6zxabyv9kw",
+            "position": 1,
+            "handlers": {
+                "ss-click": "$goToPage_lice_graphs"
+            },
+            "visible": true
+        },
+        "ihu8p8h1zgy9a81r": {
+            "id": "ihu8p8h1zgy9a81r",
+            "type": "text",
+            "content": {
+                "text": "# Fish graphs",
+                "useMarkdown": "yes"
+            },
+            "parentId": "itl97l6zxabyv9kw",
+            "position": 0,
+            "handlers": {
+                "ss-click": "$goToPage_fish_graphs"
+            },
+            "visible": true
+        },
+        "2y4rl5utj41b9x69": {
+            "id": "2y4rl5utj41b9x69",
+            "type": "text",
+            "content": {
+                "text": "# Data Info",
+                "useMarkdown": "yes"
+            },
+            "parentId": "itl97l6zxabyv9kw",
+            "position": 2,
+            "handlers": {
+                "ss-click": "$goToPage_data_info"
+            },
+            "visible": true
+        },
+        "xdilevfyz51t4rmh": {
+            "id": "xdilevfyz51t4rmh",
+            "type": "section",
+            "parentId": "bc7iqe7rp9f2tsfk",
+            "content": {
+                "title": "Graphs",
+                "snapMode": "no"
+            },
+            "handlers": {},
+            "position": 0,
+            "visible": true
+        }
+    }
+}
