@@ -53,6 +53,4 @@ initial_state = ss.init_state({
     }
 })
 
-def fetch_new_fish_data(state, payload, access_token):
-    get_one_year_fish_data(payload, access_token)
-
+initial_state.import_stylesheet("theme", "/static/cursor.css")
