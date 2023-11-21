@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 from cassandra.cluster import Cluster
 
+
 # Set up request
 def get_access_token():
     """Function to get access token from Barentswatch API
@@ -140,12 +141,17 @@ def get_one_year_fish_data(year, access_token):
     --------
     df: pandas dataframe with data
     """
+    # check if year is between 2010 and 2023
+    if year < 2010 or year > 2023:
+        raise ValueError("Year invalid")
+
     if check_exist_fish(year):
-        return None
+        return 
 
     # Set list of weeks (1-52).
     weeks = np.arange(1, 53)
     df = pd.DataFrame()
+
     for week in weeks:
         data = get_one_week_fish_data(year = year, week = week, access_token = access_token)["localities"]
         data = pd.DataFrame(data)
@@ -154,10 +160,11 @@ def get_one_year_fish_data(year, access_token):
         df = pd.concat([df, data], ignore_index=True)
 
     df.columns = df.columns.str.lower()
+
     try:
         write_to_cassandra(df = df, table_name = "fish_data_full")
     except:
-        return None
+        return 
 
 def get_one_week_lice_data(localty, year, week, access_token):
     """Function to get lice count data from Barentswatch API.
@@ -209,6 +216,7 @@ def get_one_year_lice_data(locality, year, access_token):
     # Set list of weeks (1-52).
     weeks = np.arange(1, 53)
     df = pd.DataFrame()
+
     for week in weeks:
         data = get_one_week_lice_data(localty = locality, year = year, week = week, access_token = access_token)["localityWeek"]
         for key, value in data.items():
@@ -216,16 +224,17 @@ def get_one_year_lice_data(locality, year, access_token):
             data[key] = [value]
         # Dropping columns that contain purely None and nested dictionaries
         data = pd.DataFrame(data).drop(columns = ["bathTreatments", "cleanerFish", "inFeedTreatments", \
-                                                  "mechanicalRemoval", "timeSinceLastChitinSynthesisInhibitorTreatment"]) 
+                                                "mechanicalRemoval", "timeSinceLastChitinSynthesisInhibitorTreatment"]) 
         data["year"] = year
         data["week"] = week
         df = pd.concat([df, data], ignore_index=True)
     # Lowercase column names
     df.columns = df.columns.str.lower()
+    
     try:
         write_to_cassandra(df = df, table_name = "lice_data_full")
     except:
-        return None
+        return 
 
 def clean_table(table_name):
     """Function to clean table in cassandra database
@@ -238,18 +247,17 @@ def clean_table(table_name):
     session.execute(f"TRUNCATE {table_name}")
 
 # Set pyspark env
-if __name__ == '__main__':
-    os.environ["PYSPARK_PYTHON"] = "python"
+os.environ["PYSPARK_PYTHON"] = "python"
 
-    spark = SparkSession.builder.appName('SparkCassandraApp').\
-        config('spark.jars.packages', 'com.datastax.spark:spark-cassandra-connector_2.12:3.4.1').\
-        config('spark.cassandra.connection.host', 'localhost').\
-        config('spark.sql.extensions', 'com.datastax.spark.connector.CassandraSparkExtensions').\
-        config('spark.sql.catalog.mycatalog', 'com.datastax.spark.connector.datasource.CassandraCatalog').\
-        config('spark.cassandra.connection.port', '9042').getOrCreate()
+spark = SparkSession.builder.appName('SparkCassandraApp').\
+    config('spark.jars.packages', 'com.datastax.spark:spark-cassandra-connector_2.12:3.4.1').\
+    config('spark.cassandra.connection.host', 'localhost').\
+    config('spark.sql.extensions', 'com.datastax.spark.connector.CassandraSparkExtensions').\
+    config('spark.sql.catalog.mycatalog', 'com.datastax.spark.connector.datasource.CassandraCatalog').\
+    config('spark.cassandra.connection.port', '9042').getOrCreate()
 
 
-    cluster = Cluster(['localhost'], port=9042)
-    session = cluster.connect()
-    session.set_keyspace('compulsory')
-    access_token = get_access_token()
+cluster = Cluster(['localhost'], port=9042)
+session = cluster.connect()
+session.set_keyspace('compulsory')
+access_token = get_access_token()

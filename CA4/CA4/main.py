@@ -92,12 +92,12 @@ def write_fish_data(state):
     state['messages']['raiseLoading'] = True
     
     try:
-        get_one_year_fish_data(int(state['selected_year']), get_access_token())
+        get_one_year_fish_data(int(state['temporary_vars']['selected_year']), get_access_token())
     except:
         state['messages']['raiseError'] = True
         state['messages']['raiseLoading'] = False
         return
-
+    
     state['data']['fish'] = _get_df(table_name = 'fish_data_full')
 
     state['messages']['raiseLoading'] = False
