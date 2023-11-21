@@ -23,8 +23,6 @@ cluster = Cluster(['localhost'], port=9042)
 session = cluster.connect()
 session.set_keyspace('compulsory')
 
-_access_token = get_access_token()
-
 def _get_df(table_name):
 
     (spark.read.format("org.apache.spark.sql.cassandra")
@@ -46,8 +44,9 @@ initial_state = ss.init_state({
         "show_fish_years":False,
         "show_lice_years":False
     },
-    "selected_year": None,
-    "messages": {"raiseWarning": False,
+     "temporary_vars": {"selected_year": None
+     },
+      "messages": {"raiseWarning": False,
                  "raiseSuccess": False,
                  "raiseEmpty": False,
                  "raiseLoading": False},
@@ -78,43 +77,46 @@ def list_lice_years_and_locality(state):
 def store_selected_fish_year(state, payload):
     """Function to store selected fish year"""
 
-    state['selected_year'] = payload
+    state['temporary_vars']['selected_year'] = None
+    state['temporary_vars']['selected_year'] = payload
 
 def write_fish_data(state):
     """Function to write fish data to state"""
     
-    if not state['selected_year']:
-        state['raiseEmpty'] = True
-        state['raiseLoading'] = False
-        return
     clean_all_messages(state)
 
+    if not state['temporary_vars']['selected_year']:
+        state['messages']['raiseEmpty'] = True
+        state['messages']['raiseLoading'] = False
+        return
+    state['messages']['raiseLoading'] = True
+    
     try:
-        get_one_year_fish_data(int(state['selected_year']), _access_token)
+        get_one_year_fish_data(int(state['selected_year']), get_access_token())
     except:
-        state['raiseError'] = True
-        state['raiseLoading'] = False
+        state['messages']['raiseError'] = True
+        state['messages']['raiseLoading'] = False
         return
 
     state['data']['fish'] = _get_df(table_name = 'fish_data_full')
 
-    state['raiseLoading'] = False
-    state['raiseSuccess'] = True
-    state['selected_year'] = None
+    state['messages']['raiseLoading'] = False
+    state['messages']['raiseSuccess'] = True
+    state['messages']['selected_year'] = None
 
 def clean_messages_not_loading(state):
     """Function to clean, but loading remains"""
     
-    state['raiseSuccess'] = False
-    state['raiseEmpty'] = False
-    state['raiseWarning'] = False
-    state['raiseError'] = False
+    state['messages']['raiseSuccess'] = False
+    state['messages']['raiseEmpty'] = False
+    state['messages']['raiseWarning'] = False
+    state['messages']['raiseError'] = False
 
 def clean_all_messages(state):
     """Function to clean all messages"""
 
-    state['raiseSuccess'] = False
-    state['raiseEmpty'] = False
-    state['raiseWarning'] = False
-    state['raiseLoading'] = False
-    state['raiseError'] = False
+    state['messages']['raiseSuccess'] = False
+    state['messages']['raiseEmpty'] = False
+    state['messages']['raiseWarning'] = False
+    state['messages']['raiseLoading'] = False
+    state['messages']['raiseError'] = False
