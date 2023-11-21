@@ -1,7 +1,7 @@
 import streamsync as ss
 
 # Set enviorment variables
-from data_utils import get_access_token, get_one_year_fish_data, get_one_year_lice_data
+from data_utils import *
 import os
 from pyspark.sql import SparkSession
 import pandas as pd
@@ -25,7 +25,6 @@ session.set_keyspace('compulsory')
 
 _access_token = get_access_token()
 
-
 def _get_df(table_name):
 
     (spark.read.format("org.apache.spark.sql.cassandra")
@@ -39,14 +38,6 @@ def _get_df(table_name):
 
 
 initial_state = ss.init_state({
-    "my_app": {
-        "title": "Barentswatch"
-    },
-    "_my_private_element": 1337,
-    "message": None,
-    "counter": 26,
-    "selected":"Click to select",
-    "selected_num":-1,
     "data": {
         "fish": _get_df(table_name = 'fish_data_full'),
         "lice": _get_df(table_name = 'lice_data_full')
@@ -56,8 +47,14 @@ initial_state = ss.init_state({
         "show_lice_years":False
     },
     "selected_year": None,
+    "messages": {"raiseWarning": False,
+                 "raiseSuccess": False,
+                 "raiseEmpty": False,
+                 "raiseLoading": False},
+                 "raiseError" : False,
 })
 
+# Set clickable cursor
 initial_state.import_stylesheet("theme", "/static/cursor.css")
 
 def list_fish_years(state):
@@ -88,8 +85,36 @@ def write_fish_data(state):
     
     if not state['selected_year']:
         state['raiseEmpty'] = True
+        state['raiseLoading'] = False
         return
-    
-    state['raiseEmpty'] = False
+    clean_all_messages(state)
 
+    try:
+        get_one_year_fish_data(int(state['selected_year']), _access_token)
+    except:
+        state['raiseError'] = True
+        state['raiseLoading'] = False
+        return
+
+    state['data']['fish'] = _get_df(table_name = 'fish_data_full')
+
+    state['raiseLoading'] = False
+    state['raiseSuccess'] = True
+    state['selected_year'] = None
+
+def clean_messages_not_loading(state):
+    """Function to clean, but loading remains"""
     
+    state['raiseSuccess'] = False
+    state['raiseEmpty'] = False
+    state['raiseWarning'] = False
+    state['raiseError'] = False
+
+def clean_all_messages(state):
+    """Function to clean all messages"""
+
+    state['raiseSuccess'] = False
+    state['raiseEmpty'] = False
+    state['raiseWarning'] = False
+    state['raiseLoading'] = False
+    state['raiseError'] = False
