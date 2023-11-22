@@ -4,6 +4,7 @@ import requests
 import pandas as pd
 import numpy as np
 from cassandra.cluster import Cluster
+from exceptions import *
 
 
 # Set up request
@@ -143,28 +144,31 @@ def get_one_year_fish_data(year, access_token):
     """
     # check if year is between 2010 and 2023
     if year < 2010 or year > 2023:
-        raise ValueError("Year invalid")
+        raise InvalidYearError("Year invalid")
 
     if check_exist_fish(year):
-        return 
+        raise DataExistsError("Data exists")
 
     # Set list of weeks (1-52).
     weeks = np.arange(1, 53)
     df = pd.DataFrame()
 
-    for week in weeks:
-        data = get_one_week_fish_data(year = year, week = week, access_token = access_token)["localities"]
-        data = pd.DataFrame(data)
-        data["year"] = year
-        data["week"] = week
-        df = pd.concat([df, data], ignore_index=True)
+    try:
+        for week in weeks:
+            data = get_one_week_fish_data(year = year, week = week, access_token = access_token)["localities"]
+            data = pd.DataFrame(data)
+            data["year"] = year
+            data["week"] = week
+            df = pd.concat([df, data], ignore_index=True)
 
-    df.columns = df.columns.str.lower()
+        df.columns = df.columns.str.lower()
+    except:
+        raise FetchDataError("Error fetching data")
 
     try:
         write_to_cassandra(df = df, table_name = "fish_data_full")
     except:
-        return 
+        raise WritingToDatabaseError("Error writing to database") 
 
 def get_one_week_lice_data(localty, year, week, access_token):
     """Function to get lice count data from Barentswatch API.

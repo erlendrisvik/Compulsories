@@ -46,11 +46,13 @@ initial_state = ss.init_state({
     },
      "temporary_vars": {"selected_year": None
      },
-      "messages": {"raiseWarning": False,
-                 "raiseSuccess": False,
-                 "raiseEmpty": False,
+      "messages": {"raiseInvalidYearWarning": False,
+                 "raiseDataExistWarning" : False,
+                 "raiseEmptyFieldWarning": False,
+                 "raiseFetchDataError": False,
+                 "raiseWriteDBError" : False,
                  "raiseLoading": False},
-                 "raiseError" : False,
+                 "raiseSuccess": False
 })
 
 # Set clickable cursor
@@ -82,19 +84,32 @@ def store_selected_fish_year(state, payload):
 
 def write_fish_data(state):
     """Function to write fish data to state"""
-    
+
     clean_all_messages(state)
 
     if not state['temporary_vars']['selected_year']:
-        state['messages']['raiseEmpty'] = True
+        state['messages']['raiseEmptyFieldWarning'] = True
         state['messages']['raiseLoading'] = False
         return
+    
     state['messages']['raiseLoading'] = True
     
     try:
         get_one_year_fish_data(int(state['temporary_vars']['selected_year']), get_access_token())
-    except:
-        state['messages']['raiseError'] = True
+    except InvalidYearError:
+        state['messages']['raiseInvalidYearWarning'] = True
+        state['messages']['raiseLoading'] = False
+        return
+    except DataExistsError:
+        state['messages']['raiseDataExistWarning'] = True
+        state['messages']['raiseLoading'] = False
+        return
+    except FetchDataError:
+        state['messages']['raiseFetchDataError'] = True
+        state['messages']['raiseLoading'] = False
+        return
+    except WritingToDatabaseError:
+        state['messages']['raiseWriteDBError'] = True
         state['messages']['raiseLoading'] = False
         return
     
@@ -106,17 +121,21 @@ def write_fish_data(state):
 
 def clean_messages_not_loading(state):
     """Function to clean, but loading remains"""
-    
+
+    state['messages']['raiseInvalidYearWarning'] = False
+    state['messages']['raiseDataExistWarning'] = False
+    state['messages']['raiseEmptyFieldWarning'] = False
+    state['messages']['raiseFetchDataError'] = False
+    state['messages']['raiseWriteDBError'] = False
     state['messages']['raiseSuccess'] = False
-    state['messages']['raiseEmpty'] = False
-    state['messages']['raiseWarning'] = False
-    state['messages']['raiseError'] = False
 
 def clean_all_messages(state):
     """Function to clean all messages"""
 
-    state['messages']['raiseSuccess'] = False
-    state['messages']['raiseEmpty'] = False
-    state['messages']['raiseWarning'] = False
+    state['messages']['raiseInvalidYearWarning'] = False
+    state['messages']['raiseDataExistWarning'] = False
+    state['messages']['raiseEmptyFieldWarning'] = False
+    state['messages']['raiseFetchDataError'] = False
+    state['messages']['raiseWriteDBError'] = False
     state['messages']['raiseLoading'] = False
-    state['messages']['raiseError'] = False
+    state['messages']['raiseSuccess'] = False
