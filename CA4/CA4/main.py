@@ -40,12 +40,8 @@ def _get_df(table_name):
 
     return df
 
-def list_fish_years(state):
+def show_fish_years_button(state):
     """Function to list all years in fish data"""
-
-    years = state['data']['fish']['year'].unique()
-    years = sorted(years, reverse=True)
-    state['fish_years'] = {str(i): int(years[i]) for i in range(len(years))}
     
     state['button_management']['ListFishYearsButtonClicked'] = not state['button_management']['ListFishYearsButtonClicked']
 
@@ -148,7 +144,7 @@ def set_current_plot_year(state, payload):
     pass
 
 def _update_plotly_fish(state):
-    fish_data = state['data']['fish']
+    fish_data = state["plotly_settings"]["subsetted_data"]
     selected_num = state["plotly_settings"]["selected_num"]
     sizes = [10]*len(fish_data)
 
@@ -162,7 +158,7 @@ def _update_plotly_fish(state):
         hover_name="name",
         hover_data=["localityno","lat","lon"],
         color_discrete_sequence=["darkgreen"],
-        zoom=14,
+        zoom=9,
         height=600,
         width=700,
     )
@@ -170,15 +166,25 @@ def _update_plotly_fish(state):
     overlay['marker']['size'] = sizes
     fig_fish.update_layout(mapbox_style="open-street-map")
     fig_fish.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
-    #print(fig_fish)
     state["plotly_settings"]["fish_map"] = fig_fish
 
-#def handle_click(state, payload):
- #   fish_data = state["data"]["fish"]
-  #  state["plotly_settings"]["selected_name"] = fish_data["name"].values[payload[0]["pointNumber"]]
-   # state["plotly_settings"]["selected_num"] = payload[0]["pointNumber"]
-    #_update_plotly_fish(state)
+def set_subsetted_data(state):
+    fish_data = state["data"]["fish"]
+    fish_data = fish_data[fish_data["year"] == state["plotly_settings"]["selected_year"]]
+    print(fish_data["year"].unique().tolist())
+    state["plotly_settings"]["subsetted_data"] = fish_data
 
+def handle_click(state, payload):
+    fish_data = state["plotly_settings"]["subsetted_data"]
+    state["plotly_settings"]["selected_name"] = fish_data["name"].values[payload[0]["pointNumber"]]
+    state["plotly_settings"]["selected_num"] = payload[0]["pointNumber"]
+    _update_plotly_fish(state)
+
+
+def _list_available_fish_years(state):
+    years = state['data']['fish']['year'].unique()
+    years = sorted(years, reverse=True)
+    state['variable_vars']['available_fish_years'] = {str(i): int(years[i]) for i in range(len(years))}
 
 initial_state = ss.init_state({
     "data": {
@@ -193,7 +199,8 @@ initial_state = ss.init_state({
                         "selected_municipality": None,
                         "selected_locality": None
      },
-     "variable_vars": {"municipalities": None
+     "variable_vars": {"municipalities": None,
+                       "available_fish_years": None
      },
       "messages": {"raiseInvalidYearWarning": False,
                  "raiseDataExistWarning" : False,
@@ -205,12 +212,15 @@ initial_state = ss.init_state({
     },
     "plotly_settings": {"selected_name": "Click to select",
                       "selected_num": -1,
-                      "fish_map": None
+                      "selected_year": 2015,
+                      "fish_map": None,
+                      "subsetted_data": None
     }
 })
 
 # Set clickable cursor
 initial_state.import_stylesheet("theme", "/static/cursor.css")
 
+set_subsetted_data(initial_state)
 _update_plotly_fish(initial_state)
-
+_list_available_fish_years(initial_state)
