@@ -253,7 +253,7 @@
             "id": "xdilevfyz51t4rmh",
             "type": "section",
             "content": {
-                "title": "Graphs",
+                "title": "",
                 "snapMode": "no"
             },
             "parentId": "bc7iqe7rp9f2tsfk",
@@ -762,7 +762,7 @@
             "parentId": "dz8smcyzj94x7yau",
             "position": 1,
             "handlers": {},
-            "visible": "button_management.show_fish_years"
+            "visible": "button_management.ListFishYearsButtonClicked"
         },
         "hgnfga09xyhcof9n": {
             "id": "hgnfga09xyhcof9n",
@@ -1048,13 +1048,24 @@
         "zgfpdn8btao5qrg1": {
             "id": "zgfpdn8btao5qrg1",
             "type": "message",
-            "parentId": "8exqcbanhtz2ugxg",
             "content": {
                 "message": "! The selected year is invalid."
             },
-            "handlers": {},
+            "parentId": "8exqcbanhtz2ugxg",
             "position": 8,
+            "handlers": {},
             "visible": "messages.raiseInvalidYearWarning"
+        },
+        "bmixaacxxczm9i0n": {
+            "id": "bmixaacxxczm9i0n",
+            "type": "plotlygraph",
+            "content": {
+                "spec": "@{plotly_settings.fish_map}"
+            },
+            "parentId": "xdilevfyz51t4rmh",
+            "position": 0,
+            "handlers": {},
+            "visible": true
         }
     }
 }

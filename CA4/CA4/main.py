@@ -33,13 +33,18 @@ def _get_df(table_name):
 
     df = spark.sql(f"select * from {table_name}").toPandas()
     df = df.sort_values(by=['week'])
+    # quick fix to fix datatype.
+    if table_name == 'fish_data_full':
+        df['lat'] = df['lat'].astype(np.float64)
+        df['lon'] = df['lon'].astype(np.float64)
+
     return df
 
 def list_fish_years(state):
     """Function to list all years in fish data"""
 
     years = state['data']['fish']['year'].unique()
-    years.sort()
+    years = sorted(years, reverse=True)
     state['fish_years'] = {str(i): int(years[i]) for i in range(len(years))}
     
     state['button_management']['ListFishYearsButtonClicked'] = not state['button_management']['ListFishYearsButtonClicked']
@@ -97,6 +102,25 @@ def write_fish_data(state):
     state['messages']['raiseSuccess'] = True
     state['messages']['selected_year'] = None
 
+def list_all_municipalities(state):
+    """Function to list all municipalities"""
+
+    municipalities = state['data']['fish']['municipality'].unique()
+    municipalities.sort()
+    state['variable_vars']['municipalities']= {str(i): municipalities[i] for i in range(len(municipalities))}
+
+def store_selected_municipality(state, payload):
+    """Function to store selected municipality"""
+
+#    state['temporary_vars']['selected_municipality'] = None
+    state['temporary_vars']['selected_municipality'] = payload
+
+def store_selected_locality(state, payload):
+    """Function to store selected locality"""
+
+#    state['temporary_vars']['selected_locality'] = None
+    state['temporary_vars']['selected_locality'] = payload
+
 def clean_messages_not_loading(state):
     """Function to clean, but loading remains"""
     # state['messages'].state
@@ -136,7 +160,7 @@ def _update_plotly_fish(state):
         lat="lat",
         lon="lon",
         hover_name="name",
-        hover_data=["municipality","lat","lon"],
+        hover_data=["localityno","lat","lon"],
         color_discrete_sequence=["darkgreen"],
         zoom=14,
         height=600,
@@ -146,8 +170,8 @@ def _update_plotly_fish(state):
     overlay['marker']['size'] = sizes
     fig_fish.update_layout(mapbox_style="open-street-map")
     fig_fish.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
-    print(fig_fish)
-#    state["plotly_settings"]["fish_map"] = fig_fish
+    #print(fig_fish)
+    state["plotly_settings"]["fish_map"] = fig_fish
 
 #def handle_click(state, payload):
  #   fish_data = state["data"]["fish"]
@@ -165,7 +189,11 @@ initial_state = ss.init_state({
         "ListFishYearsButtonClicked":False,
         "show_lice_years":False
     },
-     "temporary_vars": {"selected_year": None
+     "temporary_vars": {"selected_year": None,
+                        "selected_municipality": None,
+                        "selected_locality": None
+     },
+     "variable_vars": {"municipalities": None
      },
       "messages": {"raiseInvalidYearWarning": False,
                  "raiseDataExistWarning" : False,
