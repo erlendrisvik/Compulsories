@@ -7,6 +7,7 @@ from pyspark.sql import SparkSession
 import pandas as pd
 import numpy as np
 from cassandra.cluster import Cluster
+import plotly.express as px
 
 # Set pyspark env
 os.environ["PYSPARK_PYTHON"] = "python"
@@ -51,8 +52,12 @@ initial_state = ss.init_state({
                  "raiseEmptyFieldWarning": False,
                  "raiseFetchDataError": False,
                  "raiseWriteDBError" : False,
-                 "raiseLoading": False},
-                 "raiseSuccess": False
+                 "raiseLoading": False,
+                 "raiseSuccess": False},
+    "plotly_settings": {"selected_name": "Click to select",
+                      "selected_num": -1,
+                      "plotly_graph": None
+    }
 })
 
 # Set clickable cursor
@@ -140,3 +145,42 @@ def clean_all_messages(state):
     state['messages']['raiseWriteDBError'] = False
     state['messages']['raiseLoading'] = False
     state['messages']['raiseSuccess'] = False
+
+def set_current_plot_year(state, payload):
+    """Function to set current plot year"""
+
+    pass
+
+def _update_plotly_fish(state):
+    fish_data = state['data']['fish']
+    selected_num = state["plotly_settings"]["selected_num"]
+    sizes = [10]*len(fish_data)
+
+    if selected_num != -1:
+        sizes[selected_num] = 20
+
+    fig_fish = px.scatter_mapbox(
+        fish_data,
+        lat="lat",
+        lon="lon",
+        hover_name="name",
+        hover_data=["municipality","lat","lon"],
+        color_discrete_sequence=["darkgreen"],
+        zoom=14,
+        height=600,
+        width=700,
+    )
+    overlay = fig_fish['data'][0]
+    overlay['marker']['size'] = sizes
+    fig_fish.update_layout(mapbox_style="open-street-map")
+    fig_fish.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
+    state["plotly_settings"]["plotly_graph"] = fig_fish
+
+def handle_click(state, payload):
+    fish_data = state["data"]["fish"]
+    state["plotly_settings"]["selected_name"] = fish_data["name"].values[payload[0]["pointNumber"]]
+    state["plotly_settings"]["selected_num"] = payload[0]["pointNumber"]
+    _update_plotly_fish(state)
+
+_update_plotly_fish(initial_state)
+
