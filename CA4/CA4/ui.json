@@ -253,7 +253,7 @@
             "id": "xdilevfyz51t4rmh",
             "type": "section",
             "content": {
-                "title": "",
+                "title": "Graph of fish",
                 "snapMode": "no"
             },
             "parentId": "bc7iqe7rp9f2tsfk",
@@ -739,7 +739,7 @@
             "parentId": "dz8smcyzj94x7yau",
             "position": 0,
             "handlers": {
-                "ss-click": "list_fish_years"
+                "ss-click": "show_fish_years_button"
             },
             "visible": true
         },
@@ -768,7 +768,7 @@
             "id": "hgnfga09xyhcof9n",
             "type": "repeater",
             "content": {
-                "repeaterObject": "@{fish_years}",
+                "repeaterObject": "@{variable_vars.available_fish_years}",
                 "keyVariable": "itemId",
                 "valueVariable": "item"
             },
@@ -1062,9 +1062,81 @@
             "content": {
                 "spec": "@{plotly_settings.fish_map}"
             },
+            "parentId": "36je5sm9vpqogg0x",
+            "position": 0,
+            "handlers": {
+                "plotly-click": "handle_click"
+            },
+            "visible": true
+        },
+        "7kx8yb67baffbx2i": {
+            "id": "7kx8yb67baffbx2i",
+            "type": "columns",
+            "content": {},
             "parentId": "xdilevfyz51t4rmh",
             "position": 0,
             "handlers": {},
+            "visible": true
+        },
+        "36je5sm9vpqogg0x": {
+            "id": "36je5sm9vpqogg0x",
+            "type": "column",
+            "content": {
+                "width": "1"
+            },
+            "parentId": "7kx8yb67baffbx2i",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "v8xm3ouch0rovicf": {
+            "id": "v8xm3ouch0rovicf",
+            "type": "column",
+            "content": {
+                "width": "1"
+            },
+            "parentId": "7kx8yb67baffbx2i",
+            "position": 1,
+            "handlers": {},
+            "visible": true
+        },
+        "9avkhzcftq4rbv7a": {
+            "id": "9avkhzcftq4rbv7a",
+            "type": "text",
+            "content": {
+                "text": "# Currently selected locality: @{plotly_settings.selected_name}\n",
+                "useMarkdown": "yes"
+            },
+            "parentId": "v8xm3ouch0rovicf",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "s64vzax7lnoiup2v": {
+            "id": "s64vzax7lnoiup2v",
+            "type": "section",
+            "content": {
+                "title": "Currently showing data for year @{plotly_settings.selected_year}",
+                "snapMode": "no"
+            },
+            "parentId": "v8xm3ouch0rovicf",
+            "position": 1,
+            "handlers": {},
+            "visible": true
+        },
+        "q4m4x6xrvj25srsn": {
+            "id": "q4m4x6xrvj25srsn",
+            "type": "dropdowninput",
+            "content": {
+                "label": "Show for year:",
+                "options": "@{variable_vars.available_fish_years}"
+            },
+            "parentId": "s64vzax7lnoiup2v",
+            "position": 0,
+            "handlers": {
+                "ss-option-change": "set_current_plot_year",
+                "change": "set_subsetted_fish_data"
+            },
             "visible": true
         }
     }

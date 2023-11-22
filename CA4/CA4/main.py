@@ -141,7 +141,7 @@ def clean_all_messages(state):
 def set_current_plot_year(state, payload):
     """Function to set current plot year"""
 
-    pass
+    state["plotly_settings"]["selected_year"] = state["variable_vars"]["available_fish_years"][payload]
 
 def _update_plotly_fish(state):
     fish_data = state["plotly_settings"]["subsetted_data"]
@@ -168,14 +168,14 @@ def _update_plotly_fish(state):
     fig_fish.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
     state["plotly_settings"]["fish_map"] = fig_fish
 
-def set_subsetted_data(state):
+def set_subsetted_fish_data(state):
     fish_data = state["data"]["fish"]
     fish_data = fish_data[fish_data["year"] == state["plotly_settings"]["selected_year"]]
-    print(fish_data["year"].unique().tolist())
     state["plotly_settings"]["subsetted_data"] = fish_data
 
 def handle_click(state, payload):
     fish_data = state["plotly_settings"]["subsetted_data"]
+    print(fish_data['year'].unique())
     state["plotly_settings"]["selected_name"] = fish_data["name"].values[payload[0]["pointNumber"]]
     state["plotly_settings"]["selected_num"] = payload[0]["pointNumber"]
     _update_plotly_fish(state)
@@ -215,12 +215,15 @@ initial_state = ss.init_state({
                       "selected_year": 2015,
                       "fish_map": None,
                       "subsetted_data": None
+                      # create a dict subsetted data that has the keys as years and values as the subsetted data. You can refer to 
+                      # years from variable_vars['available_fish_years']
+                      
     }
 })
 
 # Set clickable cursor
 initial_state.import_stylesheet("theme", "/static/cursor.css")
 
-set_subsetted_data(initial_state)
+set_subsetted_fish_data(initial_state)
 _update_plotly_fish(initial_state)
 _list_available_fish_years(initial_state)
