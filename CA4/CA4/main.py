@@ -41,7 +41,7 @@ initial_state = ss.init_state({
         "lice": _get_df(table_name = 'lice_data_full')
     },
     "button_management":{
-        "show_fish_years":False,
+        "ListFishYearsButtonClicked":False,
         "show_lice_years":False
     },
      "temporary_vars": {"selected_year": None
@@ -62,9 +62,10 @@ def list_fish_years(state):
     """Function to list all years in fish data"""
 
     years = state['data']['fish']['year'].unique()
+    years.sort()
     state['fish_years'] = {str(i): int(years[i]) for i in range(len(years))}
     
-    state['button_management']['show_fish_years'] = not state['button_management']['show_fish_years']
+    state['button_management']['ListFishYearsButtonClicked'] = not state['button_management']['ListFishYearsButtonClicked']
 
 def list_lice_years_and_locality(state):
     """Function to list all years and localities in lice data"""

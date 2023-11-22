@@ -402,7 +402,9 @@
             },
             "parentId": "root",
             "position": 3,
-            "handlers": {},
+            "handlers": {
+                "ss-page-open": "clean_messages_not_loading"
+            },
             "visible": true
         },
         "zdufudxnw3pnw7up": {
@@ -909,7 +911,6 @@
             },
             "parentId": "mb2hp9ey195uf4g1",
             "position": 0,
-            "handlers": {},
             "visible": true
         },
         "hu6lx5w9rzvmv8ox": {
@@ -920,7 +921,9 @@
             },
             "parentId": "mb2hp9ey195uf4g1",
             "position": 1,
-            "handlers": {},
+            "handlers": {
+                "click": "clean_messages_not_loading"
+            },
             "visible": true
         },
         "0kfej58tem3hlnb9": {
@@ -980,12 +983,78 @@
             "id": "hr249ikk0opeynnb",
             "type": "message",
             "content": {
-                "message": "- You have to specify a year."
+                "message": "! You have to specify a year."
+            },
+            "parentId": "8exqcbanhtz2ugxg",
+            "position": 3,
+            "handlers": {},
+            "visible": "messages.raiseEmptyFieldWarning"
+        },
+        "lf4ymcmgf4jkgig5": {
+            "id": "lf4ymcmgf4jkgig5",
+            "type": "message",
+            "content": {
+                "message": "% downloading data. This can take a few minutes."
             },
             "parentId": "8exqcbanhtz2ugxg",
             "position": 2,
             "handlers": {},
-            "visible": "raiseEmpty"
+            "visible": "messages.raiseLoading"
+        },
+        "kxwvfa0pod1mwrnx": {
+            "id": "kxwvfa0pod1mwrnx",
+            "type": "message",
+            "content": {
+                "message": "+ Data downloaded"
+            },
+            "parentId": "8exqcbanhtz2ugxg",
+            "position": 4,
+            "handlers": {},
+            "visible": "messages.raiseSuccess"
+        },
+        "nq3uryzyq565g3ko": {
+            "id": "nq3uryzyq565g3ko",
+            "type": "message",
+            "content": {
+                "message": "- Fetching data failed. Could be that data is unavailable for this year."
+            },
+            "parentId": "8exqcbanhtz2ugxg",
+            "position": 5,
+            "handlers": {},
+            "visible": "messages.raiseFetchDataError"
+        },
+        "sky0fg1skugfwljl": {
+            "id": "sky0fg1skugfwljl",
+            "type": "message",
+            "content": {
+                "message": "! Data for this year already exists."
+            },
+            "parentId": "8exqcbanhtz2ugxg",
+            "position": 6,
+            "handlers": {},
+            "visible": "messages.raiseDataExistWarning"
+        },
+        "oyra6ieemod9ke0m": {
+            "id": "oyra6ieemod9ke0m",
+            "type": "message",
+            "content": {
+                "message": "! Error writing to database. Could be faulty columns."
+            },
+            "parentId": "8exqcbanhtz2ugxg",
+            "position": 7,
+            "handlers": {},
+            "visible": "messages.raiseWriteDBError"
+        },
+        "zgfpdn8btao5qrg1": {
+            "id": "zgfpdn8btao5qrg1",
+            "type": "message",
+            "parentId": "8exqcbanhtz2ugxg",
+            "content": {
+                "message": "! The selected year is invalid."
+            },
+            "handlers": {},
+            "position": 8,
+            "visible": "messages.raiseInvalidYearWarning"
         }
     }
 }
