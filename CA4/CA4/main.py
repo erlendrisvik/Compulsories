@@ -35,34 +35,6 @@ def _get_df(table_name):
     df = df.sort_values(by=['week'])
     return df
 
-
-initial_state = ss.init_state({
-    "data": {
-        "fish": _get_df(table_name = 'fish_data_full'),
-        "lice": _get_df(table_name = 'lice_data_full')
-    },
-    "button_management":{
-        "ListFishYearsButtonClicked":False,
-        "show_lice_years":False
-    },
-     "temporary_vars": {"selected_year": None
-     },
-      "messages": {"raiseInvalidYearWarning": False,
-                 "raiseDataExistWarning" : False,
-                 "raiseEmptyFieldWarning": False,
-                 "raiseFetchDataError": False,
-                 "raiseWriteDBError" : False,
-                 "raiseLoading": False,
-                 "raiseSuccess": False},
-    "plotly_settings": {"selected_name": "Click to select",
-                      "selected_num": -1,
-                      "plotly_graph": None
-    }
-})
-
-# Set clickable cursor
-initial_state.import_stylesheet("theme", "/static/cursor.css")
-
 def list_fish_years(state):
     """Function to list all years in fish data"""
 
@@ -127,7 +99,7 @@ def write_fish_data(state):
 
 def clean_messages_not_loading(state):
     """Function to clean, but loading remains"""
-
+    # state['messages'].state
     state['messages']['raiseInvalidYearWarning'] = False
     state['messages']['raiseDataExistWarning'] = False
     state['messages']['raiseEmptyFieldWarning'] = False
@@ -174,13 +146,43 @@ def _update_plotly_fish(state):
     overlay['marker']['size'] = sizes
     fig_fish.update_layout(mapbox_style="open-street-map")
     fig_fish.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
-    state["plotly_settings"]["plotly_graph"] = fig_fish
+    print(fig_fish)
+#    state["plotly_settings"]["fish_map"] = fig_fish
 
-def handle_click(state, payload):
-    fish_data = state["data"]["fish"]
-    state["plotly_settings"]["selected_name"] = fish_data["name"].values[payload[0]["pointNumber"]]
-    state["plotly_settings"]["selected_num"] = payload[0]["pointNumber"]
-    _update_plotly_fish(state)
+#def handle_click(state, payload):
+ #   fish_data = state["data"]["fish"]
+  #  state["plotly_settings"]["selected_name"] = fish_data["name"].values[payload[0]["pointNumber"]]
+   # state["plotly_settings"]["selected_num"] = payload[0]["pointNumber"]
+    #_update_plotly_fish(state)
+
+
+initial_state = ss.init_state({
+    "data": {
+        "fish": _get_df(table_name = 'fish_data_full'),
+        "lice": _get_df(table_name = 'lice_data_full')
+    },
+    "button_management":{
+        "ListFishYearsButtonClicked":False,
+        "show_lice_years":False
+    },
+     "temporary_vars": {"selected_year": None
+     },
+      "messages": {"raiseInvalidYearWarning": False,
+                 "raiseDataExistWarning" : False,
+                 "raiseEmptyFieldWarning": False,
+                 "raiseFetchDataError": False,
+                 "raiseWriteDBError" : False,
+                 "raiseLoading": False,
+                 "raiseSuccess": False
+    },
+    "plotly_settings": {"selected_name": "Click to select",
+                      "selected_num": -1,
+                      "fish_map": None
+    }
+})
+
+# Set clickable cursor
+initial_state.import_stylesheet("theme", "/static/cursor.css")
 
 _update_plotly_fish(initial_state)
 
