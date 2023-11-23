@@ -143,6 +143,23 @@ def set_current_plot_year(state, payload):
 
     state["plotly_settings"]["selected_year"] = state["variable_vars"]["available_fish_years"][payload]
 
+def _setup_plotly_fish(state):
+    fish_data = state["plotly_settings"]["subsetted_data"]
+    fig_fish = px.scatter_mapbox(
+    fish_data,
+    lat="lat",
+    lon="lon",
+    hover_name="name",
+    hover_data=["localityno","lat","lon"],
+    color_discrete_sequence=["darkgreen"],
+    zoom=9,
+    height=600,
+    width=700,
+)
+    fig_fish.update_layout(mapbox_style="open-street-map")
+    fig_fish.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
+    return fig_fish
+
 def _update_plotly_fish(state):
     fish_data = state["plotly_settings"]["subsetted_data"]
     selected_num = state["plotly_settings"]["selected_num"]
@@ -214,10 +231,7 @@ initial_state = ss.init_state({
                       "selected_num": -1,
                       "selected_year": 2015,
                       "fish_map": None,
-                      "subsetted_data": None
-                      # create a dict subsetted data that has the keys as years and values as the subsetted data. You can refer to 
-                      # years from variable_vars['available_fish_years']
-                      
+                      "subsetted_data": None                    
     }
 })
 
