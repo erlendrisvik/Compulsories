@@ -1,13 +1,11 @@
 import streamsync as ss
-
-# Set enviorment variables
+import plotly.express as px
 from data_utils import *
 import os
 from pyspark.sql import SparkSession
 import pandas as pd
 import numpy as np
 from cassandra.cluster import Cluster
-import plotly.express as px
 
 # Set pyspark env
 os.environ["PYSPARK_PYTHON"] = "python"
@@ -58,15 +56,15 @@ def list_lice_years_and_locality(state):
 def store_selected_fish_year(state, payload):
     """Function to store selected fish year"""
 
-    state['temporary_vars']['selected_year'] = None
-    state['temporary_vars']['selected_year'] = payload
+    state['temporary_vars']['selected_fish_year'] = None
+    state['temporary_vars']['selected_fish_year'] = payload
 
 def write_fish_data(state):
     """Function to write fish data to state"""
 
     clean_all_messages(state)
 
-    if not state['temporary_vars']['selected_year']:
+    if not state['temporary_vars']['selected_fish_year']:
         state['messages']['raiseEmptyFieldWarning'] = True
         state['messages']['raiseLoading'] = False
         return
@@ -74,7 +72,7 @@ def write_fish_data(state):
     state['messages']['raiseLoading'] = True
     
     try:
-        get_one_year_fish_data(int(state['temporary_vars']['selected_year']), get_access_token())
+        get_one_year_fish_data(int(state['temporary_vars']['selected_fish_year']), get_access_token())
     except InvalidYearError:
         state['messages']['raiseInvalidYearWarning'] = True
         state['messages']['raiseLoading'] = False
@@ -96,7 +94,7 @@ def write_fish_data(state):
 
     state['messages']['raiseLoading'] = False
     state['messages']['raiseSuccess'] = True
-    state['messages']['selected_year'] = None
+    state['messages']['selected_fish_year'] = None
 
 def list_all_municipalities(state):
     """Function to list all municipalities"""
@@ -111,11 +109,56 @@ def store_selected_municipality(state, payload):
 #    state['temporary_vars']['selected_municipality'] = None
     state['temporary_vars']['selected_municipality'] = payload
 
-def store_selected_locality(state, payload):
+def store_selected_lice_locality(state, payload):
     """Function to store selected locality"""
 
 #    state['temporary_vars']['selected_locality'] = None
     state['temporary_vars']['selected_locality'] = payload
+
+def store_selected_lice_year(state, payload):
+    state['temporary_vars']['selected_lice_year'] = None
+    state['temporary_vars']['selected_lice_year'] = payload
+
+def write_lice_data(state):
+    clean_all_messages()   
+
+    if not state['temporary_vars']['selected_lice_year']:
+        state['messages']['raiseEmptyFieldWarning'] = True
+        state['messages']['raiseLoading'] = False
+        return
+    
+    if not state['temporary_vars']['selected_locality']:
+        state['messages']['raiseEmptyFieldWarning'] = True
+        state['messages']['raiseLoading'] = False
+        return
+    
+    state['messages']['raiseLoading'] = True
+
+    try:
+        get_one_year_lice_data(int(state['temporary_vars']['selected_locality'] , int(state['temporary_vars']['selected_lice_year'])), get_access_token())
+    except InvalidYearError:
+        state['messages']['raiseInvalidYearWarning'] = True
+        state['messages']['raiseLoading'] = False
+        return
+    except DataExistsError:
+        state['messages']['raiseDataExistWarning'] = True
+        state['messages']['raiseLoading'] = False
+        return
+    except FetchDataError:
+        state['messages']['raiseFetchDataError'] = True
+        state['messages']['raiseLoading'] = False
+        return
+    except WritingToDatabaseError:
+        state['messages']['raiseWriteDBError'] = True
+        state['messages']['raiseLoading'] = False
+        return
+    
+    state['data']['lice'] = _get_df(table_name = 'lice_data_full')
+
+    state['messages']['raiseLoading'] = False
+    state['messages']['raiseSuccess'] = True
+    state['messages']['selected_lice_year'] = None
+
 
 def clean_messages_not_loading(state):
     """Function to clean, but loading remains"""
@@ -138,13 +181,19 @@ def clean_all_messages(state):
     state['messages']['raiseLoading'] = False
     state['messages']['raiseSuccess'] = False
 
+def _list_available_fish_years(state):
+    years = state['data']['fish']['year'].unique()
+    years = sorted(years, reverse=True)
+    state['variable_vars']['available_fish_years'] = {str(i): int(years[i]) for i in range(len(years))}
+
 def set_current_plot_year(state, payload):
     """Function to set current plot year"""
 
-    state["plotly_settings"]["selected_year"] = state["variable_vars"]["available_fish_years"][payload]
+    state["plotly_settings"]["selected_fish_year_plotly"] = state["variable_vars"]["available_fish_years"][payload]
+    set_subsetted_fish_data()
 
 def _setup_plotly_fish(state):
-    fish_data = state["plotly_settings"]["subsetted_data"]
+    fish_data = state["plotly_settings"]["subsetted_fish_data"].copy()
     fig_fish = px.scatter_mapbox(
     fish_data,
     lat="lat",
@@ -152,56 +201,51 @@ def _setup_plotly_fish(state):
     hover_name="name",
     hover_data=["localityno","lat","lon"],
     color_discrete_sequence=["darkgreen"],
-    zoom=9,
+    zoom=3,
     height=600,
     width=700,
 )
+    
+    sizes = [10]*len(fish_data)
+   
+    overlay = fig_fish['data'][0]
+    overlay['marker']['size'] = sizes
+
     fig_fish.update_layout(mapbox_style="open-street-map")
     fig_fish.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
-    return fig_fish
+    state['plotly_settings']['sizes'] = sizes
+    state["plotly_settings"]["fish_map"] = fig_fish
 
 def _update_plotly_fish(state):
-    fish_data = state["plotly_settings"]["subsetted_data"]
+    fish_data = state["plotly_settings"]["subsetted_fish_data"]
     selected_num = state["plotly_settings"]["selected_num"]
-    sizes = [10]*len(fish_data)
+    fig_fish = state["plotly_settings"]["fish_map"]
+    lat = fish_data.loc[selected_num, 'lat']
+    lon = fish_data.loc[selected_num, 'lon']
+
+    sizes = state["plotly_settings"]["sizes"]
 
     if selected_num != -1:
         sizes[selected_num] = 20
 
-    fig_fish = px.scatter_mapbox(
-        fish_data,
-        lat="lat",
-        lon="lon",
-        hover_name="name",
-        hover_data=["localityno","lat","lon"],
-        color_discrete_sequence=["darkgreen"],
-        zoom=9,
-        height=600,
-        width=700,
-    )
     overlay = fig_fish['data'][0]
     overlay['marker']['size'] = sizes
-    fig_fish.update_layout(mapbox_style="open-street-map")
-    fig_fish.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
+
+    fig_fish.update_layout(mapbox=dict(center=dict(lat=lat,
+                                            lon=lon)))
+    fig_fish['layout']['mapbox']['zoom'] = 9
     state["plotly_settings"]["fish_map"] = fig_fish
 
 def set_subsetted_fish_data(state):
-    fish_data = state["data"]["fish"]
-    fish_data = fish_data[fish_data["year"] == state["plotly_settings"]["selected_year"]]
-    state["plotly_settings"]["subsetted_data"] = fish_data
+    fish_data = state["data"]["fish"].copy()
+    fish_data = fish_data[fish_data["year"] == state["plotly_settings"]["selected_fish_year_plotly"]].reset_index(drop=True)
+    state["plotly_settings"]["subsetted_fish_data"] = fish_data
 
-def handle_click(state, payload):
-    fish_data = state["plotly_settings"]["subsetted_data"]
-    print(fish_data['year'].unique())
+def handle_fish_map_click(state, payload):
+    fish_data = state["plotly_settings"]["subsetted_fish_data"].copy()
     state["plotly_settings"]["selected_name"] = fish_data["name"].values[payload[0]["pointNumber"]]
     state["plotly_settings"]["selected_num"] = payload[0]["pointNumber"]
     _update_plotly_fish(state)
-
-
-def _list_available_fish_years(state):
-    years = state['data']['fish']['year'].unique()
-    years = sorted(years, reverse=True)
-    state['variable_vars']['available_fish_years'] = {str(i): int(years[i]) for i in range(len(years))}
 
 initial_state = ss.init_state({
     "data": {
@@ -212,9 +256,10 @@ initial_state = ss.init_state({
         "ListFishYearsButtonClicked":False,
         "show_lice_years":False
     },
-     "temporary_vars": {"selected_year": None,
+     "temporary_vars": {"selected_fish_year": None,
+                        "selected_lice_year": None,
                         "selected_municipality": None,
-                        "selected_locality": None
+                        "selected_locality": None,
      },
      "variable_vars": {"municipalities": None,
                        "available_fish_years": None
@@ -229,9 +274,10 @@ initial_state = ss.init_state({
     },
     "plotly_settings": {"selected_name": "Click to select",
                       "selected_num": -1,
-                      "selected_year": 2015,
+                      "selected_fish_year_plotly": 2015,
                       "fish_map": None,
-                      "subsetted_data": None                    
+                      "subsetted_fish_data": None,
+                      "sizes": None               
     }
 })
 
@@ -239,5 +285,6 @@ initial_state = ss.init_state({
 initial_state.import_stylesheet("theme", "/static/cursor.css")
 
 set_subsetted_fish_data(initial_state)
-_update_plotly_fish(initial_state)
+_setup_plotly_fish(initial_state)
+#_update_plotly_fish(initial_state)
 _list_available_fish_years(initial_state)

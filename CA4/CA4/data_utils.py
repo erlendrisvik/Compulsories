@@ -214,31 +214,39 @@ def get_one_year_lice_data(locality, year, access_token):
     df: pandas dataframe with data
     """
 
-    if check_exist_lice(locality, year):
-        return None
+    if year < 2010 or year > 2023:
+        raise InvalidYearError("Year invalid")
+
+    if check_exist_lice(year):
+        raise DataExistsError("Data exists")
 
     # Set list of weeks (1-52).
     weeks = np.arange(1, 53)
     df = pd.DataFrame()
 
-    for week in weeks:
-        data = get_one_week_lice_data(localty = locality, year = year, week = week, access_token = access_token)["localityWeek"]
-        for key, value in data.items():
-            # Set to list to make it compatible to convert to pandas dataframe
-            data[key] = [value]
-        # Dropping columns that contain purely None and nested dictionaries
-        data = pd.DataFrame(data).drop(columns = ["bathTreatments", "cleanerFish", "inFeedTreatments", \
-                                                "mechanicalRemoval", "timeSinceLastChitinSynthesisInhibitorTreatment"]) 
-        data["year"] = year
-        data["week"] = week
-        df = pd.concat([df, data], ignore_index=True)
-    # Lowercase column names
-    df.columns = df.columns.str.lower()
-    
+    try:
+        for week in weeks:
+            data = get_one_week_lice_data(localty = locality, year = year, week = week, access_token = access_token)["localityWeek"]
+            for key, value in data.items():
+                # Set to list to make it compatible to convert to pandas dataframe
+                data[key] = [value]
+            # Dropping columns that contain purely None and nested dictionaries
+            data = pd.DataFrame(data).drop(columns = ["bathTreatments", "cleanerFish", "inFeedTreatments", \
+                                                    "mechanicalRemoval", "timeSinceLastChitinSynthesisInhibitorTreatment"]) 
+            data["year"] = year
+            data["week"] = week
+            df = pd.concat([df, data], ignore_index=True)
+        # Lowercase column names
+        df.columns = df.columns.str.lower()
+    except:
+        raise FetchDataError("Error fetching data")
+
+
     try:
         write_to_cassandra(df = df, table_name = "lice_data_full")
     except:
-        return 
+        raise WritingToDatabaseError("Error writing to database") 
+
 
 def clean_table(table_name):
     """Function to clean table in cassandra database
@@ -264,4 +272,4 @@ spark = SparkSession.builder.appName('SparkCassandraApp').\
 cluster = Cluster(['localhost'], port=9042)
 session = cluster.connect()
 session.set_keyspace('compulsory')
-access_token = get_access_token()
+#access_token = get_access_token()
