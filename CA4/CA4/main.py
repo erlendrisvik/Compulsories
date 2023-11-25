@@ -186,11 +186,11 @@ def _list_available_fish_years(state):
     years = sorted(years, reverse=True)
     state['variable_vars']['available_fish_years'] = {str(i): int(years[i]) for i in range(len(years))}
 
-def set_current_plot_year(state, payload):
+def set_current_map_plot_year(state, payload):
     """Function to set current plot year"""
 
     state["plotly_settings"]["selected_fish_year_plotly"] = state["variable_vars"]["available_fish_years"][payload]
-    set_subsetted_fish_data()
+    set_subsetted_fish_data(state)
 
 def _setup_plotly_fish(state):
     fish_data = state["plotly_settings"]["subsetted_fish_data"].copy()
@@ -216,7 +216,7 @@ def _setup_plotly_fish(state):
     state['plotly_settings']['sizes'] = sizes
     state["plotly_settings"]["fish_map"] = fig_fish
 
-def _update_plotly_fish(state):
+def _update_plotly_fish(state, last_clicked):
     fish_data = state["plotly_settings"]["subsetted_fish_data"]
     selected_num = state["plotly_settings"]["selected_num"]
     fig_fish = state["plotly_settings"]["fish_map"]
@@ -226,6 +226,7 @@ def _update_plotly_fish(state):
     sizes = state["plotly_settings"]["sizes"]
 
     if selected_num != -1:
+        sizes[last_clicked] = 10
         sizes[selected_num] = 20
 
     overlay = fig_fish['data'][0]
@@ -242,10 +243,11 @@ def set_subsetted_fish_data(state):
     state["plotly_settings"]["subsetted_fish_data"] = fish_data
 
 def handle_fish_map_click(state, payload):
+    last_clicked = state["plotly_settings"]["selected_num"]
     fish_data = state["plotly_settings"]["subsetted_fish_data"].copy()
     state["plotly_settings"]["selected_name"] = fish_data["name"].values[payload[0]["pointNumber"]]
     state["plotly_settings"]["selected_num"] = payload[0]["pointNumber"]
-    _update_plotly_fish(state)
+    _update_plotly_fish(state, last_clicked)
 
 initial_state = ss.init_state({
     "data": {
