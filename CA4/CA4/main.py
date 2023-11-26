@@ -248,7 +248,6 @@ def handle_fish_map_click(state, payload):
     state["plotly_settings_fish"]["selected_name"] = fish_data["name"].values[payload[0]["pointNumber"]]
     state["plotly_settings_fish"]["selected_num"] = payload[0]["pointNumber"]
     state["temporary_vars"]["current_selected_fish_locality"] = fish_data.loc[payload[0]["pointNumber"]]
-    print(len(fish_data))
     _update_fish_map(state, last_clicked)
     
 def set_subsetted_fish_data(state):
