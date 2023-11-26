@@ -194,8 +194,11 @@ def set_current_map_plot_year(state, payload):
 
 def _setup_fish_map(state):
     fish_data = state["plotly_settings_fish"]["subsetted_fish_data"].copy()
+    fish_data_unique = fish_data.drop_duplicates(subset=['localityno']).reset_index(drop=True)
+    state["plotly_settings_fish"]["fish_data_unique"] = fish_data_unique
+
     fig_fish = px.scatter_mapbox(
-    fish_data,
+    fish_data_unique,
     lat="lat",
     lon="lon",
     hover_name="name",
@@ -205,12 +208,9 @@ def _setup_fish_map(state):
     height=600,
     width=700,
 )
-    #fig_fish.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = 30
-    #fig_fish.layout.updatemenus[0].buttons[0].args[1]['transition']['duration'] = 5
-    fig_fish.update_geos(projection_type="equirectangular", visible=True, resolution=50)
 
-
-    sizes = [10]*len(fish_data)
+    #fig_fish.update_geos(projection_type="equirectangular", visible=True, resolution=50)
+    sizes = [10]*len(fish_data_unique)
    
     overlay = fig_fish['data'][0]
     overlay['marker']['size'] = sizes
@@ -221,7 +221,7 @@ def _setup_fish_map(state):
     state["plotly_settings_fish"]["fish_map"] = fig_fish
 
 def _update_fish_map(state, last_clicked):
-    fish_data = state["plotly_settings_fish"]["subsetted_fish_data"]
+    fish_data = state["plotly_settings_fish"]["fish_data_unique"]
     selected_num = state["plotly_settings_fish"]["selected_num"]
     fig_fish = state["plotly_settings_fish"]["fish_map"]
     lat = fish_data.loc[selected_num, 'lat']
@@ -241,20 +241,21 @@ def _update_fish_map(state, last_clicked):
     fig_fish['layout']['mapbox']['zoom'] = 9
     state["plotly_settings_fish"]["fish_map"] = fig_fish
 
-def set_subsetted_fish_data(state):
-    fish_data = state["data"]["fish"].copy()
-    fish_data = fish_data[fish_data["year"] == state["plotly_settings_fish"]["selected_fish_year_plotly"]].reset_index(drop=True)
-    state["plotly_settings_fish"]["subsetted_fish_data"] = fish_data
-    
-
 def handle_fish_map_click(state, payload):
     last_clicked = state["plotly_settings_fish"]["selected_num"]
-    fish_data = state["plotly_settings_fish"]["subsetted_fish_data"].copy()
+    fish_data = state["plotly_settings_fish"]["fish_data_unique"].copy()
+    
     state["plotly_settings_fish"]["selected_name"] = fish_data["name"].values[payload[0]["pointNumber"]]
     state["plotly_settings_fish"]["selected_num"] = payload[0]["pointNumber"]
     state["temporary_vars"]["current_selected_fish_locality"] = fish_data.loc[payload[0]["pointNumber"]]
     print(len(fish_data))
     _update_fish_map(state, last_clicked)
+    
+def set_subsetted_fish_data(state):
+    fish_data = state["data"]["fish"].copy()
+    fish_data = fish_data[fish_data["year"] == state["plotly_settings_fish"]["selected_fish_year_plotly"]].reset_index(drop=True)
+    state["plotly_settings_fish"]["subsetted_fish_data"] = fish_data
+    
 
 def setup_proportion_pd_fish_pie(state):
     top_10 = (state["plotly_settings_fish"]["subsetted_fish_data"]
@@ -330,6 +331,7 @@ initial_state = ss.init_state({
                       "proportion_pd_fish_pie": None,
                       "subsetted_fish_data": None,
                       "subsetted_histogram_fish_data": None,
+                      "fish_data_unique": None,
                       "sizes": None
     }
 })
