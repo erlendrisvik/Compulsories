@@ -189,11 +189,11 @@ def _list_available_fish_years(state):
 def set_current_map_plot_year(state, payload):
     """Function to set current plot year"""
 
-    state["plotly_settings"]["selected_fish_year_plotly"] = state["variable_vars"]["available_fish_years"][payload]
+    state["plotly_settings_fish"]["selected_fish_year_plotly"] = state["variable_vars"]["available_fish_years"][payload]
     set_subsetted_fish_data(state)
 
-def _setup_plotly_fish(state):
-    fish_data = state["plotly_settings"]["subsetted_fish_data"].copy()
+def _setup_fish_map(state):
+    fish_data = state["plotly_settings_fish"]["subsetted_fish_data"].copy()
     fig_fish = px.scatter_mapbox(
     fish_data,
     lat="lat",
@@ -217,17 +217,17 @@ def _setup_plotly_fish(state):
 
     fig_fish.update_layout(mapbox_style="open-street-map")
     fig_fish.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
-    state['plotly_settings']['sizes'] = sizes
-    state["plotly_settings"]["fish_map"] = fig_fish
+    state['plotly_settings_fish']['sizes'] = sizes
+    state["plotly_settings_fish"]["fish_map"] = fig_fish
 
-def _update_plotly_fish(state, last_clicked):
-    fish_data = state["plotly_settings"]["subsetted_fish_data"]
-    selected_num = state["plotly_settings"]["selected_num"]
-    fig_fish = state["plotly_settings"]["fish_map"]
+def _update_fish_map(state, last_clicked):
+    fish_data = state["plotly_settings_fish"]["subsetted_fish_data"]
+    selected_num = state["plotly_settings_fish"]["selected_num"]
+    fig_fish = state["plotly_settings_fish"]["fish_map"]
     lat = fish_data.loc[selected_num, 'lat']
     lon = fish_data.loc[selected_num, 'lon']
 
-    sizes = state["plotly_settings"]["sizes"]
+    sizes = state["plotly_settings_fish"]["sizes"]
 
     if selected_num != -1:
         sizes[last_clicked] = 10
@@ -239,25 +239,25 @@ def _update_plotly_fish(state, last_clicked):
     fig_fish.update_layout(mapbox=dict(center=dict(lat=lat,
                                             lon=lon)))
     fig_fish['layout']['mapbox']['zoom'] = 9
-    state["plotly_settings"]["fish_map"] = fig_fish
+    state["plotly_settings_fish"]["fish_map"] = fig_fish
 
 def set_subsetted_fish_data(state):
     fish_data = state["data"]["fish"].copy()
-    fish_data = fish_data[fish_data["year"] == state["plotly_settings"]["selected_fish_year_plotly"]].reset_index(drop=True)
-    state["plotly_settings"]["subsetted_fish_data"] = fish_data
+    fish_data = fish_data[fish_data["year"] == state["plotly_settings_fish"]["selected_fish_year_plotly"]].reset_index(drop=True)
+    state["plotly_settings_fish"]["subsetted_fish_data"] = fish_data
     
 
 def handle_fish_map_click(state, payload):
-    last_clicked = state["plotly_settings"]["selected_num"]
-    fish_data = state["plotly_settings"]["subsetted_fish_data"].copy()
-    state["plotly_settings"]["selected_name"] = fish_data["name"].values[payload[0]["pointNumber"]]
-    state["plotly_settings"]["selected_num"] = payload[0]["pointNumber"]
+    last_clicked = state["plotly_settings_fish"]["selected_num"]
+    fish_data = state["plotly_settings_fish"]["subsetted_fish_data"].copy()
+    state["plotly_settings_fish"]["selected_name"] = fish_data["name"].values[payload[0]["pointNumber"]]
+    state["plotly_settings_fish"]["selected_num"] = payload[0]["pointNumber"]
     state["temporary_vars"]["current_selected_fish_locality"] = fish_data.loc[payload[0]["pointNumber"]]
     print(len(fish_data))
-    _update_plotly_fish(state, last_clicked)
+    _update_fish_map(state, last_clicked)
 
 def setup_proportion_pd_fish_pie(state):
-    top_10 = (state["plotly_settings"]["subsetted_fish_data"]
+    top_10 = (state["plotly_settings_fish"]["subsetted_fish_data"]
               .groupby("municipality")["haspd"]
               .value_counts(normalize=True)
               .unstack(fill_value=0)
@@ -266,14 +266,19 @@ def setup_proportion_pd_fish_pie(state):
               .reset_index())
     
     pie = px.pie(top_10, values=True, names='municipality', title='Proportion of PD within each locality')
-    state["plotly_settings"]["proportion_pd_fish_pie"] = pie
-
-ignored_fish_cols = ['lat', 'lon', 'localityweekid', 'localityno', 'municipality', 'municipalityno', 'name', 'week', 'year']
+    state["plotly_settings_fish"]["proportion_pd_fish_pie"] = pie
 
 def select_histogram_fish_col(state):
     pass
 
 def _setup_fish_histogram(state):
+    ignored_fish_cols = ['lat', 'lon', 'localityweekid', 'localityno', 'municipality', 'municipalityno', 'name', 'week', 'year']
+
+    # set subsetted_histogram_fish_data to the columns not in ignored_fish_cols
+    state["plotly_settings_fish"]["subsetted_histogram_fish_data"] = state["plotly_settings_fish"]["subsetted_fish_data"].drop(columns=ignored_fish_cols)
+    
+
+def update_fish_histogram(state, payload):
     pass
 
 initial_state = ss.init_state({
@@ -294,6 +299,9 @@ initial_state = ss.init_state({
      "variable_vars": {"municipalities": None,
                        "available_fish_years": None
      },
+     "constant_vars":{""
+         
+     }
       "messages": {"raiseInvalidYearWarning": False,
                  "raiseDataExistWarning" : False,
                  "raiseEmptyFieldWarning": False,
@@ -302,12 +310,13 @@ initial_state = ss.init_state({
                  "raiseLoading": False,
                  "raiseSuccess": False
     },
-    "plotly_settings": {"selected_name": "Click to select",
+    "plotly_settings_fish": {"selected_name": "Click to select",
                       "selected_num": -1,
                       "selected_fish_year_plotly": 2015,
                       "fish_map": None,
                       "proportion_pd_fish_pie": None,
                       "subsetted_fish_data": None,
+                      "subsetted_histogram_fish_data": None,
                       "sizes": None
     }
 })
@@ -316,7 +325,8 @@ initial_state = ss.init_state({
 initial_state.import_stylesheet("theme", "/static/cursor.css")
 
 set_subsetted_fish_data(initial_state)
-_setup_plotly_fish(initial_state)
+_setup_fish_map(initial_state)
+_setup_fish_histogram(initial_state)
 setup_proportion_pd_fish_pie(initial_state)
 #_update_plotly_fish(initial_state)
 _list_available_fish_years(initial_state)
