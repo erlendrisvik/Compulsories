@@ -913,19 +913,6 @@
             "position": 0,
             "visible": true
         },
-        "hu6lx5w9rzvmv8ox": {
-            "id": "hu6lx5w9rzvmv8ox",
-            "type": "tab",
-            "content": {
-                "name": "Lice data"
-            },
-            "parentId": "mb2hp9ey195uf4g1",
-            "position": 1,
-            "handlers": {
-                "click": "clean_messages_not_loading"
-            },
-            "visible": true
-        },
         "0kfej58tem3hlnb9": {
             "id": "0kfej58tem3hlnb9",
             "type": "numberinput",
@@ -938,30 +925,6 @@
             "handlers": {
                 "ss-number-change-finish": "store_selected_fish_year"
             },
-            "visible": true
-        },
-        "l3c0x3r191cdi39t": {
-            "id": "l3c0x3r191cdi39t",
-            "type": "numberinput",
-            "content": {
-                "label": "Year:",
-                "placeholder": "e.g. 2015"
-            },
-            "parentId": "hu6lx5w9rzvmv8ox",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "kjfx59w9oof98fp0": {
-            "id": "kjfx59w9oof98fp0",
-            "type": "numberinput",
-            "content": {
-                "label": "Locality:",
-                "placeholder": "e.g. 15456"
-            },
-            "parentId": "hu6lx5w9rzvmv8ox",
-            "position": 1,
-            "handlers": {},
             "visible": true
         },
         "acytiorrmz9dav6m": {
@@ -1060,12 +1023,12 @@
             "id": "bmixaacxxczm9i0n",
             "type": "plotlygraph",
             "content": {
-                "spec": "@{plotly_settings.fish_map}"
+                "spec": "@{plotly_settings_fish.fish_map}"
             },
             "parentId": "36je5sm9vpqogg0x",
             "position": 0,
             "handlers": {
-                "plotly-click": "handle_click"
+                "plotly-click": "handle_fish_map_click"
             },
             "visible": true
         },
@@ -1104,11 +1067,11 @@
             "id": "9avkhzcftq4rbv7a",
             "type": "text",
             "content": {
-                "text": "# Currently selected locality: @{plotly_settings.selected_name}\n",
+                "text": "# Currently selected locality: @{plotly_settings_fish.selected_name}\n",
                 "useMarkdown": "yes"
             },
-            "parentId": "v8xm3ouch0rovicf",
-            "position": 0,
+            "parentId": "36je5sm9vpqogg0x",
+            "position": 1,
             "handlers": {},
             "visible": true
         },
@@ -1116,11 +1079,11 @@
             "id": "s64vzax7lnoiup2v",
             "type": "section",
             "content": {
-                "title": "Currently showing data for year @{plotly_settings.selected_year}",
+                "title": "Currently showing data for year @{plotly_settings_fish.selected_fish_year_plotly}",
                 "snapMode": "no"
             },
-            "parentId": "v8xm3ouch0rovicf",
-            "position": 1,
+            "parentId": "36je5sm9vpqogg0x",
+            "position": 2,
             "handlers": {},
             "visible": true
         },
@@ -1134,9 +1097,184 @@
             "parentId": "s64vzax7lnoiup2v",
             "position": 0,
             "handlers": {
-                "ss-option-change": "set_current_plot_year",
-                "change": "set_subsetted_fish_data"
+                "ss-option-change": "set_current_map_plot_year",
+                "change": "setup_proportion_pd_fish_pie"
             },
+            "visible": true
+        },
+        "6se8oonvc1lzckf3": {
+            "id": "6se8oonvc1lzckf3",
+            "type": "tab",
+            "content": {
+                "name": "Lice data"
+            },
+            "parentId": "mb2hp9ey195uf4g1",
+            "position": 1,
+            "visible": true
+        },
+        "lxfnc94bmph6fhr2": {
+            "id": "lxfnc94bmph6fhr2",
+            "type": "numberinput",
+            "content": {
+                "label": "Year:",
+                "placeholder": "e.g. 2015"
+            },
+            "parentId": "6se8oonvc1lzckf3",
+            "position": 0,
+            "handlers": {
+                "ss-number-change-finish": "store_selected_lice_year"
+            },
+            "visible": true
+        },
+        "r8ab7s888gqu5xgc": {
+            "id": "r8ab7s888gqu5xgc",
+            "type": "button",
+            "content": {
+                "text": "Download",
+                "buttonColor": "#37ff00",
+                "icon": "check"
+            },
+            "parentId": "6se8oonvc1lzckf3",
+            "position": 2,
+            "handlers": {
+                "ss-click": "write_lice_data"
+            },
+            "visible": true
+        },
+        "fjhhvrgb2yw6kchn": {
+            "id": "fjhhvrgb2yw6kchn",
+            "type": "message",
+            "content": {
+                "message": "! You have to specify a year."
+            },
+            "parentId": "6se8oonvc1lzckf3",
+            "position": 4,
+            "handlers": {},
+            "visible": "messages.raiseEmptyFieldWarning"
+        },
+        "43aqtubtqw5p6fyv": {
+            "id": "43aqtubtqw5p6fyv",
+            "type": "message",
+            "content": {
+                "message": "% downloading data. This can take a few minutes."
+            },
+            "parentId": "6se8oonvc1lzckf3",
+            "position": 3,
+            "handlers": {},
+            "visible": "messages.raiseLoading"
+        },
+        "9vpterjfzujv3fth": {
+            "id": "9vpterjfzujv3fth",
+            "type": "message",
+            "content": {
+                "message": "+ Data downloaded"
+            },
+            "parentId": "6se8oonvc1lzckf3",
+            "position": 5,
+            "handlers": {},
+            "visible": "messages.raiseSuccess"
+        },
+        "ilom9htzgmufhb9j": {
+            "id": "ilom9htzgmufhb9j",
+            "type": "message",
+            "content": {
+                "message": "- Fetching data failed. Could be that data is unavailable for this year."
+            },
+            "parentId": "6se8oonvc1lzckf3",
+            "position": 6,
+            "handlers": {},
+            "visible": "messages.raiseFetchDataError"
+        },
+        "2goewz5bt27rab4o": {
+            "id": "2goewz5bt27rab4o",
+            "type": "message",
+            "content": {
+                "message": "! Data for this year already exists."
+            },
+            "parentId": "6se8oonvc1lzckf3",
+            "position": 7,
+            "handlers": {},
+            "visible": "messages.raiseDataExistWarning"
+        },
+        "4mh8ornrphn9j6o0": {
+            "id": "4mh8ornrphn9j6o0",
+            "type": "message",
+            "content": {
+                "message": "! Error writing to database. Could be faulty columns."
+            },
+            "parentId": "6se8oonvc1lzckf3",
+            "position": 8,
+            "handlers": {},
+            "visible": "messages.raiseWriteDBError"
+        },
+        "kp2rpeu559nyhl5l": {
+            "id": "kp2rpeu559nyhl5l",
+            "type": "message",
+            "content": {
+                "message": "! The selected year is invalid."
+            },
+            "parentId": "6se8oonvc1lzckf3",
+            "position": 9,
+            "handlers": {},
+            "visible": "messages.raiseInvalidYearWarning"
+        },
+        "ohrqwl3ujkh3z8uj": {
+            "id": "ohrqwl3ujkh3z8uj",
+            "type": "textinput",
+            "content": {
+                "label": "Locality",
+                "placeholder": "e.g 24175"
+            },
+            "parentId": "6se8oonvc1lzckf3",
+            "position": 1,
+            "visible": true
+        },
+        "61ljjoa1rth4xy7s": {
+            "id": "61ljjoa1rth4xy7s",
+            "type": "plotlygraph",
+            "content": {
+                "spec": "@{plotly_settings_fish.proportion_pd_fish_pie}"
+            },
+            "parentId": "v8xm3ouch0rovicf",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "e9tolvvmlp8wugey": {
+            "id": "e9tolvvmlp8wugey",
+            "type": "plotlygraph",
+            "parentId": "v8xm3ouch0rovicf",
+            "content": {
+                "spec": "@{plotly_settings_fish.fish_histogram}"
+            },
+            "handlers": {},
+            "position": 1,
+            "visible": true
+        },
+        "qilazefz5pg8wj0l": {
+            "id": "qilazefz5pg8wj0l",
+            "type": "section",
+            "parentId": "v8xm3ouch0rovicf",
+            "content": {
+                "title": "Select column for histogram:",
+                "snapMode": "no"
+            },
+            "handlers": {},
+            "position": 2,
+            "visible": true
+        },
+        "nij0fi40njfwxv6d": {
+            "id": "nij0fi40njfwxv6d",
+            "type": "dropdowninput",
+            "parentId": "qilazefz5pg8wj0l",
+            "content": {
+                "label": "",
+                "options": "@{constant_vars.fish_cols_histogram}"
+            },
+            "handlers": {
+                "ss-option-change": "select_histogram_fish_col"
+            },
+            "position": 0,
             "visible": true
         }
     }
