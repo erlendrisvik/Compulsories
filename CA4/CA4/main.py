@@ -274,8 +274,8 @@ def _setup_fish_histogram(state):
     fish_data = state["plotly_settings_fish"]["subsetted_fish_data"].drop(columns=ignored_fish_cols)
     state["plotly_settings_fish"]["subsetted_histogram_fish_data"] = fish_data
     columns_sorted = fish_data.columns.sort_values().tolist()
-    print(columns_sorted)
-    state["constant_vars"]["fish_cols_histogram"] = dict(enumerate(columns_sorted))
+    columns_dict = dict(enumerate(columns_sorted))
+    state["constant_vars"]["fish_cols_histogram"] = columns_dict
 
     default_column = "haspd"
     fig_hist = px.histogram(fish_data, x = default_column)
@@ -310,7 +310,7 @@ initial_state = ss.init_state({
      "variable_vars": {"municipalities": None,
                        "available_fish_years": None
      },
-     "constant_vars":{"fish_cols_histogram": None
+     "constant_vars": {"fish_cols_histogram": None
     },
       "messages": {"raiseInvalidYearWarning": False,
                  "raiseDataExistWarning" : False,
