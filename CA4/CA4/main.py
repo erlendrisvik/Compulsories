@@ -205,7 +205,11 @@ def _setup_plotly_fish(state):
     height=600,
     width=700,
 )
-    
+    #fig_fish.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = 30
+    #fig_fish.layout.updatemenus[0].buttons[0].args[1]['transition']['duration'] = 5
+    fig_fish.update_geos(projection_type="equirectangular", visible=True, resolution=50)
+
+
     sizes = [10]*len(fish_data)
    
     overlay = fig_fish['data'][0]
@@ -241,13 +245,36 @@ def set_subsetted_fish_data(state):
     fish_data = state["data"]["fish"].copy()
     fish_data = fish_data[fish_data["year"] == state["plotly_settings"]["selected_fish_year_plotly"]].reset_index(drop=True)
     state["plotly_settings"]["subsetted_fish_data"] = fish_data
+    
 
 def handle_fish_map_click(state, payload):
     last_clicked = state["plotly_settings"]["selected_num"]
     fish_data = state["plotly_settings"]["subsetted_fish_data"].copy()
     state["plotly_settings"]["selected_name"] = fish_data["name"].values[payload[0]["pointNumber"]]
     state["plotly_settings"]["selected_num"] = payload[0]["pointNumber"]
+    state["temporary_vars"]["current_selected_fish_locality"] = fish_data.loc[payload[0]["pointNumber"]]
+    print(len(fish_data))
     _update_plotly_fish(state, last_clicked)
+
+def setup_proportion_pd_fish_pie(state):
+    top_10 = (state["plotly_settings"]["subsetted_fish_data"]
+              .groupby("municipality")["haspd"]
+              .value_counts(normalize=True)
+              .unstack(fill_value=0)
+              .sort_values(by = True, ascending = False)
+              .head(10)
+              .reset_index())
+    
+    pie = px.pie(top_10, values=True, names='municipality', title='Proportion of PD within each locality')
+    state["plotly_settings"]["proportion_pd_fish_pie"] = pie
+
+ignored_fish_cols = ['lat', 'lon', 'localityweekid', 'localityno', 'municipality', 'municipalityno', 'name', 'week', 'year']
+
+def select_histogram_fish_col(state):
+    pass
+
+def _setup_fish_histogram(state):
+    pass
 
 initial_state = ss.init_state({
     "data": {
@@ -262,6 +289,7 @@ initial_state = ss.init_state({
                         "selected_lice_year": None,
                         "selected_municipality": None,
                         "selected_locality": None,
+                        "current_selected_fish_locality": None               
      },
      "variable_vars": {"municipalities": None,
                        "available_fish_years": None
@@ -278,8 +306,9 @@ initial_state = ss.init_state({
                       "selected_num": -1,
                       "selected_fish_year_plotly": 2015,
                       "fish_map": None,
+                      "proportion_pd_fish_pie": None,
                       "subsetted_fish_data": None,
-                      "sizes": None               
+                      "sizes": None
     }
 })
 
@@ -288,5 +317,6 @@ initial_state.import_stylesheet("theme", "/static/cursor.css")
 
 set_subsetted_fish_data(initial_state)
 _setup_plotly_fish(initial_state)
+setup_proportion_pd_fish_pie(initial_state)
 #_update_plotly_fish(initial_state)
 _list_available_fish_years(initial_state)
