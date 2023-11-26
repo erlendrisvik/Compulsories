@@ -268,18 +268,28 @@ def setup_proportion_pd_fish_pie(state):
     pie = px.pie(top_10, values=True, names='municipality', title='Proportion of PD within each locality')
     state["plotly_settings_fish"]["proportion_pd_fish_pie"] = pie
 
-def select_histogram_fish_col(state):
-    pass
-
 def _setup_fish_histogram(state):
     ignored_fish_cols = ['lat', 'lon', 'localityweekid', 'localityno', 'municipality', 'municipalityno', 'name', 'week', 'year']
 
-    # set subsetted_histogram_fish_data to the columns not in ignored_fish_cols
-    state["plotly_settings_fish"]["subsetted_histogram_fish_data"] = state["plotly_settings_fish"]["subsetted_fish_data"].drop(columns=ignored_fish_cols)
-    
+    fish_data = state["plotly_settings_fish"]["subsetted_fish_data"].drop(columns=ignored_fish_cols)
+    state["plotly_settings_fish"]["subsetted_histogram_fish_data"] = fish_data
+    columns_sorted = fish_data.columns.sort_values().tolist()
+    print(columns_sorted)
+    state["constant_vars"]["fish_cols_histogram"] = dict(enumerate(columns_sorted))
 
-def update_fish_histogram(state, payload):
-    pass
+    default_column = "haspd"
+    fig_hist = px.histogram(fish_data, x = default_column)
+    state["plotly_settings_fish"]["fish_histogram"] = fig_hist
+
+def select_histogram_fish_col(state, payload):
+    state["temporary_vars"]["selected_histogram_col"] = state["constant_vars"]["fish_cols_histogram"][payload]
+    update_fish_histogram(state)
+
+def update_fish_histogram(state):
+    fish_data = state["plotly_settings_fish"]["subsetted_histogram_fish_data"]
+    column = state["temporary_vars"]["selected_histogram_col"]
+    fig_hist = px.histogram(fish_data, x = column)
+    state["plotly_settings_fish"]["fish_histogram"] = fig_hist
 
 initial_state = ss.init_state({
     "data": {
@@ -294,14 +304,14 @@ initial_state = ss.init_state({
                         "selected_lice_year": None,
                         "selected_municipality": None,
                         "selected_locality": None,
-                        "current_selected_fish_locality": None               
+                        "selected_histogram_col": None,
+                        "current_selected_fish_locality": None          
      },
      "variable_vars": {"municipalities": None,
                        "available_fish_years": None
      },
-     "constant_vars":{""
-         
-     }
+     "constant_vars":{"fish_cols_histogram": None
+    },
       "messages": {"raiseInvalidYearWarning": False,
                  "raiseDataExistWarning" : False,
                  "raiseEmptyFieldWarning": False,
@@ -314,6 +324,7 @@ initial_state = ss.init_state({
                       "selected_num": -1,
                       "selected_fish_year_plotly": 2015,
                       "fish_map": None,
+                      "fish_histogram": None,
                       "proportion_pd_fish_pie": None,
                       "subsetted_fish_data": None,
                       "subsetted_histogram_fish_data": None,
