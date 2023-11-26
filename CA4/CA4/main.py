@@ -275,6 +275,8 @@ def _setup_fish_histogram(state):
     state["plotly_settings_fish"]["subsetted_histogram_fish_data"] = fish_data
     columns_sorted = fish_data.columns.sort_values().tolist()
     columns_dict = dict(enumerate(columns_sorted))
+    # make the keys string representation
+    columns_dict = {str(k): v for k, v in columns_dict.items()}
     state["constant_vars"]["fish_cols_histogram"] = columns_dict
 
     default_column = "haspd"
