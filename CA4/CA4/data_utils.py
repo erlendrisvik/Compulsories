@@ -214,10 +214,10 @@ def get_one_year_lice_data(locality, year, access_token):
     df: pandas dataframe with data
     """
 
-    if year < 2010 or year > 2023:
-        raise InvalidYearError("Year invalid")
+    #if year < 2010 or year > 2023:
+     #   raise InvalidYearError("Year invalid")
 
-    if check_exist_lice(year):
+    if check_exist_lice(locality=locality, year = year):
         raise DataExistsError("Data exists")
 
     # Set list of weeks (1-52).
@@ -240,8 +240,10 @@ def get_one_year_lice_data(locality, year, access_token):
         df.columns = df.columns.str.lower()
     except:
         raise FetchDataError("Error fetching data")
-
-
+    
+    if True in df.isnull().all().to_list():
+        raise NoDataError("No data for this locality")
+    
     try:
         write_to_cassandra(df = df, table_name = "lice_data_full")
     except:
