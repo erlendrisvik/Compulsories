@@ -119,33 +119,26 @@ def store_selected_lice_year(state, payload):
     state['temporary_vars']['selected_lice_year'] = None
     state['temporary_vars']['selected_lice_year'] = payload
 
-def write_lice_data(state):
-    clean_all_messages()   
+def _write_lice_data(state):
+    clean_all_messages(state)   
+    locality = int(state['temporary_vars']['selected_locality'])
+    year = int(state['plotly_settings_fish']['selected_fish_year_plotly'])
 
-    if not state['temporary_vars']['selected_lice_year']:
-        state['messages']['raiseEmptyFieldWarning'] = True
-        state['messages']['raiseLoading'] = False
-        return
-    
-    if not state['temporary_vars']['selected_locality']:
-        state['messages']['raiseEmptyFieldWarning'] = True
-        state['messages']['raiseLoading'] = False
-        return
-    
     state['messages']['raiseLoading'] = True
 
     try:
-        get_one_year_lice_data(int(state['temporary_vars']['selected_locality'] , int(state['temporary_vars']['selected_lice_year'])), get_access_token())
-    except InvalidYearError:
-        state['messages']['raiseInvalidYearWarning'] = True
-        state['messages']['raiseLoading'] = False
-        return
+        get_one_year_lice_data(locality = locality , year = year, access_token= get_access_token())
+
     except DataExistsError:
         state['messages']['raiseDataExistWarning'] = True
         state['messages']['raiseLoading'] = False
         return
     except FetchDataError:
         state['messages']['raiseFetchDataError'] = True
+        state['messages']['raiseLoading'] = False
+        return
+    except NoDataError:
+        state['messages']['raiseNoDataError'] = True
         state['messages']['raiseLoading'] = False
         return
     except WritingToDatabaseError:
@@ -157,7 +150,7 @@ def write_lice_data(state):
 
     state['messages']['raiseLoading'] = False
     state['messages']['raiseSuccess'] = True
-    state['messages']['selected_lice_year'] = None
+    #state['messages']['selected_lice_year'] = None
 
 
 def clean_messages_not_loading(state):
@@ -168,6 +161,7 @@ def clean_messages_not_loading(state):
     state['messages']['raiseEmptyFieldWarning'] = False
     state['messages']['raiseFetchDataError'] = False
     state['messages']['raiseWriteDBError'] = False
+    state['messages']['raiseNoDataError'] = False
     state['messages']['raiseSuccess'] = False
 
 def clean_all_messages(state):
@@ -178,6 +172,7 @@ def clean_all_messages(state):
     state['messages']['raiseEmptyFieldWarning'] = False
     state['messages']['raiseFetchDataError'] = False
     state['messages']['raiseWriteDBError'] = False
+    state['messages']['raiseNoDataError'] = False
     state['messages']['raiseLoading'] = False
     state['messages']['raiseSuccess'] = False
 
@@ -247,8 +242,9 @@ def handle_fish_map_click(state, payload):
     
     state["plotly_settings_fish"]["selected_name"] = fish_data["name"].values[payload[0]["pointNumber"]]
     state["plotly_settings_fish"]["selected_num"] = payload[0]["pointNumber"]
-    state["temporary_vars"]["current_selected_fish_locality"] = fish_data.loc[payload[0]["pointNumber"]]
+    state["temporary_vars"]["selected_locality"] = int(fish_data.loc[payload[0]["pointNumber"]]["localityno"])
     _update_fish_map(state, last_clicked)
+    _write_lice_data(state)
     
 def set_subsetted_fish_data(state):
     fish_data = state["data"]["fish"].copy()
@@ -293,6 +289,11 @@ def update_fish_histogram(state):
     fig_hist = px.histogram(fish_data, x = column)
     state["plotly_settings_fish"]["fish_histogram"] = fig_hist
 
+
+def _setup_lice_counts_line(state):
+    locality = state["temporary_vars"]["selected_locality"]
+
+
 initial_state = ss.init_state({
     "data": {
         "fish": _get_df(table_name = 'fish_data_full'),
@@ -306,19 +307,19 @@ initial_state = ss.init_state({
                         "selected_lice_year": None,
                         "selected_municipality": None,
                         "selected_locality": None,
-                        "selected_histogram_col": None,
-                        "current_selected_fish_locality": None          
-     },
+                        "selected_histogram_col": None
+    },
      "variable_vars": {"municipalities": None,
                        "available_fish_years": None
      },
      "constant_vars": {"fish_cols_histogram": None
     },
       "messages": {"raiseInvalidYearWarning": False,
-                 "raiseDataExistWarning" : False,
+                 "raiseDataExistWarning": False,
                  "raiseEmptyFieldWarning": False,
                  "raiseFetchDataError": False,
-                 "raiseWriteDBError" : False,
+                 "raiseWriteDBError": False,
+                 "raiseNoDataError": False,
                  "raiseLoading": False,
                  "raiseSuccess": False
     },
