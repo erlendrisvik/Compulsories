@@ -1097,8 +1097,7 @@
             "parentId": "s64vzax7lnoiup2v",
             "position": 0,
             "handlers": {
-                "ss-option-change": "set_current_map_plot_year",
-                "change": "setup_proportion_pd_fish_pie"
+                "ss-option-change": "set_current_map_plot_year"
             },
             "visible": true
         },
@@ -1243,39 +1242,117 @@
         "e9tolvvmlp8wugey": {
             "id": "e9tolvvmlp8wugey",
             "type": "plotlygraph",
-            "parentId": "v8xm3ouch0rovicf",
             "content": {
                 "spec": "@{plotly_settings_fish.fish_histogram}"
             },
-            "handlers": {},
+            "parentId": "v8xm3ouch0rovicf",
             "position": 1,
+            "handlers": {},
             "visible": true
         },
         "qilazefz5pg8wj0l": {
             "id": "qilazefz5pg8wj0l",
             "type": "section",
-            "parentId": "v8xm3ouch0rovicf",
             "content": {
                 "title": "Select column for histogram:",
                 "snapMode": "no"
             },
-            "handlers": {},
+            "parentId": "v8xm3ouch0rovicf",
             "position": 2,
+            "handlers": {},
             "visible": true
         },
         "nij0fi40njfwxv6d": {
             "id": "nij0fi40njfwxv6d",
             "type": "dropdowninput",
-            "parentId": "qilazefz5pg8wj0l",
             "content": {
                 "label": "",
                 "options": "@{constant_vars.fish_cols_histogram}"
             },
+            "parentId": "qilazefz5pg8wj0l",
+            "position": 0,
             "handlers": {
                 "ss-option-change": "select_histogram_fish_col"
             },
-            "position": 0,
             "visible": true
+        },
+        "mhzehjvjt53j5cyh": {
+            "id": "mhzehjvjt53j5cyh",
+            "type": "section",
+            "content": {
+                "title": "Downloading data if required.",
+                "snapMode": "no"
+            },
+            "parentId": "36je5sm9vpqogg0x",
+            "position": 3,
+            "handlers": {},
+            "visible": true
+        },
+        "063gpgisdn8yxm5m": {
+            "id": "063gpgisdn8yxm5m",
+            "type": "message",
+            "content": {
+                "message": "% Downloading data for locality @{temporary_vars.selected_locality}. This can take a few seconds."
+            },
+            "parentId": "mhzehjvjt53j5cyh",
+            "position": 0,
+            "handlers": {},
+            "visible": "messages.raiseLoading"
+        },
+        "rbdd1i50c7emx8m2": {
+            "id": "rbdd1i50c7emx8m2",
+            "type": "message",
+            "content": {
+                "message": "! Data for this year already exists."
+            },
+            "parentId": "mhzehjvjt53j5cyh",
+            "position": 1,
+            "handlers": {},
+            "visible": "messages.raiseDataExistWarning"
+        },
+        "8i34zb3ocxm7y7ue": {
+            "id": "8i34zb3ocxm7y7ue",
+            "type": "message",
+            "content": {
+                "message": "+ Data downloaded"
+            },
+            "parentId": "mhzehjvjt53j5cyh",
+            "position": 2,
+            "handlers": {},
+            "visible": "messages.raiseSuccess"
+        },
+        "sgphs1r9bbf2l65g": {
+            "id": "sgphs1r9bbf2l65g",
+            "type": "message",
+            "content": {
+                "message": "! Error writing to database. Could be faulty columns."
+            },
+            "parentId": "mhzehjvjt53j5cyh",
+            "position": 3,
+            "handlers": {},
+            "visible": "messages.raiseWriteDBError"
+        },
+        "18bgso3wz4ath13u": {
+            "id": "18bgso3wz4ath13u",
+            "type": "message",
+            "content": {
+                "message": "- Fetching data failed. Could be that data is unavailable for this locality/year.."
+            },
+            "parentId": "mhzehjvjt53j5cyh",
+            "position": 4,
+            "handlers": {},
+            "visible": "messages.raiseFetchDataError"
+        },
+        "n6lxuit76qnfmqhf": {
+            "id": "n6lxuit76qnfmqhf",
+            "type": "message",
+            "content": {
+                "message": "! No data available for this locality. "
+            },
+            "parentId": "mhzehjvjt53j5cyh",
+            "position": 5,
+            "handlers": {},
+            "visible": "messages.raiseNoDataError"
         }
     }
 }
