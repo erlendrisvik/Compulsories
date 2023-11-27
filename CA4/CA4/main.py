@@ -109,21 +109,21 @@ def store_selected_municipality(state, payload):
 #    state['temporary_vars']['selected_municipality'] = None
     state['temporary_vars']['selected_municipality'] = payload
 
-def store_selected_lice_locality(state, payload):
-    """Function to store selected locality"""
-
-#    state['temporary_vars']['selected_locality'] = None
-    state['temporary_vars']['selected_locality'] = payload
-
 def store_selected_lice_year(state, payload):
     state['temporary_vars']['selected_lice_year'] = None
     state['temporary_vars']['selected_lice_year'] = payload
 
-def _write_lice_data(state):
+def write_lice_data(state):
     clean_all_messages(state)   
-    locality = int(state['temporary_vars']['selected_locality'])
-    year = int(state['plotly_settings_fish']['selected_fish_year_plotly'])
 
+    if not state['temporary_vars']['selected_locality']:
+        state['messages']['raiseEmptyFieldWarning'] = True
+        state['messages']['raiseLoading'] = False
+        return
+    
+    locality = state['temporary_vars']['selected_locality']
+    year = state['plotly_settings_fish']['selected_fish_year_plotly']
+    
     state['messages']['raiseLoading'] = True
 
     try:
@@ -245,8 +245,7 @@ def handle_fish_map_click(state, payload):
     state["plotly_settings_fish"]["selected_num"] = payload[0]["pointNumber"]
     state["temporary_vars"]["selected_locality"] = int(fish_data.loc[payload[0]["pointNumber"]]["localityno"])
     _update_fish_map(state, last_clicked)
-    _write_lice_data(state)
-    
+   
 def set_subsetted_fish_data(state):
     fish_data = state["data"]["fish"].copy()
     fish_data = fish_data[fish_data["year"] == state["plotly_settings_fish"]["selected_fish_year_plotly"]].reset_index(drop=True)

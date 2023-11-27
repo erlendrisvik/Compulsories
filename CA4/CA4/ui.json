@@ -253,7 +253,7 @@
             "id": "xdilevfyz51t4rmh",
             "type": "section",
             "content": {
-                "title": "Graph of fish",
+                "title": "Plot of Norway with available localities",
                 "snapMode": "no"
             },
             "parentId": "bc7iqe7rp9f2tsfk",
@@ -1135,9 +1135,6 @@
             },
             "parentId": "6se8oonvc1lzckf3",
             "position": 2,
-            "handlers": {
-                "ss-click": "write_lice_data"
-            },
             "visible": true
         },
         "fjhhvrgb2yw6kchn": {
@@ -1280,7 +1277,7 @@
             "id": "mhzehjvjt53j5cyh",
             "type": "section",
             "content": {
-                "title": "Downloading data if required.",
+                "title": "Download data for selected locality?",
                 "snapMode": "no"
             },
             "parentId": "36je5sm9vpqogg0x",
@@ -1295,7 +1292,7 @@
                 "message": "% Downloading data for locality @{temporary_vars.selected_locality}. This can take a few seconds."
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 0,
+            "position": 1,
             "handlers": {},
             "visible": "messages.raiseLoading"
         },
@@ -1303,10 +1300,10 @@
             "id": "rbdd1i50c7emx8m2",
             "type": "message",
             "content": {
-                "message": "! Data for this year already exists."
+                "message": "! Data for this locality already exists."
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 1,
+            "position": 2,
             "handlers": {},
             "visible": "messages.raiseDataExistWarning"
         },
@@ -1317,7 +1314,7 @@
                 "message": "+ Data downloaded"
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 2,
+            "position": 3,
             "handlers": {},
             "visible": "messages.raiseSuccess"
         },
@@ -1328,7 +1325,7 @@
                 "message": "! Error writing to database. Could be faulty columns."
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 3,
+            "position": 4,
             "handlers": {},
             "visible": "messages.raiseWriteDBError"
         },
@@ -1339,7 +1336,7 @@
                 "message": "- Fetching data failed. Could be that data is unavailable for this locality/year.."
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 4,
+            "position": 5,
             "handlers": {},
             "visible": "messages.raiseFetchDataError"
         },
@@ -1350,9 +1347,35 @@
                 "message": "! No data available for this locality. "
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 5,
+            "position": 6,
             "handlers": {},
             "visible": "messages.raiseNoDataError"
+        },
+        "n9irf5seqqklrpr7": {
+            "id": "n9irf5seqqklrpr7",
+            "type": "button",
+            "content": {
+                "text": "Download",
+                "buttonColor": "#37ff00",
+                "icon": "check"
+            },
+            "parentId": "mhzehjvjt53j5cyh",
+            "position": 0,
+            "handlers": {
+                "ss-click": "write_lice_data"
+            },
+            "visible": true
+        },
+        "7m0702egilx5rpwa": {
+            "id": "7m0702egilx5rpwa",
+            "type": "message",
+            "content": {
+                "message": "! You have to click a locality."
+            },
+            "parentId": "mhzehjvjt53j5cyh",
+            "position": 7,
+            "handlers": {},
+            "visible": "messages.raiseEmptyFieldWarning"
         }
     }
 }
