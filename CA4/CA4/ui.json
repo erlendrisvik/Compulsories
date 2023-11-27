@@ -216,7 +216,8 @@
             "parentId": "qdt2osq4a109pr8c",
             "position": 1,
             "handlers": {
-                "ss-click": "$goToPage_lice_graphs"
+                "ss-click": "$goToPage_lice_graphs",
+                "click": "setup_lice_counts_line"
             },
             "visible": true
         },
@@ -1099,6 +1100,10 @@
             "handlers": {
                 "ss-option-change": "set_current_map_plot_year"
             },
+            "binding": {
+                "eventType": "ss-option-change",
+                "stateRef": "temporary_vars.selected_fish_year"
+            },
             "visible": true
         },
         "6se8oonvc1lzckf3": {
@@ -1376,6 +1381,85 @@
             "position": 7,
             "handlers": {},
             "visible": "messages.raiseEmptyFieldWarning"
+        },
+        "2dyjtlju6h4unkvm": {
+            "id": "2dyjtlju6h4unkvm",
+            "type": "columns",
+            "content": {},
+            "parentId": "u0tkbdopgbrm0pms",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "nnmj6li27ytfro6f": {
+            "id": "nnmj6li27ytfro6f",
+            "type": "column",
+            "content": {
+                "width": "1"
+            },
+            "parentId": "2dyjtlju6h4unkvm",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "14xzl676xcdw0ebb": {
+            "id": "14xzl676xcdw0ebb",
+            "type": "column",
+            "content": {
+                "width": "1"
+            },
+            "parentId": "2dyjtlju6h4unkvm",
+            "position": 1,
+            "handlers": {},
+            "visible": true
+        },
+        "zw2slvdxsxhvkon0": {
+            "id": "zw2slvdxsxhvkon0",
+            "type": "section",
+            "content": {
+                "title": "Section Title",
+                "snapMode": "no"
+            },
+            "parentId": "nnmj6li27ytfro6f",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "kchknt929ckfbsxr": {
+            "id": "kchknt929ckfbsxr",
+            "type": "dropdowninput",
+            "content": {
+                "label": "Select lice type to plot",
+                "options": "@{plotly_settings_lice.selected_lice_type}"
+            },
+            "parentId": "zw2slvdxsxhvkon0",
+            "position": 0,
+            "handlers": {
+                "ss-option-change": "update_lice_counts_line"
+            },
+            "visible": true
+        },
+        "421dyb00rmhwi6go": {
+            "id": "421dyb00rmhwi6go",
+            "type": "plotlygraph",
+            "content": {
+                "spec": "@{plotly_settings_lice.lice_line_fig}"
+            },
+            "parentId": "zw2slvdxsxhvkon0",
+            "position": 1,
+            "handlers": {},
+            "visible": true
+        },
+        "2ob01gox81hw6jo4": {
+            "id": "2ob01gox81hw6jo4",
+            "type": "message",
+            "parentId": "zw2slvdxsxhvkon0",
+            "content": {
+                "message": "! Select a locality on the map to graph."
+            },
+            "handlers": {},
+            "position": 2,
+            "visible": "raiseEmptyFieldWarning"
         }
     }
 }

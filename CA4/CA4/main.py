@@ -123,7 +123,7 @@ def write_lice_data(state):
     
     locality = state['temporary_vars']['selected_locality']
     year = state['plotly_settings_fish']['selected_fish_year_plotly']
-    
+
     state['messages']['raiseLoading'] = True
 
     try:
@@ -289,16 +289,44 @@ def update_fish_histogram(state):
     fig_hist = px.histogram(fish_data, x = column)
     state["plotly_settings_fish"]["fish_histogram"] = fig_hist
 
+def setup_lice_counts_line(state):
+    if not state["temporary_vars"]["selected_locality"]:
+        state['raiseEmptyFieldWarning'] = True
+        return
+    state['raiseEmptyFieldWarning'] = False
 
-def _setup_lice_counts_line(state):
     locality = state["temporary_vars"]["selected_locality"]
+    year = state["plotly_settings_fish"]["selected_fish_year_plotly"]
+    lice_type = state["plotly_settings_lice"]["selected_lice_type"]["0"]
+    lice_data = state["data"]["lice"].copy()
 
+    selected_data = lice_data[(lice_data['localityno'] == locality) & (lice_data['year'] == year)]
 
+    fig_lice = px.line(selected_data, x='week', y= lice_type, 
+                title='Average lice count across weeks',
+                markers=True)
+    
+    state["plotly_settings_lice"]["lice_line_fig"] = fig_lice
+
+def update_lice_counts_line(state, payload):
+
+    locality = state["temporary_vars"]["selected_locality"]
+    year = state["plotly_settings_fish"]["selected_fish_year_plotly"]
+    lice_type = state["plotly_settings_lice"]["selected_lice_type"][payload]
+    lice_data = state["data"]["lice"].copy()
+
+    selected_data = lice_data[(lice_data['localityno'] == locality) & (lice_data['year'] == year)]
+
+    fig_lice = px.line(selected_data, x='week', y= lice_type, 
+                  title='Average lice count across weeks',
+                   markers=True)
+    
+    state["plotly_settings_lice"]["lice_line_fig"] = fig_lice
 
 initial_state = ss.init_state({
     "data": {
         "fish": _get_df(table_name = 'fish_data_full'),
-        "lice": _get_df(table_name = 'lice_data_full')
+        "lice": _get_df(table_name = 'lice_data_full').sort_values(by=['week']).reset_index(drop=True)
     },
     "button_management":{
         "ListFishYearsButtonClicked":False,
@@ -334,6 +362,11 @@ initial_state = ss.init_state({
                       "subsetted_histogram_fish_data": None,
                       "fish_data_unique": None,
                       "sizes": None
+    },
+    "plotly_settings_lice": {"selected_lice_type": {"0": "avgadultfemalelice",
+                                                    "1": "avgmobilelice",
+                                                    "2": "avgstationarylice"},
+                             "lice_line_fig": None
     }
 })
 
@@ -344,5 +377,6 @@ set_subsetted_fish_data(initial_state)
 _setup_fish_map(initial_state)
 _setup_fish_histogram(initial_state)
 _setup_proportion_pd_fish_pie(initial_state)
+#setup_lice_counts_line(initial_state)
 #_update_plotly_fish(initial_state)
 _list_available_fish_years(initial_state)
