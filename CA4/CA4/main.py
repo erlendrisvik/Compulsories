@@ -186,6 +186,7 @@ def set_current_map_plot_year(state, payload):
 
     state["plotly_settings_fish"]["selected_fish_year_plotly"] = state["variable_vars"]["available_fish_years"][payload]
     set_subsetted_fish_data(state)
+    _setup_proportion_pd_fish_pie(state)
 
 def _setup_fish_map(state):
     fish_data = state["plotly_settings_fish"]["subsetted_fish_data"].copy()
@@ -252,7 +253,7 @@ def set_subsetted_fish_data(state):
     state["plotly_settings_fish"]["subsetted_fish_data"] = fish_data
     
 
-def setup_proportion_pd_fish_pie(state):
+def _setup_proportion_pd_fish_pie(state):
     top_10 = (state["plotly_settings_fish"]["subsetted_fish_data"]
               .groupby("municipality")["haspd"]
               .value_counts(normalize=True)
@@ -292,6 +293,7 @@ def update_fish_histogram(state):
 
 def _setup_lice_counts_line(state):
     locality = state["temporary_vars"]["selected_locality"]
+
 
 
 initial_state = ss.init_state({
@@ -342,6 +344,6 @@ initial_state.import_stylesheet("theme", "/static/cursor.css")
 set_subsetted_fish_data(initial_state)
 _setup_fish_map(initial_state)
 _setup_fish_histogram(initial_state)
-setup_proportion_pd_fish_pie(initial_state)
+_setup_proportion_pd_fish_pie(initial_state)
 #_update_plotly_fish(initial_state)
 _list_available_fish_years(initial_state)
