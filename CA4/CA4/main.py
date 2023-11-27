@@ -305,6 +305,9 @@ def setup_lice_counts_line(state):
     fig_lice = px.line(selected_data, x='week', y= lice_type, 
                 title='Average lice count across weeks',
                 markers=True)
+    fig_lice.update_xaxes(tickangle=0,
+                          tickmode = 'array',
+                          tickvals = np.arange(0, 52, 4))
     
     state["plotly_settings_lice"]["lice_line_fig"] = fig_lice
 
@@ -320,6 +323,9 @@ def update_lice_counts_line(state, payload):
     fig_lice = px.line(selected_data, x='week', y= lice_type, 
                   title='Average lice count across weeks',
                    markers=True)
+    fig_lice.update_xaxes(tickangle=0,
+                          tickmode = 'array',
+                          tickvals = np.arange(0, 52, 4))
     
     state["plotly_settings_lice"]["lice_line_fig"] = fig_lice
 
