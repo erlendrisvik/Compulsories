@@ -17,3 +17,8 @@ class WritingToDatabaseError(Exception):
     def __init__(self, message="Error writing to database"):
         self.message = message
         super().__init__(self.message)
+
+class NoDataError(Exception):
+    def __init__(self, message="No data in API"):
+        self.message = message
+        super().__init__(self.message)
