@@ -329,6 +329,14 @@ def update_fish_histogram(state):
 
 def setup_lice_counts_line(state):
     if not state["temporary_vars"]["selected_locality"]:
+        # setup an empty figure
+        fig_lice = px.line(title='Average lice count across weeks',
+                                markers=True)
+        fig_lice.update_xaxes(tickangle=0,
+                            tickmode = 'array',
+                            tickvals = np.arange(0, 52, 4))
+        
+        state["plotly_settings_lice"]["lice_line_fig"] = fig_lice
         state['raiseEmptyFieldWarning'] = True
         return
     state['raiseEmptyFieldWarning'] = False
@@ -369,6 +377,14 @@ def update_lice_counts_line(state, payload):
 
 def setup_weather_line(state):
     if not state["temporary_vars"]["selected_locality"]:
+        # setup an empty figure
+        fig_weather = px.line(title='Average weather across weeks',
+                                markers=True)
+        fig_weather.update_xaxes(tickangle=0,
+                    tickmode = 'array',
+                    tickvals = np.arange(0, 52, 4))
+        
+        state["plotly_settings_weather"]["weather_line_fig"] = fig_weather      
         state['raiseEmptyFieldWarning'] = True
         return
     state['raiseEmptyFieldWarning'] = False
@@ -391,27 +407,65 @@ def setup_weather_line(state):
 
 def update_weather_line(state, payload):
     
-        locality = state["temporary_vars"]["selected_locality"]
-        year = state["plotly_settings_fish"]["selected_fish_year_plotly"]
-        weather_type = state["plotly_settings_weather"]["selected_weather_type"][payload]
-        weather_data = state["data"]["weather"].copy()
+    locality = state["temporary_vars"]["selected_locality"]
+    year = state["plotly_settings_fish"]["selected_fish_year_plotly"]
+    weather_type = state["plotly_settings_weather"]["selected_weather_type"][payload]
+    weather_data = state["data"]["weather"].copy()
+
+    selected_data = weather_data[(weather_data['localityno'] == locality) & (weather_data['year'] == year)]
+
+    fig_weather = px.line(selected_data, x='week', y= weather_type, 
+                title='Average weather across weeks',
+                markers=True)
+    fig_weather.update_xaxes(tickangle=0,
+                        tickmode = 'array',
+                        tickvals = np.arange(0, 52, 4))
     
-        selected_data = weather_data[(weather_data['localityno'] == locality) & (weather_data['year'] == year)]
-    
-        fig_weather = px.line(selected_data, x='week', y= weather_type, 
-                    title='Average weather across weeks',
-                    markers=True)
-        fig_weather.update_xaxes(tickangle=0,
-                            tickmode = 'array',
-                            tickvals = np.arange(0, 52, 4))
-        
-        state["plotly_settings_weather"]["weather_line_fig"] = fig_weather
+    state["plotly_settings_weather"]["weather_line_fig"] = fig_weather
+
+def join_lice_weather(state):
+    lice_data = state["data"]["lice"]
+    weather_data = state["data"]["weather"]
+
+    lice_subset = lice_data[['localityno', 'year', 'week', 'avgadultfemalelice', 'avgstationarylice', 'avgmobilelice']]
+    data = pd.merge(weather_data, lice_subset, on=['localityno', 'year', 'week'])
+    data = data.fillna(0)
+    state["data"]["joined_data"] = data
+
+def list_available_lice_weather_years(state):
+    years = state['data']['joined_data']['year'].unique()
+    years = sorted(years, reverse=True)
+    columns_dict = dict(enumerate(years))
+    columns_dict = {str(k): v for k, v in columns_dict.items()}
+
+    state['variable_vars']['available_lice_weather_years'] = {str(i): int(years[i]) for i in range(len(years))}
+
+def set_selected_lice_weather_year(state, payload):
+    state['temporary_vars']['selected_lice_weather_year'] = None
+    state['temporary_vars']['selected_lice_weather_year'] = payload
+    list_available_lice_weather_localities(state)
+
+def list_available_lice_weather_localities(state):
+    # subset joint data where available_lice_weather_years == selected year
+    year = state['temporary_vars']['selected_lice_weather_year']
+    data = state['data']['joined_data']
+    data = data[data['year'] == year]
+    localities = data['localityno'].unique()
+    localities = sorted(localities)
+    columns_dict = dict(enumerate(localities))
+    columns_dict = {str(k): v for k, v in columns_dict.items()}
+    state['variable_vars']['available_localities_in_selected_year'] = {str(i): int(localities[i]) for i in range(len(localities))}
+
+def set_selected_lice_weather_locality(state, payload):
+    state['temporary_vars']['selected_lice_weather_locality'] = None
+    state['temporary_vars']['selected_lice_weather_locality'] = payload
 
 initial_state = ss.init_state({
     "data": {
         "fish": _get_df(table_name = 'fish_data_full'),
         "lice": _get_df(table_name = 'lice_data_full').sort_values(by=['week']).reset_index(drop=True),
-        "weather": _get_df(table_name = 'weekly_weather_data').sort_values(by=['week']).reset_index(drop=True)
+        "weather": _get_df(table_name = 'weekly_weather_data').sort_values(by=['week']).reset_index(drop=True),
+        "joined_data": None
     },
     "button_management":{
         "ListFishYearsButtonClicked":False,
@@ -421,10 +475,14 @@ initial_state = ss.init_state({
                         "selected_lice_year": None,
                         "selected_municipality": None,
                         "selected_locality": None,
-                        "selected_histogram_col": None
+                        "selected_histogram_col": None,
+                        "selected_lice_weather_year": None,
+                        "selected_lice_weather_locality": None
     },
      "variable_vars": {"municipalities": None,
-                       "available_fish_years": None
+                       "available_fish_years": None,
+                       "available_lice_weather_years": None,
+                       "available_localities_in_selected_year": None
      },
      "constant_vars": {"fish_cols_histogram": None
     },
@@ -468,6 +526,9 @@ set_subsetted_fish_data(initial_state)
 _setup_fish_map(initial_state)
 _setup_fish_histogram(initial_state)
 _setup_proportion_pd_fish_pie(initial_state)
-#setup_lice_counts_line(initial_state)
+setup_lice_counts_line(initial_state)
+setup_weather_line(initial_state)
+join_lice_weather(initial_state)
 #_update_plotly_fish(initial_state)
 _list_available_fish_years(initial_state)
+list_available_lice_weather_years(initial_state)
