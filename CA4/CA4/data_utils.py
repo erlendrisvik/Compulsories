@@ -418,9 +418,9 @@ def convert_to_weekly_data(weather_data):
     weekly_weather_data = pd.merge(weekly_weather_data_mean, weekly_weather_data_sum, left_index=True, right_index=True)
 
     # add the year, week and localityno columns
-    weekly_weather_data['year'] = weather_data['year'][0]
+    weekly_weather_data['year'] = weather_data['year']
     weekly_weather_data['week'] = weekly_weather_data.index
-    weekly_weather_data['localityno'] = weather_data['localityno'][0]
+    weekly_weather_data['localityno'] = weather_data['localityno']
     weekly_weather_data = weekly_weather_data.reset_index(drop=True)
 
     # create a id column that is the concatenation of year_week_localityno
