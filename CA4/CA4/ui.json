@@ -46,94 +46,6 @@
             "handlers": {},
             "visible": true
         },
-        "obhny2rtnv902tmk": {
-            "id": "obhny2rtnv902tmk",
-            "type": "section",
-            "content": {
-                "title": "Section Title",
-                "snapMode": "no"
-            },
-            "parentId": "926hhfmdxsy36uq3",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "ovr45uof3glm62io": {
-            "id": "ovr45uof3glm62io",
-            "type": "header",
-            "content": {
-                "text": "Data Info"
-            },
-            "parentId": "obhny2rtnv902tmk",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "05yoi0vadeva4bbf": {
-            "id": "05yoi0vadeva4bbf",
-            "type": "section",
-            "content": {
-                "title": "Data",
-                "snapMode": "no"
-            },
-            "parentId": "926hhfmdxsy36uq3",
-            "position": 1,
-            "handlers": {},
-            "visible": true
-        },
-        "hnzirpgl1oyu64uz": {
-            "id": "hnzirpgl1oyu64uz",
-            "type": "tabs",
-            "content": {},
-            "parentId": "05yoi0vadeva4bbf",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "c1fg2je5lpmsdi3j": {
-            "id": "c1fg2je5lpmsdi3j",
-            "type": "tab",
-            "content": {
-                "name": "Fish data"
-            },
-            "parentId": "hnzirpgl1oyu64uz",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "y6d206v1s4vkdaox": {
-            "id": "y6d206v1s4vkdaox",
-            "type": "dataframe",
-            "content": {
-                "dataframe": "@{data.fish}"
-            },
-            "parentId": "c1fg2je5lpmsdi3j",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "oswja471gcube7rm": {
-            "id": "oswja471gcube7rm",
-            "type": "tab",
-            "content": {
-                "name": "Lice data"
-            },
-            "parentId": "hnzirpgl1oyu64uz",
-            "position": 1,
-            "handlers": {},
-            "visible": true
-        },
-        "cf58pwfgxk8liirs": {
-            "id": "cf58pwfgxk8liirs",
-            "type": "dataframe",
-            "content": {
-                "dataframe": "@{data.lice}"
-            },
-            "parentId": "oswja471gcube7rm",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
         "u0tkbdopgbrm0pms": {
             "id": "u0tkbdopgbrm0pms",
             "type": "section",
@@ -495,21 +407,6 @@
             "handlers": {
                 "ss-click": "$goToPage_fish_graphs"
             }
-        },
-        "rokuvyi3ywdseivu": {
-            "id": "rokuvyi3ywdseivu",
-            "type": "text",
-            "content": {
-                "text": "# Data Info",
-                "useMarkdown": "yes",
-                "cssClasses": ""
-            },
-            "parentId": "siah7nyrpfapg202",
-            "position": 2,
-            "handlers": {
-                "ss-click": "$goToPage_data_info"
-            },
-            "visible": true
         },
         "eflsy0vkj1du7dg7": {
             "id": "eflsy0vkj1du7dg7",
@@ -1020,19 +917,6 @@
             "handlers": {},
             "visible": "messages.raiseInvalidYearWarning"
         },
-        "bmixaacxxczm9i0n": {
-            "id": "bmixaacxxczm9i0n",
-            "type": "plotlygraph",
-            "content": {
-                "spec": "@{plotly_settings_fish.fish_map}"
-            },
-            "parentId": "36je5sm9vpqogg0x",
-            "position": 0,
-            "handlers": {
-                "plotly-click": "handle_fish_map_click"
-            },
-            "visible": true
-        },
         "7kx8yb67baffbx2i": {
             "id": "7kx8yb67baffbx2i",
             "type": "columns",
@@ -1071,8 +955,8 @@
                 "text": "# Currently selected locality: @{plotly_settings_fish.selected_name}\n",
                 "useMarkdown": "yes"
             },
-            "parentId": "36je5sm9vpqogg0x",
-            "position": 1,
+            "parentId": "s64vzax7lnoiup2v",
+            "position": 2,
             "handlers": {},
             "visible": true
         },
@@ -1084,7 +968,7 @@
                 "snapMode": "no"
             },
             "parentId": "36je5sm9vpqogg0x",
-            "position": 2,
+            "position": 0,
             "handlers": {},
             "visible": true
         },
@@ -1236,7 +1120,7 @@
             "content": {
                 "spec": "@{plotly_settings_fish.proportion_pd_fish_pie}"
             },
-            "parentId": "v8xm3ouch0rovicf",
+            "parentId": "i88ffxw4i31cvklz",
             "position": 0,
             "handlers": {},
             "visible": true
@@ -1247,8 +1131,8 @@
             "content": {
                 "spec": "@{plotly_settings_fish.fish_histogram}"
             },
-            "parentId": "v8xm3ouch0rovicf",
-            "position": 1,
+            "parentId": "i88ffxw4i31cvklz",
+            "position": 2,
             "handlers": {},
             "visible": true
         },
@@ -1259,8 +1143,8 @@
                 "title": "Select column for histogram:",
                 "snapMode": "no"
             },
-            "parentId": "v8xm3ouch0rovicf",
-            "position": 2,
+            "parentId": "i88ffxw4i31cvklz",
+            "position": 3,
             "handlers": {},
             "visible": true
         },
@@ -1285,7 +1169,7 @@
                 "title": "Download data for selected locality?",
                 "snapMode": "no"
             },
-            "parentId": "36je5sm9vpqogg0x",
+            "parentId": "s64vzax7lnoiup2v",
             "position": 3,
             "handlers": {},
             "visible": true
@@ -1417,7 +1301,7 @@
             "id": "zw2slvdxsxhvkon0",
             "type": "section",
             "content": {
-                "title": "Section Title",
+                "title": "Lice plot from locality @{plotly_settings_fish.selected_name}",
                 "snapMode": "no"
             },
             "parentId": "nnmj6li27ytfro6f",
@@ -1453,13 +1337,62 @@
         "2ob01gox81hw6jo4": {
             "id": "2ob01gox81hw6jo4",
             "type": "message",
-            "parentId": "zw2slvdxsxhvkon0",
             "content": {
                 "message": "! Select a locality on the map to graph."
             },
-            "handlers": {},
+            "parentId": "zw2slvdxsxhvkon0",
             "position": 2,
+            "handlers": {},
             "visible": "raiseEmptyFieldWarning"
+        },
+        "6tyd42tqcgknyshe": {
+            "id": "6tyd42tqcgknyshe",
+            "type": "plotlygraph",
+            "content": {
+                "spec": "@{plotly_settings_fish.fish_map}"
+            },
+            "parentId": "s64vzax7lnoiup2v",
+            "position": 1,
+            "handlers": {
+                "plotly-click": "handle_fish_map_click"
+            },
+            "visible": true
+        },
+        "i88ffxw4i31cvklz": {
+            "id": "i88ffxw4i31cvklz",
+            "type": "section",
+            "parentId": "v8xm3ouch0rovicf",
+            "content": {
+                "title": "",
+                "snapMode": "no"
+            },
+            "handlers": {},
+            "position": 0,
+            "visible": true
+        },
+        "5579pun4xgxro4lo": {
+            "id": "5579pun4xgxro4lo",
+            "type": "separator",
+            "parentId": "i88ffxw4i31cvklz",
+            "content": {},
+            "handlers": {},
+            "position": 1,
+            "visible": true
+        },
+        "rokuvyi3ywdseivu": {
+            "id": "rokuvyi3ywdseivu",
+            "type": "text",
+            "content": {
+                "text": "# Data Info",
+                "useMarkdown": "yes",
+                "cssClasses": ""
+            },
+            "parentId": "siah7nyrpfapg202",
+            "position": 2,
+            "handlers": {
+                "ss-click": "$goToPage_data_info"
+            },
+            "visible": true
         }
     }
 }
