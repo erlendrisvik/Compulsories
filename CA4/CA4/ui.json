@@ -129,7 +129,7 @@
             "position": 1,
             "handlers": {
                 "ss-click": "$goToPage_lice_graphs",
-                "click": "setup_lice_counts_line"
+                "click": "setup_weather_line"
             },
             "visible": true
         },
@@ -1412,26 +1412,74 @@
         "xcu6nxiuzebx6467": {
             "id": "xcu6nxiuzebx6467",
             "type": "text",
-            "parentId": "mhzehjvjt53j5cyh",
             "content": {
                 "text": "## Download lice data for selected locality?",
                 "useMarkdown": "yes"
             },
-            "handlers": {},
+            "parentId": "mhzehjvjt53j5cyh",
             "position": 0,
+            "handlers": {},
             "visible": true
         },
         "cmp7vn98511ofuhz": {
             "id": "cmp7vn98511ofuhz",
             "type": "text",
-            "parentId": "mhzehjvjt53j5cyh",
             "content": {
                 "text": "## Download weather data for selected locality?",
                 "useMarkdown": "yes"
             },
-            "handlers": {},
+            "parentId": "mhzehjvjt53j5cyh",
             "position": 2,
+            "handlers": {},
             "visible": true
+        },
+        "5fysek44ta35kq29": {
+            "id": "5fysek44ta35kq29",
+            "type": "section",
+            "content": {
+                "title": "Weather plot from locality @{plotly_settings_fish.selected_name}",
+                "snapMode": "no"
+            },
+            "parentId": "nnmj6li27ytfro6f",
+            "position": 1,
+            "handlers": {},
+            "visible": true
+        },
+        "issz2j59p7kl9afy": {
+            "id": "issz2j59p7kl9afy",
+            "type": "dropdowninput",
+            "content": {
+                "label": "Select weather to plot",
+                "options": "@{plotly_settings_weather.selected_weather_type}"
+            },
+            "parentId": "5fysek44ta35kq29",
+            "position": 0,
+            "handlers": {
+                "ss-option-change": "update_weather_line"
+            },
+            "visible": true
+        },
+        "qu6pvhdwn3uqz134": {
+            "id": "qu6pvhdwn3uqz134",
+            "type": "plotlygraph",
+            "content": {
+                "spec": "@{plotly_settings_weather.weather_line_fig}"
+            },
+            "parentId": "5fysek44ta35kq29",
+            "position": 1,
+            "handlers": {},
+            "visible": true
+        },
+        "9lpifgi4jbmyyjet": {
+            "id": "9lpifgi4jbmyyjet",
+            "type": "message",
+            "content": {
+                "message": "! Select a locality on the map to graph."
+            },
+            "parentId": "5fysek44ta35kq29",
+            "position": 2,
+            "handlers": {},
+            "visible": "raiseEmptyFieldWarning"
         }
     }
 }
