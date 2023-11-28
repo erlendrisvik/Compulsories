@@ -146,7 +146,7 @@ def write_lice_data(state):
         state['messages']['raiseLoading'] = False
         return
     
-    state['data']['lice'] = _get_df(table_name = 'lice_data_full')
+    state['data']['lice'] = _get_df(table_name = 'lice_data_full').sort_values(by=['week']).reset_index(drop=True)
 
     state['messages']['raiseLoading'] = False
     state['messages']['raiseSuccess'] = True
@@ -186,7 +186,7 @@ def write_weather_data(state):
         state['messages']['raiseLoading'] = False
         return
     
-    state['data']['weather'] = _get_df(table_name = 'weekly_weather_data')
+    state['data']['weather'] = _get_df(table_name = 'weekly_weather_data').sort_values(by=['week']).reset_index(drop=True)
 
     state['messages']['raiseLoading'] = False
     state['messages']['raiseSuccess'] = True
@@ -411,7 +411,7 @@ initial_state = ss.init_state({
     "data": {
         "fish": _get_df(table_name = 'fish_data_full'),
         "lice": _get_df(table_name = 'lice_data_full').sort_values(by=['week']).reset_index(drop=True),
-        "weather": _get_df(table_name = 'weekly_weather_data')
+        "weather": _get_df(table_name = 'weekly_weather_data').sort_values(by=['week']).reset_index(drop=True)
     },
     "button_management":{
         "ListFishYearsButtonClicked":False,
