@@ -121,11 +121,11 @@ def check_exist_weather(locality, year):
     """
 
     (spark.read.format("org.apache.spark.sql.cassandra")
-    .options(table = 'lice_data_full', keyspace="compulsory")
+    .options(table = 'weekly_weather_data', keyspace="compulsory")
     .load()
     .createOrReplaceTempView('weekly_weather_data'))
     
-    check = spark.sql(f"SELECT count(*) FROM lice_data_full WHERE year = {year} AND localityno = {locality}")   
+    check = spark.sql(f"SELECT count(*) FROM weekly_weather_data WHERE year = {year} AND localityno = {locality}")   
     return check.collect()[0][0] >= 1 
 
 def get_one_week_fish_data(year, week, access_token):
