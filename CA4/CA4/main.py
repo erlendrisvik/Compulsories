@@ -128,7 +128,7 @@ def write_lice_data(state):
 
     try:
         get_one_year_lice_data(locality = locality , year = year, access_token= get_access_token())
-
+    
     except DataExistsError:
         state['messages']['raiseDataExistWarning'] = True
         state['messages']['raiseLoading'] = False
@@ -152,6 +152,44 @@ def write_lice_data(state):
     state['messages']['raiseSuccess'] = True
     #state['messages']['selected_lice_year'] = None
 
+def write_weather_data(state):
+    clean_all_messages(state)   
+
+    if not state['temporary_vars']['selected_locality']:
+        state['messages']['raiseEmptyFieldWarning'] = True
+        state['messages']['raiseLoading'] = False
+        return
+    
+    locality = state['temporary_vars']['selected_locality']
+    year = state['plotly_settings_fish']['selected_fish_year_plotly']
+    state['messages']['raiseLoading'] = True
+
+    fish_data = state["data"]["fish"].copy()
+
+    try:
+        get_one_year_weather_data(df = fish_data, locality = locality, year = year)
+
+    except DataExistsError:
+        state['messages']['raiseDataExistWarning'] = True
+        state['messages']['raiseLoading'] = False
+        return
+    except FetchDataError:
+        state['messages']['raiseFetchDataError'] = True
+        state['messages']['raiseLoading'] = False
+        return
+    except NoDataError:
+        state['messages']['raiseNoDataError'] = True
+        state['messages']['raiseLoading'] = False
+        return
+    except WritingToDatabaseError:
+        state['messages']['raiseWriteDBError'] = True
+        state['messages']['raiseLoading'] = False
+        return
+    
+    state['data']['weather'] = _get_df(table_name = 'weekly_weather_data')
+
+    state['messages']['raiseLoading'] = False
+    state['messages']['raiseSuccess'] = True
 
 def clean_messages_not_loading(state):
     """Function to clean, but loading remains"""
@@ -329,10 +367,51 @@ def update_lice_counts_line(state, payload):
     
     state["plotly_settings_lice"]["lice_line_fig"] = fig_lice
 
+def setup_weather_line(state):
+    if not state["temporary_vars"]["selected_locality"]:
+        state['raiseEmptyFieldWarning'] = True
+        return
+    state['raiseEmptyFieldWarning'] = False
+
+    locality = state["temporary_vars"]["selected_locality"]
+    year = state["plotly_settings_fish"]["selected_fish_year_plotly"]
+    weather_type = state["plotly_settings_weather"]["selected_weather_type"]["0"]
+    weather_data = state["data"]["weather"].copy()
+
+    selected_data = weather_data[(weather_data['localityno'] == locality) & (weather_data['year'] == year)]
+
+    fig_weather = px.line(selected_data, x='week', y= weather_type, 
+                title='Average weather across weeks',
+                markers=True)
+    fig_weather.update_xaxes(tickangle=0,
+                          tickmode = 'array',
+                          tickvals = np.arange(0, 52, 4))
+    
+    state["plotly_settings_weather"]["weather_line_fig"] = fig_weather
+
+def update_weather_line(state, payload):
+    
+        locality = state["temporary_vars"]["selected_locality"]
+        year = state["plotly_settings_fish"]["selected_fish_year_plotly"]
+        weather_type = state["plotly_settings_weather"]["selected_weather_type"][payload]
+        weather_data = state["data"]["weather"].copy()
+    
+        selected_data = weather_data[(weather_data['localityno'] == locality) & (weather_data['year'] == year)]
+    
+        fig_weather = px.line(selected_data, x='week', y= weather_type, 
+                    title='Average weather across weeks',
+                    markers=True)
+        fig_weather.update_xaxes(tickangle=0,
+                            tickmode = 'array',
+                            tickvals = np.arange(0, 52, 4))
+        
+        state["plotly_settings_weather"]["weather_line_fig"] = fig_weather
+
 initial_state = ss.init_state({
     "data": {
         "fish": _get_df(table_name = 'fish_data_full'),
-        "lice": _get_df(table_name = 'lice_data_full').sort_values(by=['week']).reset_index(drop=True)
+        "lice": _get_df(table_name = 'lice_data_full').sort_values(by=['week']).reset_index(drop=True),
+        "weather": _get_df(table_name = 'weekly_weather_data')
     },
     "button_management":{
         "ListFishYearsButtonClicked":False,
@@ -373,7 +452,13 @@ initial_state = ss.init_state({
                                                     "1": "avgmobilelice",
                                                     "2": "avgstationarylice"},
                              "lice_line_fig": None
-    }
+    },
+    "plotly_settings_weather": {"selected_weather_type": {"0": "temperature",
+                                                          "1": "precipitation",
+                                                          "2": "wind_speed",
+                                                          "3": "humidity"},
+                                "weather_line_fig": None
+        }
 })
 
 # Set clickable cursor

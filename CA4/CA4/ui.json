@@ -1166,7 +1166,7 @@
             "id": "mhzehjvjt53j5cyh",
             "type": "section",
             "content": {
-                "title": "Download data for selected locality?",
+                "title": "",
                 "snapMode": "no"
             },
             "parentId": "s64vzax7lnoiup2v",
@@ -1181,7 +1181,7 @@
                 "message": "% Downloading data for locality @{temporary_vars.selected_locality}. This can take a few seconds."
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 1,
+            "position": 4,
             "handlers": {},
             "visible": "messages.raiseLoading"
         },
@@ -1192,7 +1192,7 @@
                 "message": "! Data for this locality already exists."
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 2,
+            "position": 5,
             "handlers": {},
             "visible": "messages.raiseDataExistWarning"
         },
@@ -1203,7 +1203,7 @@
                 "message": "+ Data downloaded"
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 3,
+            "position": 6,
             "handlers": {},
             "visible": "messages.raiseSuccess"
         },
@@ -1214,7 +1214,7 @@
                 "message": "! Error writing to database. Could be faulty columns."
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 4,
+            "position": 7,
             "handlers": {},
             "visible": "messages.raiseWriteDBError"
         },
@@ -1225,7 +1225,7 @@
                 "message": "- Fetching data failed. Could be that data is unavailable for this locality/year.."
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 5,
+            "position": 8,
             "handlers": {},
             "visible": "messages.raiseFetchDataError"
         },
@@ -1236,7 +1236,7 @@
                 "message": "! No data available for this locality. "
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 6,
+            "position": 9,
             "handlers": {},
             "visible": "messages.raiseNoDataError"
         },
@@ -1249,7 +1249,7 @@
                 "icon": "check"
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 0,
+            "position": 1,
             "handlers": {
                 "ss-click": "write_lice_data"
             },
@@ -1262,7 +1262,7 @@
                 "message": "! You have to click a locality."
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 7,
+            "position": 10,
             "handlers": {},
             "visible": "messages.raiseEmptyFieldWarning"
         },
@@ -1361,22 +1361,22 @@
         "i88ffxw4i31cvklz": {
             "id": "i88ffxw4i31cvklz",
             "type": "section",
-            "parentId": "v8xm3ouch0rovicf",
             "content": {
                 "title": "",
                 "snapMode": "no"
             },
-            "handlers": {},
+            "parentId": "v8xm3ouch0rovicf",
             "position": 0,
+            "handlers": {},
             "visible": true
         },
         "5579pun4xgxro4lo": {
             "id": "5579pun4xgxro4lo",
             "type": "separator",
-            "parentId": "i88ffxw4i31cvklz",
             "content": {},
-            "handlers": {},
+            "parentId": "i88ffxw4i31cvklz",
             "position": 1,
+            "handlers": {},
             "visible": true
         },
         "rokuvyi3ywdseivu": {
@@ -1392,6 +1392,45 @@
             "handlers": {
                 "ss-click": "$goToPage_data_info"
             },
+            "visible": true
+        },
+        "7e9byg47hhapdakm": {
+            "id": "7e9byg47hhapdakm",
+            "type": "button",
+            "content": {
+                "text": "Download",
+                "buttonColor": "#37ff00",
+                "icon": "check"
+            },
+            "parentId": "mhzehjvjt53j5cyh",
+            "position": 3,
+            "handlers": {
+                "ss-click": "write_weather_data"
+            },
+            "visible": true
+        },
+        "xcu6nxiuzebx6467": {
+            "id": "xcu6nxiuzebx6467",
+            "type": "text",
+            "parentId": "mhzehjvjt53j5cyh",
+            "content": {
+                "text": "## Download lice data for selected locality?",
+                "useMarkdown": "yes"
+            },
+            "handlers": {},
+            "position": 0,
+            "visible": true
+        },
+        "cmp7vn98511ofuhz": {
+            "id": "cmp7vn98511ofuhz",
+            "type": "text",
+            "parentId": "mhzehjvjt53j5cyh",
+            "content": {
+                "text": "## Download weather data for selected locality?",
+                "useMarkdown": "yes"
+            },
+            "handlers": {},
+            "position": 2,
             "visible": true
         }
     }
