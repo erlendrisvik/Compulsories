@@ -451,10 +451,8 @@ def set_threshold(state, payload):
     fig_lice.layout = {}    
     fig_lice.add_hline(y=payload, line_dash="dot")
     if np.nanmax(selected_data[lice_type]) > payload:
-        print("yes")
         state["messages"]["raiseThresholdWarning"] = True
     else:
-        print("no")
         state["messages"]["raiseThresholdWarning"] = False
 
     state["plotly_settings_lice"]["lice_line_fig"] = fig_lice

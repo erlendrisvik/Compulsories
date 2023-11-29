@@ -946,7 +946,7 @@
                 "snapMode": "no"
             },
             "parentId": "8jj8dznv8ofi5e2q",
-            "position": 1,
+            "position": 2,
             "handlers": {},
             "visible": true
         },
@@ -954,7 +954,7 @@
             "id": "ri6ve46o4vvjpgjn",
             "type": "text",
             "content": {
-                "text": "- All computationally heavy parts are handled during initialization. For example, loading data, setting up spark etc.\n- All state variables are stored as None or pre-defined during initialization so that it is easy to find their names. They are also nested in dictionaries.\n- Only runs computationally heavy functions when needed.\n  -  For example: clicking on a locality or downloading data doesn't update the available years to plot. This only happens when you click on the \"Lice graph\" page.\n- Data only gets downloaded if it's not in the database. \n  - Errors are raised when it is unavailable.",
+                "text": "- All computationally heavy parts are handled during initialization. For example, loading data, setting up spark etc.\n- All state variables are stored as None or pre-defined during initialization so that it is easy to find their names. They are also nested in dictionaries.\n- Only runs computationally heavy functions when needed.\n  -  For example: clicking on a locality or downloading data doesn't update the available years to plot. This only happens when you click on the \"Lice graph\" page.\n  -  Another example: Clicking on an available locality doesn't plot the graphs of lice in the background, in case the user wants to click on different points.\n- Data only gets downloaded if it's not in the database. \n- Warnings, errors and info is raised if required:\n     - Warning if data is unavailable.\n    - Warning if data exists.\n    - Error if it cannot write to database.\n    - Error if it's unable to fetch data from the API.\n    - Loading icon when downloading. \n    - Success when its downloaded. \n",
                 "useMarkdown": "yes"
             },
             "parentId": "tjshjnvaczzc0ipy",
@@ -1000,6 +1000,30 @@
             "position": 3,
             "handlers": {},
             "visible": "messages.raiseThresholdWarning"
+        },
+        "8p9qnvyw5zjucu4y": {
+            "id": "8p9qnvyw5zjucu4y",
+            "type": "section",
+            "parentId": "8jj8dznv8ofi5e2q",
+            "content": {
+                "title": "How to use",
+                "snapMode": "no"
+            },
+            "handlers": {},
+            "position": 1,
+            "visible": true
+        },
+        "78kqikq7z41uuyzk": {
+            "id": "78kqikq7z41uuyzk",
+            "type": "text",
+            "parentId": "8p9qnvyw5zjucu4y",
+            "content": {
+                "text": "Page 1: \n- The first page \"Fish graphs\" gives a map of all localities. Clicking on a locality will zoom the map in to that locality and increase the point size.\n- It shows various statistics for the currently selected year. The year can be changed using the dropdown menu.\n  - If another year is required, it can be downloaded using the slider.\n- Clicking on a locality gives you the option to download lice data and weather data.\n  - The weather data is only downloaded if its less than 50 km away in distance. \n  - If *both* lice and weather data is available, it can be accessed in the \"Lice graphs\" page.\n\nPage 2:\n- The second page contains plots related to the selected locality. \n- It is possible to select a year and locality of available data that is already downloaded instead of using the map.\n- Using dropdown menus, you can select which lice type to plot and what kind of weather.\n- Depending on the selected variables, you can also predict the selected lice type using an Arimax model with the selected weather as exogenous variable.\n  - A 1 step ahead forecast graph is available.\n ",
+                "useMarkdown": "yes"
+            },
+            "handlers": {},
+            "position": 0,
+            "visible": true
         }
     }
 }
