@@ -395,10 +395,13 @@ def get_daily_data(df, localityno, year):
         df3['localityno'] = localityno
         return df3
     
-def convert_to_weekly_data(weather_data):
+def convert_to_weekly_data(weather_data, year):
     weather_data['date'] = pd.to_datetime(weather_data['date'])
     weather_data['week'] = weather_data['date'].dt.isocalendar().week
     weather_data['year'] = weather_data['date'].dt.isocalendar().year
+    # drop the rows where year is not the same as the input year
+    weather_data = weather_data.drop(weather_data[weather_data['year'] != year].index).reset_index(drop=True)
+    
 
     # create the weekly_weather_data_mean DataFrame where we aggregate by weekly means
     weekly_weather_data_mean = pd.DataFrame()
@@ -452,7 +455,7 @@ def get_one_year_weather_data(df, locality, year):
         raise NoDataError
     
     try: 
-        weekly_data = convert_to_weekly_data(df)
+        weekly_data = convert_to_weekly_data(df, year)
     except:
         raise NoDataError("No data available")
     try:

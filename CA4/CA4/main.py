@@ -328,6 +328,7 @@ def update_fish_histogram(state):
     state["plotly_settings_fish"]["fish_histogram"] = fig_hist
 
 def setup_lice_counts_line(state):
+    
     if not state["temporary_vars"]["selected_locality"]:
         # setup an empty figure
         fig_lice = px.line(title='Average lice count across weeks',
@@ -433,6 +434,8 @@ def join_lice_weather(state):
     state["data"]["joined_data"] = data
 
 def list_available_lice_weather_years(state):
+    join_lice_weather(state)
+
     years = state['data']['joined_data']['year'].unique()
     years = sorted(years, reverse=True)
     columns_dict = dict(enumerate(years))
@@ -442,7 +445,7 @@ def list_available_lice_weather_years(state):
 
 def set_selected_lice_weather_year(state, payload):
     state['temporary_vars']['selected_lice_weather_year'] = None
-    state['temporary_vars']['selected_lice_weather_year'] = payload
+    state['temporary_vars']['selected_lice_weather_year'] = state['variable_vars']['available_lice_weather_years'][payload]
     list_available_lice_weather_localities(state)
 
 def list_available_lice_weather_localities(state):
@@ -458,7 +461,16 @@ def list_available_lice_weather_localities(state):
 
 def set_selected_lice_weather_locality(state, payload):
     state['temporary_vars']['selected_lice_weather_locality'] = None
-    state['temporary_vars']['selected_lice_weather_locality'] = payload
+    state['temporary_vars']['selected_lice_weather_locality'] = state['variable_vars']['available_localities_in_selected_year'][payload]
+    update_lice_and_weather(state)
+
+def update_lice_and_weather(state):
+    state["temporary_vars"]["selected_locality"] = state["temporary_vars"]["selected_lice_weather_locality"]
+    state["plotly_settings_fish"]["selected_fish_year_plotly"] = state["temporary_vars"]["selected_lice_weather_year"]
+    setup_lice_counts_line(state)
+    setup_weather_line(state)
+
+
 
 initial_state = ss.init_state({
     "data": {

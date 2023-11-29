@@ -129,7 +129,7 @@
             "position": 1,
             "handlers": {
                 "ss-click": "$goToPage_lice_graphs",
-                "click": "setup_weather_line"
+                "click": "list_available_lice_weather_years"
             },
             "visible": true
         },
@@ -1271,7 +1271,7 @@
             "type": "columns",
             "content": {},
             "parentId": "u0tkbdopgbrm0pms",
-            "position": 0,
+            "position": 1,
             "handlers": {},
             "visible": true
         },
@@ -1301,7 +1301,7 @@
             "id": "zw2slvdxsxhvkon0",
             "type": "section",
             "content": {
-                "title": "Lice plot from locality @{plotly_settings_fish.selected_name}",
+                "title": "",
                 "snapMode": "no"
             },
             "parentId": "nnmj6li27ytfro6f",
@@ -1333,17 +1333,6 @@
             "position": 1,
             "handlers": {},
             "visible": true
-        },
-        "2ob01gox81hw6jo4": {
-            "id": "2ob01gox81hw6jo4",
-            "type": "message",
-            "content": {
-                "message": "! Select a locality on the map to graph."
-            },
-            "parentId": "zw2slvdxsxhvkon0",
-            "position": 2,
-            "handlers": {},
-            "visible": "raiseEmptyFieldWarning"
         },
         "6tyd42tqcgknyshe": {
             "id": "6tyd42tqcgknyshe",
@@ -1470,16 +1459,68 @@
             "handlers": {},
             "visible": true
         },
-        "9lpifgi4jbmyyjet": {
-            "id": "9lpifgi4jbmyyjet",
-            "type": "message",
+        "4gfrsdp5632ami05": {
+            "id": "4gfrsdp5632ami05",
+            "type": "section",
             "content": {
-                "message": "! Select a locality on the map to graph."
+                "title": "List available data",
+                "snapMode": "no"
             },
-            "parentId": "5fysek44ta35kq29",
-            "position": 2,
+            "parentId": "u0tkbdopgbrm0pms",
+            "position": 0,
             "handlers": {},
-            "visible": "raiseEmptyFieldWarning"
+            "visible": true
+        },
+        "p5bp2qwxlsg43l56": {
+            "id": "p5bp2qwxlsg43l56",
+            "type": "dropdowninput",
+            "content": {
+                "label": "Select year:",
+                "options": "@{variable_vars.available_lice_weather_years}"
+            },
+            "parentId": "4gfrsdp5632ami05",
+            "position": 0,
+            "handlers": {
+                "ss-option-change": "set_selected_lice_weather_year"
+            },
+            "visible": true
+        },
+        "1acvfj1w8uw6kgzo": {
+            "id": "1acvfj1w8uw6kgzo",
+            "type": "dropdowninput",
+            "content": {
+                "label": "Select localityno",
+                "options": "@{variable_vars.available_localities_in_selected_year}"
+            },
+            "parentId": "4gfrsdp5632ami05",
+            "position": 1,
+            "handlers": {
+                "ss-option-change": "set_selected_lice_weather_locality"
+            },
+            "visible": true
+        },
+        "x3kcpv6juitjx13t": {
+            "id": "x3kcpv6juitjx13t",
+            "type": "section",
+            "content": {
+                "title": "",
+                "snapMode": "no"
+            },
+            "parentId": "14xzl676xcdw0ebb",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "d0tisyt5brs59pjy": {
+            "id": "d0tisyt5brs59pjy",
+            "type": "dataframe",
+            "content": {
+                "dataframe": "@{data.joined_data}"
+            },
+            "parentId": "x3kcpv6juitjx13t",
+            "position": 0,
+            "handlers": {},
+            "visible": true
         }
     }
 }
