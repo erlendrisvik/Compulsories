@@ -35,17 +35,6 @@
             "handlers": {},
             "visible": true
         },
-        "926hhfmdxsy36uq3": {
-            "id": "926hhfmdxsy36uq3",
-            "type": "page",
-            "content": {
-                "key": "data_info"
-            },
-            "parentId": "root",
-            "position": 2,
-            "handlers": {},
-            "visible": true
-        },
         "u0tkbdopgbrm0pms": {
             "id": "u0tkbdopgbrm0pms",
             "type": "section",
@@ -147,21 +136,6 @@
                 "ss-click": "$goToPage_fish_graphs"
             }
         },
-        "zzo27pimgx5cd09a": {
-            "id": "zzo27pimgx5cd09a",
-            "type": "text",
-            "content": {
-                "text": "# Data Info",
-                "useMarkdown": "yes",
-                "cssClasses": ""
-            },
-            "parentId": "qdt2osq4a109pr8c",
-            "position": 2,
-            "handlers": {
-                "ss-click": "$goToPage_data_info"
-            },
-            "visible": true
-        },
         "xdilevfyz51t4rmh": {
             "id": "xdilevfyz51t4rmh",
             "type": "section",
@@ -178,12 +152,12 @@
             "id": "e1lj2pj1v8ojk6f0",
             "type": "text",
             "content": {
-                "text": "# Add data to DB",
+                "text": "# Info",
                 "useMarkdown": "yes",
                 "cssClasses": "cursor"
             },
             "parentId": "qdt2osq4a109pr8c",
-            "position": 3,
+            "position": 2,
             "handlers": {
                 "ss-click": "$goToPage_add_to_db"
             },
@@ -277,31 +251,16 @@
                 "ss-click": "$goToPage_fish_graphs"
             }
         },
-        "plt7r1ruq2utiqqx": {
-            "id": "plt7r1ruq2utiqqx",
-            "type": "text",
-            "content": {
-                "text": "# Data Info",
-                "useMarkdown": "yes",
-                "cssClasses": ""
-            },
-            "parentId": "6f0lnofkm2ozva3e",
-            "position": 2,
-            "handlers": {
-                "ss-click": "$goToPage_data_info"
-            },
-            "visible": true
-        },
         "eyrfh7ah4jpe32kf": {
             "id": "eyrfh7ah4jpe32kf",
             "type": "text",
             "content": {
-                "text": "# Add data to DB",
+                "text": "# Info",
                 "useMarkdown": "yes",
                 "cssClasses": "cursor"
             },
             "parentId": "6f0lnofkm2ozva3e",
-            "position": 3,
+            "position": 2,
             "handlers": {
                 "ss-click": "$goToPage_add_to_db"
             },
@@ -314,112 +273,9 @@
                 "key": "add_to_db"
             },
             "parentId": "root",
-            "position": 3,
+            "position": 2,
             "handlers": {
                 "ss-page-open": "clean_messages_not_loading"
-            },
-            "visible": true
-        },
-        "zdufudxnw3pnw7up": {
-            "id": "zdufudxnw3pnw7up",
-            "type": "sidebar",
-            "content": {
-                "sidebarBackgroundColor": "#cfcfcf",
-                "cssClasses": ""
-            },
-            "parentId": "926hhfmdxsy36uq3",
-            "position": -2,
-            "handlers": {},
-            "visible": true
-        },
-        "xsiahsvol8qvs3by": {
-            "id": "xsiahsvol8qvs3by",
-            "type": "header",
-            "content": {
-                "text": "Navigation Menu",
-                "accentColor": "#000000",
-                "cssClasses": ""
-            },
-            "parentId": "zdufudxnw3pnw7up",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "nbjeg5lbaias9qcz": {
-            "id": "nbjeg5lbaias9qcz",
-            "type": "separator",
-            "content": {},
-            "parentId": "zdufudxnw3pnw7up",
-            "position": 1,
-            "handlers": {},
-            "visible": true
-        },
-        "sgob0avdmpthdpgs": {
-            "id": "sgob0avdmpthdpgs",
-            "type": "columns",
-            "content": {
-                "cssClasses": "cursor"
-            },
-            "parentId": "zdufudxnw3pnw7up",
-            "position": 2,
-            "handlers": {},
-            "visible": true
-        },
-        "siah7nyrpfapg202": {
-            "id": "siah7nyrpfapg202",
-            "type": "column",
-            "content": {
-                "title": "",
-                "width": "2",
-                "isSticky": "no",
-                "cssClasses": ""
-            },
-            "parentId": "sgob0avdmpthdpgs",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "cakp6kiwer4qsju4": {
-            "id": "cakp6kiwer4qsju4",
-            "type": "text",
-            "content": {
-                "text": "# Lice graphs",
-                "useMarkdown": "yes",
-                "cssClasses": ""
-            },
-            "parentId": "siah7nyrpfapg202",
-            "position": 1,
-            "handlers": {
-                "ss-click": "$goToPage_lice_graphs"
-            },
-            "visible": true
-        },
-        "4faadb3qy9feubq0": {
-            "id": "4faadb3qy9feubq0",
-            "type": "text",
-            "content": {
-                "text": "# Fish graphs",
-                "useMarkdown": "yes",
-                "cssClasses": "cursor"
-            },
-            "parentId": "siah7nyrpfapg202",
-            "position": 0,
-            "handlers": {
-                "ss-click": "$goToPage_fish_graphs"
-            }
-        },
-        "eflsy0vkj1du7dg7": {
-            "id": "eflsy0vkj1du7dg7",
-            "type": "text",
-            "content": {
-                "text": "# Add data to DB",
-                "useMarkdown": "yes",
-                "cssClasses": "cursor"
-            },
-            "parentId": "siah7nyrpfapg202",
-            "position": 3,
-            "handlers": {
-                "ss-click": "$goToPage_add_to_db"
             },
             "visible": true
         },
@@ -511,31 +367,16 @@
                 "ss-click": "$goToPage_fish_graphs"
             }
         },
-        "6z0cxgulqdwpr6hu": {
-            "id": "6z0cxgulqdwpr6hu",
-            "type": "text",
-            "content": {
-                "text": "# Data Info",
-                "useMarkdown": "yes",
-                "cssClasses": ""
-            },
-            "parentId": "96oqmpjoyw9nycjr",
-            "position": 2,
-            "handlers": {
-                "ss-click": "$goToPage_data_info"
-            },
-            "visible": true
-        },
         "5aej7i4k6isrf0yj": {
             "id": "5aej7i4k6isrf0yj",
             "type": "text",
             "content": {
-                "text": "# Add data to DB",
+                "text": "# Info",
                 "useMarkdown": "yes",
                 "cssClasses": "cursor"
             },
             "parentId": "96oqmpjoyw9nycjr",
-            "position": 3,
+            "position": 2,
             "handlers": {
                 "ss-click": "$goToPage_add_to_db"
             },
@@ -545,7 +386,7 @@
             "id": "2dz4t0cdz0p6t78v",
             "type": "section",
             "content": {
-                "title": "Section Title",
+                "title": "",
                 "snapMode": "no"
             },
             "parentId": "8jj8dznv8ofi5e2q",
@@ -557,365 +398,13 @@
             "id": "5oenbkyp0ynufz8v",
             "type": "header",
             "content": {
-                "text": "Writing to database"
+                "text": "Info",
+                "accentColor": "#000000"
             },
             "parentId": "2dz4t0cdz0p6t78v",
             "position": 0,
             "handlers": {},
             "visible": true
-        },
-        "5ufmm1k35l4h9bf3": {
-            "id": "5ufmm1k35l4h9bf3",
-            "type": "section",
-            "content": {
-                "title": "Data info",
-                "snapMode": "no"
-            },
-            "parentId": "8jj8dznv8ofi5e2q",
-            "position": 1,
-            "handlers": {},
-            "visible": true
-        },
-        "i4q6pw6tj6umk8fg": {
-            "id": "i4q6pw6tj6umk8fg",
-            "type": "tabs",
-            "content": {},
-            "parentId": "5ufmm1k35l4h9bf3",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "i2nhz6z5pgjigtdj": {
-            "id": "i2nhz6z5pgjigtdj",
-            "type": "tab",
-            "content": {
-                "name": "Fish data"
-            },
-            "parentId": "i4q6pw6tj6umk8fg",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "8506jwsk2iistbyd": {
-            "id": "8506jwsk2iistbyd",
-            "type": "tab",
-            "content": {
-                "name": "Lice data"
-            },
-            "parentId": "i4q6pw6tj6umk8fg",
-            "position": 1,
-            "handlers": {},
-            "visible": true
-        },
-        "awh6w5jrcsi307nr": {
-            "id": "awh6w5jrcsi307nr",
-            "type": "columns",
-            "content": {},
-            "parentId": "i2nhz6z5pgjigtdj",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "dz8smcyzj94x7yau": {
-            "id": "dz8smcyzj94x7yau",
-            "type": "column",
-            "content": {
-                "width": "1"
-            },
-            "parentId": "awh6w5jrcsi307nr",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "ndaup38np8fur8sa": {
-            "id": "ndaup38np8fur8sa",
-            "type": "button",
-            "content": {
-                "text": "List all years",
-                "icon": "file-list"
-            },
-            "parentId": "dz8smcyzj94x7yau",
-            "position": 0,
-            "handlers": {
-                "ss-click": "show_fish_years_button"
-            },
-            "visible": true
-        },
-        "6hzwjwl225mj70iv": {
-            "id": "6hzwjwl225mj70iv",
-            "type": "separator",
-            "content": {},
-            "parentId": "i2nhz6z5pgjigtdj",
-            "position": 1,
-            "handlers": {},
-            "visible": true
-        },
-        "7297gktb7v7t4mtd": {
-            "id": "7297gktb7v7t4mtd",
-            "type": "section",
-            "content": {
-                "title": "Fish data currently stored for the years:",
-                "snapMode": "no"
-            },
-            "parentId": "dz8smcyzj94x7yau",
-            "position": 1,
-            "handlers": {},
-            "visible": "button_management.ListFishYearsButtonClicked"
-        },
-        "hgnfga09xyhcof9n": {
-            "id": "hgnfga09xyhcof9n",
-            "type": "repeater",
-            "content": {
-                "repeaterObject": "@{variable_vars.available_fish_years}",
-                "keyVariable": "itemId",
-                "valueVariable": "item"
-            },
-            "parentId": "7297gktb7v7t4mtd",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "11fz3hqv816oqdui": {
-            "id": "11fz3hqv816oqdui",
-            "type": "text",
-            "content": {
-                "text": "* @{item}",
-                "useMarkdown": "yes"
-            },
-            "parentId": "hgnfga09xyhcof9n",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "bke379pbuj6lvh1v": {
-            "id": "bke379pbuj6lvh1v",
-            "type": "columns",
-            "content": {},
-            "parentId": "8506jwsk2iistbyd",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "3qn1q2bds2qsbdin": {
-            "id": "3qn1q2bds2qsbdin",
-            "type": "column",
-            "content": {
-                "width": "1"
-            },
-            "parentId": "bke379pbuj6lvh1v",
-            "position": 1,
-            "handlers": {},
-            "visible": true
-        },
-        "ff4d8e9cfhjfc6mm": {
-            "id": "ff4d8e9cfhjfc6mm",
-            "type": "button",
-            "content": {
-                "text": "List all localities"
-            },
-            "parentId": "3qn1q2bds2qsbdin",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "qxgiv0abda1tkhn4": {
-            "id": "qxgiv0abda1tkhn4",
-            "type": "column",
-            "content": {
-                "width": "1"
-            },
-            "parentId": "bke379pbuj6lvh1v",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "0kqdrqe6x7blbqao": {
-            "id": "0kqdrqe6x7blbqao",
-            "type": "button",
-            "content": {
-                "text": "List all years",
-                "icon": "file-list"
-            },
-            "parentId": "qxgiv0abda1tkhn4",
-            "position": 0,
-            "handlers": {
-                "ss-click": "list_lice_years_and_locality"
-            },
-            "visible": true
-        },
-        "cx0xt6ow3lauhy3e": {
-            "id": "cx0xt6ow3lauhy3e",
-            "type": "section",
-            "content": {
-                "title": "Lice data currently stored for the years and localities:",
-                "snapMode": "no"
-            },
-            "parentId": "qxgiv0abda1tkhn4",
-            "position": 1,
-            "handlers": {},
-            "visible": "button_management.show_lice_years"
-        },
-        "clke9tdyjhitgbcg": {
-            "id": "clke9tdyjhitgbcg",
-            "type": "repeater",
-            "content": {
-                "repeaterObject": "@{lice_years_and_locality}",
-                "keyVariable": "itemId",
-                "valueVariable": "item"
-            },
-            "parentId": "cx0xt6ow3lauhy3e",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "sjdt8qeinaxcl4cv": {
-            "id": "sjdt8qeinaxcl4cv",
-            "type": "text",
-            "content": {
-                "text": "* Year @{item.year} and locality @{item.localityno}",
-                "useMarkdown": "yes"
-            },
-            "parentId": "clke9tdyjhitgbcg",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "ox536sib175rwxng": {
-            "id": "ox536sib175rwxng",
-            "type": "section",
-            "content": {
-                "title": "Data info",
-                "snapMode": "no"
-            },
-            "parentId": "8jj8dznv8ofi5e2q",
-            "position": 2,
-            "handlers": {},
-            "visible": true
-        },
-        "mb2hp9ey195uf4g1": {
-            "id": "mb2hp9ey195uf4g1",
-            "type": "tabs",
-            "content": {},
-            "parentId": "ox536sib175rwxng",
-            "position": 0,
-            "handlers": {},
-            "visible": true
-        },
-        "8exqcbanhtz2ugxg": {
-            "id": "8exqcbanhtz2ugxg",
-            "type": "tab",
-            "content": {
-                "name": "Fish data"
-            },
-            "parentId": "mb2hp9ey195uf4g1",
-            "position": 0,
-            "visible": true
-        },
-        "0kfej58tem3hlnb9": {
-            "id": "0kfej58tem3hlnb9",
-            "type": "numberinput",
-            "content": {
-                "label": "Year:",
-                "placeholder": "e.g. 2015"
-            },
-            "parentId": "8exqcbanhtz2ugxg",
-            "position": 0,
-            "handlers": {
-                "ss-number-change-finish": "store_selected_fish_year"
-            },
-            "visible": true
-        },
-        "acytiorrmz9dav6m": {
-            "id": "acytiorrmz9dav6m",
-            "type": "button",
-            "content": {
-                "text": "Download",
-                "buttonColor": "#37ff00",
-                "icon": "check"
-            },
-            "parentId": "8exqcbanhtz2ugxg",
-            "position": 1,
-            "handlers": {
-                "ss-click": "write_fish_data"
-            },
-            "visible": true
-        },
-        "hr249ikk0opeynnb": {
-            "id": "hr249ikk0opeynnb",
-            "type": "message",
-            "content": {
-                "message": "! You have to specify a year."
-            },
-            "parentId": "8exqcbanhtz2ugxg",
-            "position": 3,
-            "handlers": {},
-            "visible": "messages.raiseEmptyFieldWarning"
-        },
-        "lf4ymcmgf4jkgig5": {
-            "id": "lf4ymcmgf4jkgig5",
-            "type": "message",
-            "content": {
-                "message": "% downloading data. This can take a few minutes."
-            },
-            "parentId": "8exqcbanhtz2ugxg",
-            "position": 2,
-            "handlers": {},
-            "visible": "messages.raiseLoading"
-        },
-        "kxwvfa0pod1mwrnx": {
-            "id": "kxwvfa0pod1mwrnx",
-            "type": "message",
-            "content": {
-                "message": "+ Data downloaded"
-            },
-            "parentId": "8exqcbanhtz2ugxg",
-            "position": 4,
-            "handlers": {},
-            "visible": "messages.raiseSuccess"
-        },
-        "nq3uryzyq565g3ko": {
-            "id": "nq3uryzyq565g3ko",
-            "type": "message",
-            "content": {
-                "message": "- Fetching data failed. Could be that data is unavailable for this year."
-            },
-            "parentId": "8exqcbanhtz2ugxg",
-            "position": 5,
-            "handlers": {},
-            "visible": "messages.raiseFetchDataError"
-        },
-        "sky0fg1skugfwljl": {
-            "id": "sky0fg1skugfwljl",
-            "type": "message",
-            "content": {
-                "message": "! Data for this year already exists."
-            },
-            "parentId": "8exqcbanhtz2ugxg",
-            "position": 6,
-            "handlers": {},
-            "visible": "messages.raiseDataExistWarning"
-        },
-        "oyra6ieemod9ke0m": {
-            "id": "oyra6ieemod9ke0m",
-            "type": "message",
-            "content": {
-                "message": "! Error writing to database. Could be faulty columns."
-            },
-            "parentId": "8exqcbanhtz2ugxg",
-            "position": 7,
-            "handlers": {},
-            "visible": "messages.raiseWriteDBError"
-        },
-        "zgfpdn8btao5qrg1": {
-            "id": "zgfpdn8btao5qrg1",
-            "type": "message",
-            "content": {
-                "message": "! The selected year is invalid."
-            },
-            "parentId": "8exqcbanhtz2ugxg",
-            "position": 8,
-            "handlers": {},
-            "visible": "messages.raiseInvalidYearWarning"
         },
         "7kx8yb67baffbx2i": {
             "id": "7kx8yb67baffbx2i",
@@ -990,130 +479,6 @@
             },
             "visible": true
         },
-        "6se8oonvc1lzckf3": {
-            "id": "6se8oonvc1lzckf3",
-            "type": "tab",
-            "content": {
-                "name": "Lice data"
-            },
-            "parentId": "mb2hp9ey195uf4g1",
-            "position": 1,
-            "visible": true
-        },
-        "lxfnc94bmph6fhr2": {
-            "id": "lxfnc94bmph6fhr2",
-            "type": "numberinput",
-            "content": {
-                "label": "Year:",
-                "placeholder": "e.g. 2015"
-            },
-            "parentId": "6se8oonvc1lzckf3",
-            "position": 0,
-            "handlers": {
-                "ss-number-change-finish": "store_selected_lice_year"
-            },
-            "visible": true
-        },
-        "r8ab7s888gqu5xgc": {
-            "id": "r8ab7s888gqu5xgc",
-            "type": "button",
-            "content": {
-                "text": "Download",
-                "buttonColor": "#37ff00",
-                "icon": "check"
-            },
-            "parentId": "6se8oonvc1lzckf3",
-            "position": 2,
-            "visible": true
-        },
-        "fjhhvrgb2yw6kchn": {
-            "id": "fjhhvrgb2yw6kchn",
-            "type": "message",
-            "content": {
-                "message": "! You have to specify a year."
-            },
-            "parentId": "6se8oonvc1lzckf3",
-            "position": 4,
-            "handlers": {},
-            "visible": "messages.raiseEmptyFieldWarning"
-        },
-        "43aqtubtqw5p6fyv": {
-            "id": "43aqtubtqw5p6fyv",
-            "type": "message",
-            "content": {
-                "message": "% downloading data. This can take a few minutes."
-            },
-            "parentId": "6se8oonvc1lzckf3",
-            "position": 3,
-            "handlers": {},
-            "visible": "messages.raiseLoading"
-        },
-        "9vpterjfzujv3fth": {
-            "id": "9vpterjfzujv3fth",
-            "type": "message",
-            "content": {
-                "message": "+ Data downloaded"
-            },
-            "parentId": "6se8oonvc1lzckf3",
-            "position": 5,
-            "handlers": {},
-            "visible": "messages.raiseSuccess"
-        },
-        "ilom9htzgmufhb9j": {
-            "id": "ilom9htzgmufhb9j",
-            "type": "message",
-            "content": {
-                "message": "- Fetching data failed. Could be that data is unavailable for this year."
-            },
-            "parentId": "6se8oonvc1lzckf3",
-            "position": 6,
-            "handlers": {},
-            "visible": "messages.raiseFetchDataError"
-        },
-        "2goewz5bt27rab4o": {
-            "id": "2goewz5bt27rab4o",
-            "type": "message",
-            "content": {
-                "message": "! Data for this year already exists."
-            },
-            "parentId": "6se8oonvc1lzckf3",
-            "position": 7,
-            "handlers": {},
-            "visible": "messages.raiseDataExistWarning"
-        },
-        "4mh8ornrphn9j6o0": {
-            "id": "4mh8ornrphn9j6o0",
-            "type": "message",
-            "content": {
-                "message": "! Error writing to database. Could be faulty columns."
-            },
-            "parentId": "6se8oonvc1lzckf3",
-            "position": 8,
-            "handlers": {},
-            "visible": "messages.raiseWriteDBError"
-        },
-        "kp2rpeu559nyhl5l": {
-            "id": "kp2rpeu559nyhl5l",
-            "type": "message",
-            "content": {
-                "message": "! The selected year is invalid."
-            },
-            "parentId": "6se8oonvc1lzckf3",
-            "position": 9,
-            "handlers": {},
-            "visible": "messages.raiseInvalidYearWarning"
-        },
-        "ohrqwl3ujkh3z8uj": {
-            "id": "ohrqwl3ujkh3z8uj",
-            "type": "textinput",
-            "content": {
-                "label": "Locality",
-                "placeholder": "e.g 24175"
-            },
-            "parentId": "6se8oonvc1lzckf3",
-            "position": 1,
-            "visible": true
-        },
         "61ljjoa1rth4xy7s": {
             "id": "61ljjoa1rth4xy7s",
             "type": "plotlygraph",
@@ -1166,7 +531,7 @@
             "id": "mhzehjvjt53j5cyh",
             "type": "section",
             "content": {
-                "title": "",
+                "title": "Download  data for another year?",
                 "snapMode": "no"
             },
             "parentId": "s64vzax7lnoiup2v",
@@ -1178,10 +543,10 @@
             "id": "063gpgisdn8yxm5m",
             "type": "message",
             "content": {
-                "message": "% Downloading data for locality @{temporary_vars.selected_locality}. This can take a few seconds."
+                "message": "% Downloading data. This can take a few seconds."
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 4,
+            "position": 5,
             "handlers": {},
             "visible": "messages.raiseLoading"
         },
@@ -1189,10 +554,10 @@
             "id": "rbdd1i50c7emx8m2",
             "type": "message",
             "content": {
-                "message": "! Data for this locality already exists."
+                "message": "! Data already exists."
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 5,
+            "position": 6,
             "handlers": {},
             "visible": "messages.raiseDataExistWarning"
         },
@@ -1203,7 +568,7 @@
                 "message": "+ Data downloaded"
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 6,
+            "position": 7,
             "handlers": {},
             "visible": "messages.raiseSuccess"
         },
@@ -1214,7 +579,7 @@
                 "message": "! Error writing to database. Could be faulty columns."
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 7,
+            "position": 8,
             "handlers": {},
             "visible": "messages.raiseWriteDBError"
         },
@@ -1225,7 +590,7 @@
                 "message": "- Fetching data failed. Could be that data is unavailable for this locality/year.."
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 8,
+            "position": 9,
             "handlers": {},
             "visible": "messages.raiseFetchDataError"
         },
@@ -1236,7 +601,7 @@
                 "message": "! No data available for this locality. "
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 9,
+            "position": 10,
             "handlers": {},
             "visible": "messages.raiseNoDataError"
         },
@@ -1249,7 +614,7 @@
                 "icon": "check"
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 1,
+            "position": 2,
             "handlers": {
                 "ss-click": "write_lice_data"
             },
@@ -1262,7 +627,7 @@
                 "message": "! You have to click a locality."
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 10,
+            "position": 11,
             "handlers": {},
             "visible": "messages.raiseEmptyFieldWarning"
         },
@@ -1368,21 +733,6 @@
             "handlers": {},
             "visible": true
         },
-        "rokuvyi3ywdseivu": {
-            "id": "rokuvyi3ywdseivu",
-            "type": "text",
-            "content": {
-                "text": "# Data Info",
-                "useMarkdown": "yes",
-                "cssClasses": ""
-            },
-            "parentId": "siah7nyrpfapg202",
-            "position": 2,
-            "handlers": {
-                "ss-click": "$goToPage_data_info"
-            },
-            "visible": true
-        },
         "7e9byg47hhapdakm": {
             "id": "7e9byg47hhapdakm",
             "type": "button",
@@ -1392,7 +742,7 @@
                 "icon": "check"
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 3,
+            "position": 4,
             "handlers": {
                 "ss-click": "write_weather_data"
             },
@@ -1406,7 +756,7 @@
                 "useMarkdown": "yes"
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 0,
+            "position": 1,
             "handlers": {},
             "visible": true
         },
@@ -1418,7 +768,7 @@
                 "useMarkdown": "yes"
             },
             "parentId": "mhzehjvjt53j5cyh",
-            "position": 2,
+            "position": 3,
             "handlers": {},
             "visible": true
         },
@@ -1514,25 +864,127 @@
         "zggy10sg00afyh54": {
             "id": "zggy10sg00afyh54",
             "type": "button",
-            "parentId": "x3kcpv6juitjx13t",
             "content": {
-                "text": "Show ARIMAX coefficients"
+                "text": "Show ARIMAX parameters"
             },
+            "parentId": "x3kcpv6juitjx13t",
+            "position": 0,
             "handlers": {
                 "ss-click": "arimax"
             },
-            "position": 0,
             "visible": true
         },
         "8mg6v9tkl27acyx4": {
             "id": "8mg6v9tkl27acyx4",
             "type": "dataframe",
-            "parentId": "x3kcpv6juitjx13t",
             "content": {
                 "dataframe": "@{data.params}"
             },
-            "handlers": {},
+            "parentId": "x3kcpv6juitjx13t",
             "position": 1,
+            "handlers": {},
+            "visible": true
+        },
+        "4xvs3ml7004bemi7": {
+            "id": "4xvs3ml7004bemi7",
+            "type": "plotlygraph",
+            "content": {
+                "spec": "@{plotly_forecast.fig_forecast}"
+            },
+            "parentId": "x3kcpv6juitjx13t",
+            "position": 4,
+            "handlers": {},
+            "visible": true
+        },
+        "9bsjezw73x216ero": {
+            "id": "9bsjezw73x216ero",
+            "type": "button",
+            "content": {
+                "text": "Show 1 step ahead forecast"
+            },
+            "parentId": "x3kcpv6juitjx13t",
+            "position": 2,
+            "handlers": {
+                "ss-click": "setup_forecast"
+            },
+            "visible": true
+        },
+        "jpouqnhcgyjs5n29": {
+            "id": "jpouqnhcgyjs5n29",
+            "type": "text",
+            "content": {
+                "text": "# 1 step ahead forecast",
+                "useMarkdown": "yes"
+            },
+            "parentId": "x3kcpv6juitjx13t",
+            "position": 3,
+            "handlers": {},
+            "visible": true
+        },
+        "at6bfvbwbnb5k4xs": {
+            "id": "at6bfvbwbnb5k4xs",
+            "type": "sliderinput",
+            "content": {
+                "label": "",
+                "minValue": "2013",
+                "maxValue": "2023",
+                "stepSize": "1"
+            },
+            "parentId": "mhzehjvjt53j5cyh",
+            "position": 0,
+            "handlers": {
+                "ss-number-change": "store_selected_fish_year",
+                "click": "write_fish_data"
+            },
+            "visible": true
+        },
+        "tjshjnvaczzc0ipy": {
+            "id": "tjshjnvaczzc0ipy",
+            "type": "section",
+            "content": {
+                "title": "How does it work?",
+                "snapMode": "no"
+            },
+            "parentId": "8jj8dznv8ofi5e2q",
+            "position": 1,
+            "handlers": {},
+            "visible": true
+        },
+        "ri6ve46o4vvjpgjn": {
+            "id": "ri6ve46o4vvjpgjn",
+            "type": "text",
+            "content": {
+                "text": "- All computationally heavy "
+            },
+            "parentId": "tjshjnvaczzc0ipy",
+            "position": 0,
+            "handlers": {},
+            "visible": true
+        },
+        "v1r2vonymvq4t6z2": {
+            "id": "v1r2vonymvq4t6z2",
+            "type": "text",
+            "parentId": "4gfrsdp5632ami05",
+            "content": {
+                "text": "- Selected locality: @{temporary_vars.selected_locality} \n- Selected year: @{plotly_settings_fish.selected_fish_year_plotly}",
+                "useMarkdown": "yes"
+            },
+            "handlers": {},
+            "position": 2,
+            "visible": true
+        },
+        "vi13th1gq1thf0tt": {
+            "id": "vi13th1gq1thf0tt",
+            "type": "sliderinput",
+            "parentId": "zw2slvdxsxhvkon0",
+            "content": {
+                "label": "Input Label",
+                "minValue": "0",
+                "maxValue": "100",
+                "stepSize": "1"
+            },
+            "handlers": {},
+            "position": 2,
             "visible": true
         }
     }

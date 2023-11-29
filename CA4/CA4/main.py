@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 from cassandra.cluster import Cluster
 import statsmodels.api as sm
+import plotly.graph_objects as go
 
 # Set pyspark env
 os.environ["PYSPARK_PYTHON"] = "python"
@@ -92,6 +93,7 @@ def write_fish_data(state):
         return
     
     state['data']['fish'] = _get_df(table_name = 'fish_data_full')
+    _list_available_fish_years(state)
 
     state['messages']['raiseLoading'] = False
     state['messages']['raiseSuccess'] = True
@@ -481,17 +483,74 @@ def arimax(state):
     target = state["variable_vars"]["selected_lice_type"]
     exog = state["variable_vars"]["selected_weather_type"] 
 
-    subset = data[(data['localityno'] == locality) & (data['year'] == year)]
+    subset = data[(data['localityno'] == locality) & (data['year'] == year)].reset_index(drop=True)
 
     mod = sm.tsa.statespace.SARIMAX(endog = subset[target], exog = subset[exog],
                                 order = (1, 1, 1))
     res = mod.fit(disp = False)
 
     params = pd.DataFrame(res.params)
+    # round down params to 3 decimal places. Where exponents are very small use E notation
+    params = params.round(3) 
     params.columns = ['parameter']
     params['std'] = res.bse
     params['pvalue'] = res.pvalues
     state["data"]["params"] = params
+
+def setup_forecast(state):
+    if state['data']['params'].empty:
+        fig_lice = go.Figure()
+        state['plotly_forecast']['fig_forecast'] = fig_lice
+        return
+
+    data = state['data']['joined_data']
+    locality = state['temporary_vars']['selected_locality']
+    year = state["plotly_settings_fish"]["selected_fish_year_plotly"]
+
+    target = state["variable_vars"]["selected_lice_type"]
+    exog = state["variable_vars"]["selected_weather_type"]
+
+    subset = data[(data['localityno'] == locality) & (data['year'] == year)].reset_index(drop=True)
+
+    mod = sm.tsa.statespace.SARIMAX(endog = subset[target], exog = subset[exog],
+                                order = (1, 1, 1))
+    res = mod.fit(disp = False)
+    pred = float(res.forecast(steps = 1, exog = subset[exog].iloc[-1]))
+    next_week = subset['week'].iloc[-1] + 1
+    forecast_data = pd.DataFrame({'week': [next_week], target: [pred]})
+    plot_data = pd.concat([subset, forecast_data])
+
+    fig_lice = go.Figure()
+
+    # Add the first scatter plot (prediction)
+    fig_lice.add_trace(go.Scatter(
+        x=plot_data['week'],
+        y=plot_data[target],
+        name='Forecast',
+        mode='lines+markers',
+        marker=dict(color='red'),  
+        line=dict(color='red')  
+    ))
+
+    # Add the second scatter plot (actual data)
+    fig_lice.add_trace(go.Scatter(
+        x=subset['week'],
+        y=subset[target],
+        name='Training Data',
+        mode='lines+markers',
+        marker=dict(color='blue'),  
+        line=dict(color='blue')  
+    ))
+
+    # Customize layout (optional)
+    fig_lice.update_layout(
+        xaxis_title='Week',
+        yaxis_title=target,
+    )
+
+    fig_lice.update_xaxes(tickangle=0, tickmode='array', tickvals=np.arange(0, 52, 4))
+
+    state['plotly_forecast']['fig_forecast'] = fig_lice
 
 initial_state = ss.init_state({
     "data": {
@@ -499,7 +558,7 @@ initial_state = ss.init_state({
         "lice": _get_df(table_name = 'lice_data_full').sort_values(by=['week']).reset_index(drop=True),
         "weather": _get_df(table_name = 'weekly_weather_data').sort_values(by=['week']).reset_index(drop=True),
         "joined_data": None,
-        "params": None
+        "params": pd.DataFrame()
     },
     "button_management":{
         "ListFishYearsButtonClicked":False,
@@ -552,7 +611,8 @@ initial_state = ss.init_state({
                                                           "2": "wind_speed",
                                                           "3": "humidity"},
                                 "weather_line_fig": None
-        }
+        },
+    "plotly_forecast": {"fig_forecast": None}
 })
 
 # Set clickable cursor
@@ -568,3 +628,4 @@ join_lice_weather(initial_state)
 #_update_plotly_fish(initial_state)
 _list_available_fish_years(initial_state)
 list_available_lice_weather_years(initial_state)
+setup_forecast(initial_state)
