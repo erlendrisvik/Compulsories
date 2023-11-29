@@ -776,7 +776,7 @@
             "id": "5fysek44ta35kq29",
             "type": "section",
             "content": {
-                "title": "Weather plot from locality @{plotly_settings_fish.selected_name}",
+                "title": "Weather plot",
                 "snapMode": "no"
             },
             "parentId": "nnmj6li27ytfro6f",
@@ -954,7 +954,8 @@
             "id": "ri6ve46o4vvjpgjn",
             "type": "text",
             "content": {
-                "text": "- All computationally heavy "
+                "text": "- All computationally heavy parts are handled during initialization. For example, loading data, setting up spark etc.\n- All state variables are stored as None or pre-defined during initialization so that it is easy to find their names. They are also nested in dictionaries.\n- ",
+                "useMarkdown": "yes"
             },
             "parentId": "tjshjnvaczzc0ipy",
             "position": 0,
@@ -964,28 +965,41 @@
         "v1r2vonymvq4t6z2": {
             "id": "v1r2vonymvq4t6z2",
             "type": "text",
-            "parentId": "4gfrsdp5632ami05",
             "content": {
                 "text": "- Selected locality: @{temporary_vars.selected_locality} \n- Selected year: @{plotly_settings_fish.selected_fish_year_plotly}",
                 "useMarkdown": "yes"
             },
-            "handlers": {},
+            "parentId": "4gfrsdp5632ami05",
             "position": 2,
+            "handlers": {},
             "visible": true
         },
         "vi13th1gq1thf0tt": {
             "id": "vi13th1gq1thf0tt",
             "type": "sliderinput",
+            "content": {
+                "label": "Set threshold line",
+                "minValue": "0.01",
+                "maxValue": "1",
+                "stepSize": "0.01"
+            },
+            "parentId": "zw2slvdxsxhvkon0",
+            "position": 2,
+            "visible": true,
+            "handlers": {
+                "ss-number-change": "set_threshold"
+            }
+        },
+        "v8od8v7z86nk8s5p": {
+            "id": "v8od8v7z86nk8s5p",
+            "type": "message",
             "parentId": "zw2slvdxsxhvkon0",
             "content": {
-                "label": "Input Label",
-                "minValue": "0",
-                "maxValue": "100",
-                "stepSize": "1"
+                "message": "! Warning: Lice count exceeds threshold."
             },
             "handlers": {},
-            "position": 2,
-            "visible": true
+            "position": 3,
+            "visible": "messages.raiseThresholdWarning"
         }
     }
 }

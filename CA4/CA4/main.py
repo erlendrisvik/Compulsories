@@ -377,7 +377,14 @@ def update_lice_counts_line(state, payload):
     fig_lice.update_xaxes(tickangle=0,
                           tickmode = 'array',
                           tickvals = np.arange(0, 52, 4))
-    
+    if state["plotly_settings_lice"]["threshold"]:
+        fig_lice.layout = {}    
+        fig_lice.add_hline(y=state["plotly_settings_lice"]["threshold"], line_dash="dot")
+        if max(selected_data[lice_type]) > state["plotly_settings_lice"]["threshold"]:
+            state["messages"]["raiseThresholdWarning"] = True
+        else:
+            state["messages"]["raiseThresholdWarning"] = False
+
     state["plotly_settings_lice"]["lice_line_fig"] = fig_lice
 
 def setup_weather_line(state):
@@ -428,6 +435,27 @@ def update_weather_line(state, payload):
                         tickvals = np.arange(0, 52, 4))
     
     state["plotly_settings_weather"]["weather_line_fig"] = fig_weather
+
+def set_threshold(state, payload):
+    state["plotly_settings_lice"]["threshold"] = payload
+
+    fig_lice = state["plotly_settings_lice"]["lice_line_fig"]
+    locality = state["temporary_vars"]["selected_locality"]
+    year = state["plotly_settings_fish"]["selected_fish_year_plotly"]
+    lice_type = state["variable_vars"]["selected_lice_type"]
+    lice_data = state["data"]["lice"].copy()
+
+    selected_data = lice_data[(lice_data['localityno'] == locality) & (lice_data['year'] == year)]
+
+    fig_lice.layout = {}    
+    fig_lice.add_hline(y=payload, line_dash="dot")
+
+    if max(selected_data[lice_type]) > state["plotly_settings_lice"]["threshold"]:
+        state["messages"]["raiseThresholdWarning"] = True
+    else:
+        state["messages"]["raiseThresholdWarning"] = False
+
+    state["plotly_settings_lice"]["lice_line_fig"] = fig_lice
 
 def join_lice_weather(state):
     lice_data = state["data"]["lice"]
@@ -588,7 +616,8 @@ initial_state = ss.init_state({
                  "raiseWriteDBError": False,
                  "raiseNoDataError": False,
                  "raiseLoading": False,
-                 "raiseSuccess": False
+                 "raiseSuccess": False,
+                 "raiseThresholdWarning": False,
     },
     "plotly_settings_fish": {"selected_name": "Click to select",
                       "selected_num": -1,
@@ -604,6 +633,7 @@ initial_state = ss.init_state({
     "plotly_settings_lice": {"selected_lice_type": {"0": "avgadultfemalelice",
                                                     "1": "avgmobilelice",
                                                     "2": "avgstationarylice"},
+                            "threshold": None,
                              "lice_line_fig": None
     },
     "plotly_settings_weather": {"selected_weather_type": {"0": "temperature",
