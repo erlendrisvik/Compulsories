@@ -1511,15 +1511,28 @@
             "handlers": {},
             "visible": true
         },
-        "d0tisyt5brs59pjy": {
-            "id": "d0tisyt5brs59pjy",
-            "type": "dataframe",
-            "content": {
-                "dataframe": "@{data.joined_data}"
-            },
+        "zggy10sg00afyh54": {
+            "id": "zggy10sg00afyh54",
+            "type": "button",
             "parentId": "x3kcpv6juitjx13t",
+            "content": {
+                "text": "Show ARIMAX coefficients"
+            },
+            "handlers": {
+                "ss-click": "arimax"
+            },
             "position": 0,
+            "visible": true
+        },
+        "8mg6v9tkl27acyx4": {
+            "id": "8mg6v9tkl27acyx4",
+            "type": "dataframe",
+            "parentId": "x3kcpv6juitjx13t",
+            "content": {
+                "dataframe": "@{data.params}"
+            },
             "handlers": {},
+            "position": 1,
             "visible": true
         }
     }

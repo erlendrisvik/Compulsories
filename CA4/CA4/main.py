@@ -6,6 +6,7 @@ from pyspark.sql import SparkSession
 import pandas as pd
 import numpy as np
 from cassandra.cluster import Cluster
+import statsmodels.api as sm
 
 # Set pyspark env
 os.environ["PYSPARK_PYTHON"] = "python"
@@ -362,6 +363,7 @@ def update_lice_counts_line(state, payload):
 
     locality = state["temporary_vars"]["selected_locality"]
     year = state["plotly_settings_fish"]["selected_fish_year_plotly"]
+    state["variable_vars"]["selected_lice_type"] = state["plotly_settings_lice"]["selected_lice_type"][payload]
     lice_type = state["plotly_settings_lice"]["selected_lice_type"][payload]
     lice_data = state["data"]["lice"].copy()
 
@@ -410,6 +412,7 @@ def update_weather_line(state, payload):
     
     locality = state["temporary_vars"]["selected_locality"]
     year = state["plotly_settings_fish"]["selected_fish_year_plotly"]
+    state["variable_vars"]["selected_weather_type"] = state["plotly_settings_weather"]["selected_weather_type"][payload]
     weather_type = state["plotly_settings_weather"]["selected_weather_type"][payload]
     weather_data = state["data"]["weather"].copy()
 
@@ -470,14 +473,33 @@ def update_lice_and_weather(state):
     setup_lice_counts_line(state)
     setup_weather_line(state)
 
+def arimax(state):
+    data = state['data']['joined_data']
+    locality = state['temporary_vars']['selected_locality']
+    year = state["plotly_settings_fish"]["selected_fish_year_plotly"]
 
+    target = state["variable_vars"]["selected_lice_type"]
+    exog = state["variable_vars"]["selected_weather_type"] 
+
+    subset = data[(data['localityno'] == locality) & (data['year'] == year)]
+
+    mod = sm.tsa.statespace.SARIMAX(endog = subset[target], exog = subset[exog],
+                                order = (1, 1, 1))
+    res = mod.fit(disp = False)
+
+    params = pd.DataFrame(res.params)
+    params.columns = ['parameter']
+    params['std'] = res.bse
+    params['pvalue'] = res.pvalues
+    state["data"]["params"] = params
 
 initial_state = ss.init_state({
     "data": {
         "fish": _get_df(table_name = 'fish_data_full'),
         "lice": _get_df(table_name = 'lice_data_full').sort_values(by=['week']).reset_index(drop=True),
         "weather": _get_df(table_name = 'weekly_weather_data').sort_values(by=['week']).reset_index(drop=True),
-        "joined_data": None
+        "joined_data": None,
+        "params": None
     },
     "button_management":{
         "ListFishYearsButtonClicked":False,
@@ -489,7 +511,9 @@ initial_state = ss.init_state({
                         "selected_locality": None,
                         "selected_histogram_col": None,
                         "selected_lice_weather_year": None,
-                        "selected_lice_weather_locality": None
+                        "selected_lice_weather_locality": None,
+                        "selected_lice_type": None,
+                        "selected_weather_type": None
     },
      "variable_vars": {"municipalities": None,
                        "available_fish_years": None,
