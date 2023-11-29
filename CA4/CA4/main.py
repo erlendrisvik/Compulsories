@@ -283,6 +283,7 @@ def handle_fish_map_click(state, payload):
     fish_data = state["plotly_settings_fish"]["fish_data_unique"].copy()
     
     state["plotly_settings_fish"]["selected_name"] = fish_data["name"].values[payload[0]["pointNumber"]]
+    state["plotly_settings_lice"]["selected_name"] = fish_data["name"].values[payload[0]["pointNumber"]]
     state["plotly_settings_fish"]["selected_num"] = payload[0]["pointNumber"]
     state["temporary_vars"]["selected_locality"] = int(fish_data.loc[payload[0]["pointNumber"]]["localityno"])
     _update_fish_map(state, last_clicked)
@@ -306,7 +307,7 @@ def _setup_proportion_pd_fish_pie(state):
     state["plotly_settings_fish"]["proportion_pd_fish_pie"] = pie
 
 def _setup_fish_histogram(state):
-    ignored_fish_cols = ['lat', 'lon', 'localityweekid', 'localityno', 'municipality', 'municipalityno', 'name', 'week', 'year']
+    ignored_fish_cols = ['lat', 'lon', 'localityweekid', 'avgadultfemalelice', 'localityno', 'municipality', 'municipalityno', 'name', 'week', 'year']
 
     fish_data = state["plotly_settings_fish"]["subsetted_fish_data"].drop(columns=ignored_fish_cols)
     state["plotly_settings_fish"]["subsetted_histogram_fish_data"] = fish_data
@@ -380,7 +381,7 @@ def update_lice_counts_line(state, payload):
     if state["plotly_settings_lice"]["threshold"]:
         fig_lice.layout = {}    
         fig_lice.add_hline(y=state["plotly_settings_lice"]["threshold"], line_dash="dot")
-        if max(selected_data[lice_type]) > state["plotly_settings_lice"]["threshold"]:
+        if np.nanmax(selected_data[lice_type]) > state["plotly_settings_lice"]["threshold"]:
             state["messages"]["raiseThresholdWarning"] = True
         else:
             state["messages"]["raiseThresholdWarning"] = False
@@ -449,10 +450,11 @@ def set_threshold(state, payload):
 
     fig_lice.layout = {}    
     fig_lice.add_hline(y=payload, line_dash="dot")
-
-    if max(selected_data[lice_type]) > state["plotly_settings_lice"]["threshold"]:
+    if np.nanmax(selected_data[lice_type]) > payload:
+        print("yes")
         state["messages"]["raiseThresholdWarning"] = True
     else:
+        print("no")
         state["messages"]["raiseThresholdWarning"] = False
 
     state["plotly_settings_lice"]["lice_line_fig"] = fig_lice
@@ -499,6 +501,11 @@ def set_selected_lice_weather_locality(state, payload):
 
 def update_lice_and_weather(state):
     state["temporary_vars"]["selected_locality"] = state["temporary_vars"]["selected_lice_weather_locality"]
+    fish_data = state["plotly_settings_fish"]["subsetted_fish_data"].copy()
+    name = fish_data[fish_data['localityno'] == state["temporary_vars"]["selected_locality"]]["name"].values[0]
+    #state["plotly_settings_fish"]["selected_name"] = name
+    state["plotly_settings_lice"]["selected_name"] = name
+
     state["plotly_settings_fish"]["selected_fish_year_plotly"] = state["temporary_vars"]["selected_lice_weather_year"]
     setup_lice_counts_line(state)
     setup_weather_line(state)
@@ -634,7 +641,8 @@ initial_state = ss.init_state({
                                                     "1": "avgmobilelice",
                                                     "2": "avgstationarylice"},
                             "threshold": None,
-                             "lice_line_fig": None
+                             "lice_line_fig": None,
+                             "selected_name": None
     },
     "plotly_settings_weather": {"selected_weather_type": {"0": "temperature",
                                                           "1": "precipitation",

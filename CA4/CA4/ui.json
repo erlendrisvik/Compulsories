@@ -954,7 +954,7 @@
             "id": "ri6ve46o4vvjpgjn",
             "type": "text",
             "content": {
-                "text": "- All computationally heavy parts are handled during initialization. For example, loading data, setting up spark etc.\n- All state variables are stored as None or pre-defined during initialization so that it is easy to find their names. They are also nested in dictionaries.\n- ",
+                "text": "- All computationally heavy parts are handled during initialization. For example, loading data, setting up spark etc.\n- All state variables are stored as None or pre-defined during initialization so that it is easy to find their names. They are also nested in dictionaries.\n- Only runs computationally heavy functions when needed.\n  -  For example: clicking on a locality or downloading data doesn't update the available years to plot. This only happens when you click on the \"Lice graph\" page.\n- Data only gets downloaded if it's not in the database. \n  - Errors are raised when it is unavailable.",
                 "useMarkdown": "yes"
             },
             "parentId": "tjshjnvaczzc0ipy",
@@ -966,7 +966,7 @@
             "id": "v1r2vonymvq4t6z2",
             "type": "text",
             "content": {
-                "text": "- Selected locality: @{temporary_vars.selected_locality} \n- Selected year: @{plotly_settings_fish.selected_fish_year_plotly}",
+                "text": "- Selected locality: @{plotly_settings_lice.selected_name} \n- Selected year: @{plotly_settings_fish.selected_fish_year_plotly}",
                 "useMarkdown": "yes"
             },
             "parentId": "4gfrsdp5632ami05",
@@ -985,20 +985,20 @@
             },
             "parentId": "zw2slvdxsxhvkon0",
             "position": 2,
-            "visible": true,
             "handlers": {
                 "ss-number-change": "set_threshold"
-            }
+            },
+            "visible": true
         },
         "v8od8v7z86nk8s5p": {
             "id": "v8od8v7z86nk8s5p",
             "type": "message",
-            "parentId": "zw2slvdxsxhvkon0",
             "content": {
                 "message": "! Warning: Lice count exceeds threshold."
             },
-            "handlers": {},
+            "parentId": "zw2slvdxsxhvkon0",
             "position": 3,
+            "handlers": {},
             "visible": "messages.raiseThresholdWarning"
         }
     }
